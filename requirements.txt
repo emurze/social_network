@@ -1,0 +1,10 @@
+asgiref==3.7.2
+Django==4.2.4
+djangorestframework==3.14.0
+easy-thumbnails==2.8.5
+lorem==0.1.1
+Pillow==10.0.0
+psycopg2-binary==2.9.7
+pytz==2023.3
+sqlparse==0.4.4
+static-thumbnails==0.9

@@ -1,0 +1,60 @@
+<style>
+    .edit_profile .photo__image {
+        display: inline-block;
+        border-radius: 50%;
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        border: 1px solid #343434;
+    }
+    .photo__file_loader {display: none;}
+    .photo_file__label:hover + .add_photo__background  {background-color: #2a2a2a;}
+    .add_photo {
+        display: inline-block;
+        width: 37px;
+        height: 37px;
+        padding: 3px;
+        border-radius: 50%;
+        cursor: pointer;
+        background-color: transparent;
+        position: relative;
+        right: 98px;
+        bottom: 22px;
+        opacity: 1;
+        color: #f2f4f5;
+        z-index: 300;
+    }
+    .add_photo__background {
+        display: inline-block;
+        transition: .2s;
+        width: 65px;
+        height: 65px;
+        background-color: #000000;
+        border-radius: 50%;
+        position: relative;
+        top: 43px;
+        right: 181.5px;
+        opacity: 0.6;
+    }
+    .photo__link {
+        display: inline-block;
+        width: 140px;
+        height: 140px;
+    }
+    .photo_file__label {
+        display: inline-block;
+        cursor: pointer;
+        width: 65px;
+        height: 65px;
+        border-radius: 50%;
+        z-index: 345;
+        position: relative;
+        right: 112px;
+        top: 43px;
+    }
+    .photo__widget {
+        width: 100%;
+        height: 150px;
+        margin-bottom: 10px;
+    }
+</style>

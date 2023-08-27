@@ -1,0 +1,9 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Posts{% endblock %}
+
+{% block main %}
+    {% for post in posts %}
+        <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,34 @@
+<style>
+    .edit_profile {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.3);
+        z-index: 301;
+    }
+    .edit_profile__container0 {
+        margin: 0 auto;
+        max-width: 400px;
+        overflow: hidden;
+        border-radius: 10px;
+        z-index: 305;
+    }
+    .edit_profile__container {
+        position: fixed;
+        top: 20%;
+        padding: 45px 20px 15px 20px;
+        border-radius: 10px;
+        border: 1px solid rgb(238, 243, 244);
+        background-color: #f2f4f5;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1);
+        height: 439px;
+        overflow-y: scroll;
+        color: #323638;
+    }
+</style>
+
+
+{% include 'account/edit/form/css.html' %}
+{% include 'account/edit/topLine/css.html' %}

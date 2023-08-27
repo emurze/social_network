@@ -1,0 +1,32 @@
+<style>
+    header {
+        position: fixed;
+        z-index: 100;
+        width: 100%;
+        height: 50px;
+        /*background-color: #f2f4f5;*/
+        background-color: red;
+        color: #454a4d;
+        font-size: 18px;
+
+        display: grid;
+        display: -ms-grid;
+        grid-template-rows: 1fr;
+        -ms-grid-rows: 1fr;
+
+        grid-template-columns:
+            65px auto 42px minmax(auto, 1fr) minmax(auto, 1fr);
+        -ms-grid-columns:
+                65px auto 42px minmax(auto, 1fr) minmax(auto, 1fr);
+
+        align-items: center;
+    }
+</style>
+
+{% include 'base/header/logout/css.html' %}
+{% include 'base/header/headerAuthLink/css.html' %}
+{% include 'base/header/logo/css.html' %}
+{% include 'base/header/menu/css.html' %}
+{% include 'base/header/menuBurger/css.html' %}
+{% include 'base/header/splitSymbol/css.html' %}
+{% include 'base/header/user/css.html' %}

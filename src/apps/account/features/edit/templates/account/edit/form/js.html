@@ -1,0 +1,150 @@
+<script defer>
+    const csrf_token_input = document.querySelector("input[name='csrfmiddlewaretoken']")
+    const csrf_token = csrf_token_input ? csrf_token_input.value : null
+    const edit_form = document.querySelector('.edit_form')
+
+    const default_username = edit_form.elements.username.value
+    const default_description = edit_form.elements.description.value
+    const default_gender = edit_form.elements.gender.value
+    const default_birthday_day = edit_form.elements.birthday_day.value
+    const default_birthday_month = edit_form.elements.birthday_month.value
+    const default_birthday_year = edit_form.elements.birthday_year.value
+    let default_photo = edit_form.elements.photo.files[0]
+
+    edit_form.onsubmit = e => {
+        e.preventDefault()
+
+        const form = new FormData()
+        form.append('username', edit_form.elements.username.value)
+        form.append('description', edit_form.elements.description.value)
+        form.append('birthday_month', edit_form.elements.birthday_month.value)
+        form.append('birthday_day', edit_form.elements.birthday_day.value)
+        form.append('birthday_year', edit_form.elements.birthday_year.value)
+        form.append('gender', edit_form.elements.gender.value)
+        form.append('photo', edit_form.elements.photo.files[0])
+
+        const birthday = document.querySelector('.birthday')
+        const form_inputs = new Map([
+            ['username', document.querySelector('.username')],
+            ['description', document.querySelector('.description')],
+            ['birthday_month', birthday],
+            ['birthday_day', birthday],
+            ['birthday_year', birthday],
+            ['gender', document.querySelector('.gender')],
+            ['photo', document.querySelector('.photo')]
+        ])
+
+        const headers = {
+            'X-CSRFToken': csrf_token,
+            'Content-Type': `multipart/form-data;
+             boundary=${form._boundary}`
+        }
+        async function send_post() {
+            const url = `{% url 'account:edit' user.username %}`
+            const response = await axios.post(url, form, {headers})
+            console.log(response)
+
+            const error_lists = document.querySelectorAll('.edit_form .errorlist')
+            error_lists.forEach(x => x.remove())
+
+            if (response.data.is_errors) {
+                for (const [key, value] of Object.entries(response.data)) {
+                    const input_wrapper = form_inputs.get(key)
+
+                    input_wrapper && input_wrapper.insertAdjacentHTML(
+                        'afterend',
+                        `<ul class="errorlist">
+                             <li>${value}</li>
+                         </ul>`,
+                    )
+                }
+            } else {
+                const current_photo = form.get('photo')
+                if (default_photo !== current_photo &&
+                    current_photo !== 'undefined') {
+
+                    const profile_avatar = document.querySelector('.profile__avatar')
+                    const user_icon = document.querySelector('.user__icon')
+
+                    const file = current_photo
+                    const name = 'file' + file
+                    const name_2 = 'file_2' + file
+
+                    const reader = new FileReader()
+                    reader.readAsDataURL(file)
+
+                    profile_avatar.innerHTML =
+                        '<img id="'+ name +'" src="" alt="" class="photo__image" />'
+                    user_icon.innerHTML =
+                        '<img id="'+ name_2 +'" src="" alt="" class="photo__image" />'
+
+                    reader.onload = e => {
+                        const result = e.target.result
+                        document.getElementById(name).src = result
+                        document.getElementById(name_2).src = result
+                    }
+
+                    default_photo = current_photo
+                }
+
+                const current_username = form.get('username')
+                if (default_username !== current_username &&
+                    current_username !== 'undefined') {
+
+                    const profile_username = document.querySelector('.profile__username')
+                    profile_username.innerText = current_username
+
+                    const path = `{% url 'account:detail' user.username %}`.split('/').slice(1, -2)
+                    location.href = `/${path}/${current_username}/`
+                }
+
+                const current_gender = form.get('gender')
+                if (default_gender !== current_gender &&
+                    current_gender !== 'undefined') {
+
+                    const profile_gender = document.querySelector('.profile_gender__text')
+                    const gender_view = new Map([
+                        ['ML', 'Male'], ['FL', 'Female'], ['CM', 'Custom']
+                    ])
+
+                    profile_gender.innerText = gender_view.get(current_gender)
+                }
+
+                const profile_age = document.querySelector('.profile_age__inner_text')
+                const birthday_day = form.get('birthday_day')
+                const birthday_month = form.get('birthday_month')
+                const birthday_year = form.get('birthday_year')
+                if (default_birthday_day !== birthday_day &&
+                    birthday_day !== 'undefined' ) {
+
+                }
+                if (default_birthday_month !== birthday_month &&
+                    birthday_month !== 'undefined') {
+                }
+                if (default_birthday_year !== birthday_year &&
+                    birthday_year !== 'undefined') {
+                }
+
+                const current_description = form.get('description')
+                console.log('300')
+                if (default_description !== current_description &&
+                    current_description !== 'undefined') {
+
+                    const profile_description = document.querySelector('.profile__description')
+                    profile_description.innerText = current_description
+                }
+
+
+                const edit_profile = document.querySelector('.edit_profile')
+                const edit_profile__overlay = document.querySelector('.edit_profile__overlay')
+                if (edit_profile) remove_elem(edit_profile)
+                if (edit_profile__overlay)
+                    remove_overlay_elem(edit_profile__overlay)
+
+            }
+        }
+        send_post()
+    }
+</script>
+
+{% include 'account/edit/form/photoWidget/js.html' %}

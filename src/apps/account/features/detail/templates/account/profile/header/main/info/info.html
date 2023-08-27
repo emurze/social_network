@@ -1,0 +1,27 @@
+{% load static %}
+<div class="profile__info">
+    <div class="profile__username">
+        {{ user.username }}
+    </div>
+    <div class="profile__description">
+        {% if user.description %}
+            {{ user.description }}
+        {% endif %}
+    </div>
+    <div class="profile__gender">
+        <img src="{% static 'base/images/gender.svg' %}" alt="">
+        <span class="profile_gender__text">
+            {{ user.get_gender_display }}
+        </span>
+    </div>
+    <div class="profile__age">
+        <img src="{% static 'base/images/gift.svg' %}" alt="">
+        <span class="profile_age__text">
+            <span class="profile_age__inner_text">
+                <span>{{ user.birthday.month }}</span>
+                <span>{{ user.birthday.day }}</span>,
+                <span>{{ user.birthday.year }}</span>
+            </span>
+        </span>
+    </div>
+</div>

@@ -1,0 +1,9 @@
+<ul class="user_menu no_display">
+    <li class="user_menu__item {% if icon_menu__selected == 'profile' %}menu_item__selected{% endif %}"
+        {% if not icon_menu__selected %}onclick="location.href='{% url 'account:detail' request.user.username %}'"{% endif %}>
+        Profile
+    </li>
+    <li class="user_menu__item logout_link" onclick="showLogoutWindow()">
+        Sign out
+    </li>
+</ul>

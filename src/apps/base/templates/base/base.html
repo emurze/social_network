@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+
+    {% include 'base/css.html' %}
+
+    {% block links %}
+    {% endblock %}
+</head>
+<body>
+    <div id="app_wrapper">
+        {% include 'base/header/header.html' %}
+
+        <main>
+            {% block main %}
+            {% endblock %}
+        </main>
+
+        {% block footer %}
+        {% endblock %}
+    </div>
+
+    <script defer src="{% static 'base/js/class_list_api.js' %}"></script>
+
+    {% include 'base/js.html' %}
+
+    {% block scripts %}
+    {% endblock %}
+</body>
+</html>

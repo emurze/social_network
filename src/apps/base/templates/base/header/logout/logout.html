@@ -1,0 +1,17 @@
+{% load static %}
+<div class="logout_window">
+    <div class="logout_window__container">
+        <div class="logout_window__question">
+            Are you sure you want to sign out?
+        </div>
+        <div class="logout_window__link_wrapper">
+            <a href="{% url 'logout' %}" class="logout_window__link">Sign out</a>
+        </div>
+        <div class="logout_window__cross_wrapper" onclick="removeLogoutWindow()">
+            <div class="logout_window__cross">
+                <img src="{% static 'base/images/cross.svg' %}" alt="">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="logout__overlay"></div>

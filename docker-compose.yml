@@ -1,0 +1,38 @@
+version: "3.5"
+services:
+  my_social_network:
+    build: .
+    container_name: 'my_social_network'
+    image: 'my_social_network:1'
+    command: >
+      sh -c 'cd src &&
+             python3 manage.py migrate --no-input &&
+             python3 manage.py createadmin &&
+             python3 manage.py fill &&
+             python3 manage.py runserver 0.0.0.0:8080'
+    stdin_open: true
+    tty: true
+    networks:
+      - backend
+    ports:
+      - '8080:8080'
+    volumes:
+      - ./src:/service/src
+    env_file: ./.env.example
+    restart: unless-stopped
+    depends_on:
+      - db_postgres
+
+  db_postgres:
+    image: 'postgres:13'
+    container_name: 'db_postgres'
+    networks:
+      - backend
+    env_file: ./.env.example
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    restart: unless-stopped
+networks:
+  backend:
+volumes:
+  postgres:

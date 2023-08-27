@@ -1,0 +1,67 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load thumbnail %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block links %}
+    <link rel="stylesheet" href="{% static 'dashboard/css/main_image.css' %}">
+    <link rel="stylesheet" href="{% static 'dashboard/css/actions.css' %}">
+{% endblock %}
+
+{% block main %}
+    <section class="main__image">
+        <div class="main__center_text">
+            <h1>Dashboard</h1>
+            <h3>
+                You can <a href="">edit</a>
+                your profile and <a href="{% url 'password_change' %}">change</a> your password.
+            </h3>
+        </div>
+        <img src="{% static 'dashboard/images/desk_6.jpg' %}" class='no_select' alt="" />
+    </section>
+    <section class="actions">
+        <h2 class="actions__title">Actions</h2>
+        <div class="actions__content">
+            <article class="item_actions" onclick="location.href='https://google.com'">
+                <img src="{% static 'dashboard/images/emurze.jpeg' %}" alt="">
+                <div>
+                    <p class="item_actions__name">emurze</p>
+                    <p>created new post</p>
+                </div>
+            </article>
+            <article class="item_actions" onclick="location.href='https://google.com'">
+                <img src="{% static 'dashboard/images/emurze.jpeg' %}" alt="">
+                <div>
+                    <p class="item_actions__name">emurze</p>
+                    <p>created new post</p>
+                </div>
+            </article>
+            <article class="item_actions" onclick="location.href='https://google.com'">
+                <img src="{% static 'dashboard/images/emurze.jpeg' %}" alt="">
+                <div>
+                    <p class="item_actions__name">emurze</p>
+                    <p>created new post</p>
+                </div>
+            </article>
+            <article class="item_actions" onclick="location.href='https://google.com'">
+                <img src="{% static 'dashboard/images/emurze.jpeg' %}" alt="">
+                <div>
+                    <p class="item_actions__name">emurze</p>
+                    <p>created new post</p>
+                </div>
+            </article>
+            <article class="item_actions" onclick="location.href='https://google.com'">
+                <img src="{% static 'dashboard/images/emurze.jpeg' %}" alt="">
+                <div>
+                    <p class="item_actions__name">emurze</p>
+                    <p>created new post</p>
+                </div>
+            </article>
+        </div>
+    </section>
+{% endblock %}
+
+{% block footer %}
+    {% include 'base/footer/footer.html' %}
+{% endblock %}

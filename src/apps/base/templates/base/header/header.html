@@ -1,0 +1,23 @@
+{% load static %}
+<header>
+
+    {% include 'base/header/menuBurger/menuBurger.html' %}
+
+    {% include 'base/header/logo/logo.html' %}
+
+    {% include 'base/header/splitSymbol/splitSymbol.html' %}
+
+    {% include 'base/header/menu/menu.html' %}
+
+
+    {% if request.user.is_authenticated %}
+
+        {% include 'base/header/user/user.html' %}
+
+    {% else %}
+
+        {% include 'base/header/headerAuthLink/headerAuthLink.html' %}
+
+    {% endif %}
+
+</header>

@@ -1,0 +1,51 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Login{% endblock %}
+
+{% block links %}
+    <link rel="stylesheet" href="{% static 'account/css/login.css' %}">
+{% endblock %}
+
+{% block main %}
+    <div class="login">
+        <p class="login__title">
+            {% if form.errors %}
+                <span style="display: block; margin-bottom: 8px;">Sign in to Mine</span>
+                <span class="errorlist">
+                    Incorrect username or password
+                </span>
+            {% else %}
+                Sign in to Mine
+            {% endif %}
+        </p>
+        <form method="POST" class="login_form">
+            {% csrf_token %}
+            {% for field in form %}
+                {% if forloop.last %}
+                    <div class="last_login__label_wrapper">
+                        <span class="last_login__label">{{ field.label }}</span>
+                        <span class="login__forgot_password">
+                            <a href="">Forgot password?</a>
+                        </span>
+                    </div>
+                {% else %}
+                    <span class="login__label">{{ field.label }}</span>
+                {% endif %}
+                <p>{{ field }}{{ field.errors }}</p>
+            {% endfor %}
+            <p><button type="submit">Sing in</button></p>
+        </form>
+        <div class="login__or">or</div>
+        <div class="login__oauth oauth">
+            <div class="oauth__item oauth__google">Google</div>
+            <div class="oauth__item oauth__google">Yandex</div>
+            <div class="oauth__item oauth__google">Facebook</div>
+            <div class="oauth__item oauth__google">Apple</div>
+        </div>
+    </div>
+    <div class="login__caption">
+        New to Mine?
+        <span class="sign_up_link"><a href="{% url 'registration' %}">Create an account</a>.</span>
+    </div>
+{% endblock %}

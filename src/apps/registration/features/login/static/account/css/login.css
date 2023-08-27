@@ -1,0 +1,102 @@
+body {background-color: rgb(222, 223, 223);}
+
+.login {
+    position: relative;
+    top: 10%;
+    background-color: #ffffff;
+    color: #454a4d;
+    width: 345px;
+    border-radius: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1);
+    margin: 15px auto 15px auto;
+    padding: 12px 14px;
+    text-align: center;
+    font-size: 15px;
+}
+.login__title {
+    margin-bottom: 7px;
+    font-size: 20px;
+    color: #454a4d;
+}
+.login_form {
+    display: block;
+}
+
+input {
+    padding: 12px 15px;
+    border: 1px solid #d0cccc;
+    margin-bottom: 9px;
+}
+input[id="id_password"] {
+    margin-bottom: 9px;
+}
+input, button {
+    width: 310px;
+    border-radius: 6px;
+}
+button {
+    padding: 12px 15px;
+    background-color: rgb(1, 135, 180);
+    color: #ffffff;
+    font-size: 15px;
+}
+.login__or {
+    font-size: 13px;
+    color: #454a4d;
+}
+.login__oauth {
+    color: #454a4d;
+    margin-bottom: 5px;
+}
+.oauth {
+    width: 310px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+.oauth__item {
+    width: 140px;
+    margin: 5px;
+}
+.oauth__google {
+    background-color: rgb(238, 243, 244);;
+}
+.login__label {
+    display: inline-block;
+    width: 310px;
+    text-align: start;
+}
+
+.last_login__label_wrapper {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+.login__forgot_password {
+    font-size: 13px;
+    color: rgb(0, 102, 194);
+    transform: scale(1.05)
+}
+
+.login__caption {
+    position: relative;
+    top: 10%;
+    margin: 0 auto;
+    max-width: 345px;
+    text-align: center;
+    border-radius: 10px;
+    background-color: #ffffff;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1);
+    color: #454a4d;
+    font-size: 15px;
+}
+.sign_up_link {
+    color: rgb(0, 102, 194);
+}
+
+.errorlist {
+    display: inline-block;
+    width: 310px;
+    text-align: start;
+    color: #f80101;
+    font-size: 13px;
+}

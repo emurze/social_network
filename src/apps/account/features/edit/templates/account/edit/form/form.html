@@ -1,0 +1,52 @@
+<div class="edit_profile__form">
+    <form method="POST" enctype='multipart/form-data'
+          action="{% url 'account:edit' user.username %}"
+          class="edit_form" name="edit_form">
+
+        {% csrf_token %}
+        <div class="username">
+            <div class="username__label">{{ form.username.label }}</div>
+            <div class="username__content">
+                {{ form.username }}{{ form.username.errors }}
+            </div>
+        </div>
+        <div class="description">
+            <div class="description__label">
+                {{ form.description.label }}
+            </div>
+            <div class="description__content">
+                {{ form.description }}{{ form.description.errors }}
+            </div>
+        </div>
+        <div class="birthday">
+            <p class="birthday__label">{{ form.birthday.label }}</p>
+            <p class="birthday__content">
+                {{ form.birthday }}{{ form.birthday.errors }}
+            </p>
+        </div>
+        <div class="gender">
+            <div class="gender__label">{{ form.gender.label }}</div>
+            <div class="gender__content">
+                {% for radio in form.gender %}
+                    <p class="gender__item">
+                        <label for="{{ radio.id_for_label }}">
+                            <span class="gender__name">
+                                {{ radio.choice_label }}
+                            </span>
+                            <span class="radio">{{ radio.tag }}</span>
+                        </label>
+                    </p>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="photo">
+            <div class="photo__label">{{ form.photo.label }}</div>
+            <div class="photo__content">
+                {{ form.photo }}{{ form.photo.errors }}
+            </div>
+        </div>
+        <div class="save_button">
+            <button class="edit_button" type="submit">Save</button>
+        </div>
+    </form>
+</div>

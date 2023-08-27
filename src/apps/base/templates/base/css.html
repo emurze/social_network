@@ -1,0 +1,83 @@
+<style>
+    *{
+        padding: 0;
+        margin: 0;
+        border: 0;
+    }
+    *,*:before,*:after{
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+    :focus,:active{outline: none;}
+    a:focus,a:active{outline: none;}
+    nav,footer,header,aside{display: block;}
+    html,body{
+        line-height: 1;
+        font-size: 14px;
+        -ms-text-size-adjust: 100%;
+        -moz-text-size-adjust: 100%;
+        -webkit-text-size-adjust: 100%;
+    }
+    input,button,textarea{font-family:inherit;}
+    input::-ms-clear{display: none;}
+    button{cursor: pointer;}
+    button::-moz-focus-inner {padding:0;border:0;}
+    a, a:visited, a:hover, a:active {
+        color: inherit;
+        text-decoration: none;
+    }
+    a:hover{text-decoration: none;}
+    ul li{list-style: none;}
+    img{vertical-align: top;}
+    h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight: 400;}
+</style>
+
+<style>
+    h1 {font-size: 48px; margin-bottom: 13px;}
+    h2 {font-size: 36px;}
+    h3 {font-size: 24px;}
+    h4 {}
+    h5 {}
+    h6 {}
+
+    p {display: inline-block;}
+
+    body {
+        font-family: "PTSerif", "PT Serif", serif;
+        line-height: 2.6em;
+        background-color: #f9fbfb;
+    }
+
+    #app_wrapper {
+        min-height: 100%;
+        display: grid;
+        display: -ms-grid;
+        grid-template-areas:
+            "header"
+            "main"
+            "footer";
+        grid-template-rows: 50px calc(100% - 110px) 60px;
+        -ms-grid-rows: 50px calc(100% - 110px) 60px;
+    }
+
+    header {grid-area: header}
+    main {grid-area: main}
+    footer {grid-area: footer}
+
+    .no_select {
+      -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+      -moz-user-select: none; /* Old versions of Firefox */
+      -ms-user-select: none; /* Internet Explorer/Edge */
+      user-select: none; /* Non-prefixed version, currently
+      supported by Chrome, Edge, Opera and Firefox */
+    }
+
+    .no_display {visibility: hidden;}
+    .no_opacity {opacity: 0;}
+    .no_scroll {overflow: hidden;}
+</style>
+
+{% include 'base/footer/css.html' %}
+{% include 'base/header/css.html' %}

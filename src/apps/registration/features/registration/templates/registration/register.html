@@ -1,0 +1,46 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Registration{% endblock %}
+
+{% block links %}
+    <link rel="stylesheet" href="{% static 'account/css/registration.css' %}">
+{% endblock %}
+
+{% block main %}
+    <div class="registration">
+        <p class="registration__title">Sign up</p>
+        <form method="POST" class="registration_form">
+            {% csrf_token %}
+            <p>{{ form.username }}{{ form.username.errors }}</p>
+            <p>{{ form.email }}{{ form.email.errors }}</p>
+            <p class="registration__passwords">
+                {{ form.password }}{{ form.password2 }}
+                {{ form.password.errors }}
+                {{ form.password2.errors }}
+            </p>
+            <div class="birthday">
+                <p class="birthday__label">{{ form.birthday.label }}</p>
+                <p class="birthday__content">
+                    {{ form.birthday }}{{ form.birthday.errors }}
+                </p>
+            </div>
+            <div class="gender">
+                <div class="gender__label">{{ form.gender.label }}</div>
+                <div class="gender__content">
+                    {% for radio in form.gender %}
+                        <p class="gender__item">
+                            <label for="{{ radio.id_for_label }}">
+                                <span class="gender__name">
+                                    {{ radio.choice_label }}
+                                </span>
+                                <span class="radio">{{ radio.tag }}</span>
+                            </label>
+                        </p>
+                    {% endfor %}
+                </div>
+            </div>
+            <p><button type="submit">Sign up</button></p>
+        </form>
+    </div>
+{% endblock %}

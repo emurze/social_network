@@ -1,0 +1,29 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load thumbnail %}
+
+{% block title %}Profile{% endblock %}
+
+{% block links %}
+    {% include 'account/profile/css.html' %}
+{% endblock %}
+
+{% block main %}
+    <div class="profile">
+
+        {% include 'account/profile/header/header.html' %}
+
+        {% include 'account/profile/createImage/createImage.html' %}
+
+        {% include 'account/profile/images/images.html' %}
+
+    </div>
+{% endblock %}
+
+{% block scripts %}
+
+    <script defer src="{% static 'base/js/axios.min.js' %}"></script>
+
+    {% include 'account/profile/js.html' %}
+
+{% endblock %}
