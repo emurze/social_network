@@ -25,7 +25,7 @@ class Command(BaseCommand):
         for index in range(1, DEFAULT_USER_AMOUNT+1):
             User.objects.create_user(
                 username=f'user_{index}',
-                email='user_{index}@gmail.com',
+                email=f'user_{index}@gmail.com',
                 password='qwerty123',
                 birthday=datetime(
                     year=(current_year - random.randint(16, 36)),

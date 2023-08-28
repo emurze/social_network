@@ -1,0 +1,11 @@
+<div class="action_buttons">
+    {% if is_owner %}
+
+        {% include 'account/profile/header/main/actionButtons/ownerContainer/ownerContainer.html' %}
+
+    {% else %}
+
+        {% include 'account/profile/header/main/actionButtons/followButton/followButton.html' %}
+
+    {% endif %}
+</div>

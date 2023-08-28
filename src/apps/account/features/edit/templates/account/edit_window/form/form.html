@@ -1,0 +1,55 @@
+<form method="POST" enctype='multipart/form-data'
+      action="{% url 'account:edit_window' user.username %}"
+      class="edit_form" name="edit_form">
+
+    {% csrf_token %}
+    <div class="edit_form__username">
+        <div class="edit_form__username-label">{{ form.username.label }}</div>
+        <div class="edit_form__username-content">
+            {{ form.username }}{{ form.username.errors }}
+        </div>
+    </div>
+
+    <div class="edit_form__description">
+        <div class="edit_form__description-label">
+            {{ form.description.label }}
+        </div>
+        <div class="edit_form__description-content">
+            {{ form.description }}{{ form.description.errors }}
+        </div>
+    </div>
+
+    <div class="edit_form__birthday">
+        <p class="edit_form__birthday-label">{{ form.birthday.label }}</p>
+        <p class="edit_form__birthday-content">
+            {{ form.birthday }}{{ form.birthday.errors }}
+        </p>
+    </div>
+
+    <div class="edit_form__gender">
+        <div class="edit_form__gender-label">{{ form.gender.label }}</div>
+        <div class="edit_form__gender-content">
+            {% for radio in form.gender %}
+                <p class="edit_form__gender-item">
+                    <label for="{{ radio.id_for_label }}">
+                        <span class="edit_form__gender-item-name">
+                            {{ radio.choice_label }}
+                        </span>
+                        <span class="edit_form__gender-item-radio">
+                            {{ radio.tag }}
+                        </span>
+                    </label>
+                </p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="edit_form__photo">
+        <div class="edit_form__photo-label">{{ form.photo.label }}</div>
+        <div class="edit_form__photo-content">
+            {{ form.photo }}{{ form.photo.errors }}
+        </div>
+    </div>
+
+    <div><button class="edit_form__save_button" type="submit">Save</button></div>
+</form>

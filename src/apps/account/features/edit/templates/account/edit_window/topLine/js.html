@@ -1,0 +1,16 @@
+<script defer>
+    function closeEditWindow() {
+        const edit_link_button = document.querySelector('.edit_link_button')
+        edit_link_button.style.backgroundColor = 'transparent'
+
+        const edit_window = document.querySelector('.edit_window')
+        remove_elem(edit_window)
+        showScroll(edit_window)
+    }
+
+    window.addEventListener('click', e => {
+        const edit_window = document.querySelector('.edit_window')
+        if (e.target === edit_window)
+            closeEditWindow()
+    })
+</script>

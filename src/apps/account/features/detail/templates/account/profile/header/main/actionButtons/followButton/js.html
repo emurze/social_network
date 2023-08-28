@@ -1,0 +1,28 @@
+<script defer>
+    const form = document.querySelector('.follow_button__form')
+    const follow_button = document.querySelector('.follow_button__button')
+    const url = "{% url 'account:follow' user.username %}"
+    const csrf_token_input = document.querySelector("input[name='csrfmiddlewaretoken']")
+    const csrf_token = csrf_token_input ? csrf_token_input.value : null
+
+    form.onsubmit = (e) => {
+        e.preventDefault()
+        const action = follow_button.innerText
+
+        const form = new FormData()
+        form.append('action', action)
+
+        const headers = {
+            'X-CSRFToken': csrf_token,
+            'Content-Type': `multipart/form-data;
+             boundary=${form._boundary}`,
+        }
+        async function send_post() {
+            const response = await axios.post(url, form, {headers})
+            follow_button.innerHTML = response.data.action
+
+            console.log(response.data)
+        }
+        send_post()
+    }
+</script>

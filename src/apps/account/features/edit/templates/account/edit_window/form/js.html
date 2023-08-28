@@ -1,0 +1,181 @@
+{% load static %}
+{% load human_month %}
+
+<script defer>
+    function editWindowLoaded() {
+        const csrf_token_input = document.querySelector("input[name='csrfmiddlewaretoken']")
+        const csrf_token = csrf_token_input ? csrf_token_input.value : null
+        const edit_window = document.querySelector('.edit_window')
+        const edit_form = document.querySelector('.edit_form')
+
+        const default_username = edit_form.elements.username.value
+        const default_description = edit_form.elements.description.value
+        const default_gender = edit_form.elements.gender.value
+        const default_birthday_day = edit_form.elements.birthday_day.value
+        const default_birthday_month = edit_form.elements.birthday_month.value
+        const default_birthday_year = edit_form.elements.birthday_year.value
+        let default_photo = edit_form.elements.photo.files[0]
+
+        const form_inputs = new Map([
+            ['username', edit_form.elements.username],
+            ['description', edit_form.elements.description],
+            ['birthday', document.querySelector('.edit_form__birthday')],
+            ['gender', document.querySelector('.edit_form__gender')],
+            ['photo', document.querySelector('.edit_form__photo')],
+        ])
+
+        const header_avatar = document.querySelector('.profile__header-avatar')
+        const user_icon = document.querySelector('.user__icon')
+
+        const gender_view = new Map([
+            ['ML', 'Male'], ['FL', 'Female'], ['CM', 'Custom']
+        ])
+        const gender_image_wrapper = document.querySelector('.info__gender-img-wrapper')
+        const profile_gender = document.querySelector('.info__gender-text')
+        const profile_age_year = document.querySelector('.info__age-year')
+        const profile_age_month = document.querySelector('.info__age-month')
+        const profile_age_day = document.querySelector('.info__age-day')
+        const profile_description = document.querySelector('.info__description')
+        const profile_username = document.querySelector('.info__username')
+
+        const HUMAN_MONTHS = [
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December",
+        ]
+
+        edit_window.onsubmit = e => {
+            e.preventDefault()
+
+            const form = new FormData()
+            form.append('username', edit_form.elements.username.value)
+            form.append('description', edit_form.elements.description.value)
+            form.append('birthday_month', edit_form.elements.birthday_month.value)
+            form.append('birthday_day', edit_form.elements.birthday_day.value)
+            form.append('birthday_year', edit_form.elements.birthday_year.value)
+            form.append('gender', edit_form.elements.gender.value)
+            form.append('photo', edit_form.elements.photo.files[0])
+
+            const headers = {
+                'X-CSRFToken': csrf_token,
+                'Content-Type': `multipart/form-data;
+                 boundary=${form._boundary}`
+            }
+            async function send_post() {
+                const url = `{% url 'account:edit_window' user.username %}`
+                const response = await axios.post(url, form, {headers})
+                const error_lists = document.querySelectorAll('.edit_form .errorlist')
+                error_lists.forEach(x => x.remove())
+
+                if (response.data.is_errors) {
+                    for (const [key, value] of Object.entries(response.data)) {
+                        const input_wrapper = form_inputs.get(key)
+
+                        input_wrapper && input_wrapper.insertAdjacentHTML(
+                            'afterend',
+                            `<ul class="errorlist">
+                                 <li>${value}</li>
+                             </ul>`,
+                        )
+                    }
+                } else {
+                    const current_photo = form.get('photo')
+                    if (default_photo !== current_photo &&
+                        current_photo !== 'undefined') {
+
+                        const file = current_photo
+                        const name = 'file' + file
+                        const name_2 = 'file_2' + file
+
+                        const reader = new FileReader()
+                        reader.readAsDataURL(file)
+
+                        header_avatar.innerHTML =
+                            '<img id="'+ name +'" src="" alt="" class="photo_widget__image" />'
+                        user_icon.innerHTML =
+                            '<img id="'+ name_2 +'" src="" alt="" class="photo_widget__image" />'
+
+                        reader.onload = e => {
+                            const result = e.target.result
+                            document.getElementById(name).src = result
+                            document.getElementById(name_2).src = result
+                        }
+
+                        default_photo = current_photo
+                    }
+
+                    const current_username = form.get('username')
+                    if (default_username !== current_username &&
+                        current_username !== 'undefined') {
+
+                        profile_username.innerText = current_username
+
+                        const path = `{% url 'account:detail' user.username %}`.split('/').slice(1, -2)
+                        location.href = `/${path}/${current_username}/`
+                    }
+
+                    const current_gender = form.get('gender')
+                    if (default_gender !== current_gender &&
+                        current_gender !== 'undefined') {
+
+                        profile_gender.innerText = gender_view.get(current_gender)
+
+                        if (current_gender === 'FL') {
+                            gender_image_wrapper.innerHTML =
+                                `<img src="{% static 'base/images/gender_female.svg' %}"
+                                      alt="" class="info__gender-img">`
+                        }
+                        else if (current_gender === 'ML' || current_gender === 'CM') {
+                            gender_image_wrapper.innerHTML =
+                                `<img src="{% static 'base/images/gender_male.svg' %}"
+                                      alt="" class="info__gender-img">`
+                        }
+                    }
+
+                    const current_birthday_day = form.get('birthday_day')
+                    if (default_birthday_day !== current_birthday_day &&
+                        current_birthday_day !== 'undefined' ) {
+
+                        profile_age_day.innerHTML = current_birthday_day
+                    }
+
+                    const current_birthday_month = form.get('birthday_month')
+                    if (default_birthday_month !== current_birthday_month &&
+                        current_birthday_month !== 'undefined') {
+
+                        profile_age_month.innerHTML = HUMAN_MONTHS[current_birthday_month-1]
+                    }
+
+                    const current_birthday_year = form.get('birthday_year')
+                    if (default_birthday_year !== current_birthday_year &&
+                        current_birthday_year !== 'undefined') {
+
+                        profile_age_year.innerHTML = current_birthday_year
+                    }
+
+                    const current_description = form.get('description')
+                    if (default_description !== current_description &&
+                        current_description !== 'undefined') {
+
+                        profile_description.innerText = current_description
+                    }
+
+                    remove_elem(edit_window)
+                    showScroll(edit_window)
+                }
+            }
+            send_post()
+        }
+    }
+</script>
+
+{% include 'account/edit_window/form/photoWidget/js.html' %}

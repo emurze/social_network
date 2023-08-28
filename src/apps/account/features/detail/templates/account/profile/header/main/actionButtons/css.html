@@ -1,0 +1,17 @@
+<style>
+    .action_buttons {
+        padding: 10px;
+        margin-top: 3px;
+        margin-right: 15px;
+    }
+</style>
+
+{% if is_owner %}
+
+    {% include 'account/profile/header/main/actionButtons/ownerContainer/css.html' %}
+
+{% else %}
+
+    {% include 'account/profile/header/main/actionButtons/followButton/css.html' %}
+
+{% endif %}

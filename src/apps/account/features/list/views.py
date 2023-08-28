@@ -7,7 +7,7 @@ DEFAULT_USER_COUNT = 18
 
 
 class AccountListView(ListView):
-    template_name = 'account/list.html'
+    template_name = 'account/users/users.html'
     context_object_name = 'users'
 
     def get_queryset(self) -> QuerySet[User]:

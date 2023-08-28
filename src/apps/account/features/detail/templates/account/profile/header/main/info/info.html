@@ -1,27 +1,38 @@
 {% load static %}
-<div class="profile__info">
-    <div class="profile__username">
-        {{ user.username }}
-    </div>
-    <div class="profile__description">
-        {% if user.description %}
-            {{ user.description }}
-        {% endif %}
-    </div>
-    <div class="profile__gender">
-        <img src="{% static 'base/images/gender.svg' %}" alt="">
-        <span class="profile_gender__text">
-            {{ user.get_gender_display }}
+{% load human_month %}
+
+<div class="info">
+    <div class="info__username">{{ user.username }}</div>
+    <div class="info__description">{{ user.description }}</div>
+
+    <div class="info__gender">
+        <span class="info__gender-img-wrapper">
+            {% if user.gender == 'ML' or user.gender == 'CM' %}
+
+                <img src="{% static 'base/images/gender_male.svg' %}" alt=""
+                     class="info__gender-img">
+
+            {% elif user.gender == 'FL' %}
+
+                <img src="{% static 'base/images/gender_female.svg' %}" alt=""
+                     class="info__gender-img">
+
+            {% endif %}
         </span>
+
+        <span class="info__gender-text">{{ user.get_gender_display }}</span>
     </div>
-    <div class="profile__age">
-        <img src="{% static 'base/images/gift.svg' %}" alt="">
-        <span class="profile_age__text">
-            <span class="profile_age__inner_text">
-                <span>{{ user.birthday.month }}</span>
-                <span>{{ user.birthday.day }}</span>,
-                <span>{{ user.birthday.year }}</span>
+
+    <div class="info__age">
+        <img src="{% static 'base/images/gift.svg' %}" alt=""
+             class="info__age-img">
+
+        <span class="info__age-text">
+            <span class="info__age-month">
+                {{ user.birthday.month|human_month }}
             </span>
+            <span class="info__age-day">{{ user.birthday.day }}</span>,
+            <span class="info__age-year">{{ user.birthday.year }}</span>
         </span>
     </div>
 </div>

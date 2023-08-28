@@ -3,7 +3,7 @@ from django import template
 register = template.Library()
 
 
-@register.filter(is_safe=False)
+@register.filter
 def minus(value: int, arg: int):
     """Add the arg to the value."""
     try:

@@ -1,0 +1,28 @@
+<script defer>
+    const edit_link_button = document.querySelector('.edit_link_button')
+
+    function openEditWindow() {
+        const edit_window = document.querySelector('.edit_window')
+
+        if (edit_window) {
+            if (edit_window.classList.contains('no_display')) {
+                show_elem(edit_window)
+                hideScroll(edit_window)
+            }
+        } else {
+            async function send_post() {
+                const edit_url = `{% url 'account:edit_window' user.username %}`
+                const response = await axios.get(edit_url)
+                document.body.insertAdjacentHTML('afterbegin', response.data)
+
+                const edit_window = document.querySelector('.edit_window')
+                hideScroll(edit_window)
+
+                edit_link_button.style.backgroundColor = 'rgb(243, 242, 242)'
+
+                editWindowLoaded()
+            }
+            send_post()
+        }
+    }
+</script>

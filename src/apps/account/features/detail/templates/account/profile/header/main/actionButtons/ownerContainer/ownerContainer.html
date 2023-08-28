@@ -1,0 +1,17 @@
+<div class="action_buttons__owner_container">
+    <div onclick="openEditWindow()" class="action_buttons__link">
+        <button class="edit_link_button">Edit profile</button>
+    </div>
+
+    <a href="{% url 'password_reset' %}" class="action_buttons__link">
+        <button class="reset_password_link_button">
+            Reset password
+        </button>
+    </a>
+
+    <a href="{% url 'password_change' %}" class="action_buttons__link">
+        <button class="change_password_link_button">
+            Change password
+        </button>
+    </a>
+</div>

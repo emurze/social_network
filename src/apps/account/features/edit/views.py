@@ -14,7 +14,7 @@ User = get_user_model()
 class AccountEditView(LoginRequiredMixin, AjaxErrorsMixin, UpdateView):
     model = User
     form_class = AccountEditForm
-    template_name = 'account/edit/edit.html'
+    template_name = 'account/edit_window/edit.html'
     context_object_name = 'user'
     slug_field = 'username'
     slug_url_kwarg = 'username'

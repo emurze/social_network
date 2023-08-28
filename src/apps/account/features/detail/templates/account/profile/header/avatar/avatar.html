@@ -1,10 +1,12 @@
 {% load static %}
 {% load thumbnail %}
 
-<div class="profile__avatar">
+<div class="profile__header-avatar">
     {% if user.photo %}
-        <img src="{% thumbnail user.photo 450x450 crop="smart" quality=100 %}" alt="">
+        <img src="{% thumbnail user.photo 550x550 crop="smart" quality=100 %}" alt=""
+             class="profile__header-avatar-img">
     {% else %}
-        <img src="{% static 'base/images/profile.png' %}" alt="">
+        <img src="{% static 'base/images/profile.png' %}" alt=""
+             class="profile__header-avatar-img">
     {% endif %}
 </div>
