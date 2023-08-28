@@ -1,22 +1,19 @@
 <script defer>
-    function showLogoutWindow() {
-        const logout_window = document.querySelector('.logout_window')
+    const logout_window = document.querySelector('.logout_window')
 
-        if (logout_window) show_elem(logout_window)
-        else {
+    function openLogoutWindow() {
+        if (logout_window) {
+            show_elem(logout_window)
+            hideScroll(logout_window)
+        } else {
             document.body.insertAdjacentHTML(
-                'beforebegin',
-                `{% include 'base/header/logout/logout.html' %}`
+                'afterbegin',
+                `{% include 'base/header/user/userMenu/logout/logout.html' %}`
             )
+            const logout_window = document.querySelector('.logout_window')
+            hideScroll(logout_window)
         }
-
-        const logout_overlay = document.querySelector('.logout__overlay')
-
-        remove_elems(
-            user_menu,
-            user_down_arrow,
-            user_up_arrow,
-        )
-        show_overlay_elem(logout_overlay)
     }
 </script>
+
+{% include 'base/header/user/userMenu/logout/js.html' %}

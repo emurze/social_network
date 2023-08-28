@@ -1,14 +1,13 @@
 <script defer>
-    function exitEditWindow() {
+    function closeEditWindow() {
         const edit_profile = document.querySelector('.edit_profile')
-        const edit_profile__overlay = document.querySelector('.edit_profile__overlay')
-        if (edit_profile) remove_elem(edit_profile)
-        if (edit_profile__overlay)
-            remove_overlay_elem(edit_profile__overlay)
-        document.body.style.overflow = 'auto'
-        document.body.style.marginRight = '0'
-
-        const header = document.querySelector('header')
-        header.style.width = '100%'
+        remove_elem(edit_profile)
+        showScroll(edit_profile)
     }
+
+    window.addEventListener('click', e => {
+        const edit_profile = document.querySelector('.edit_profile')
+        if (e.target === edit_profile)
+            closeEditWindow()
+    })
 </script>

@@ -1,0 +1,18 @@
+<script defer>
+    function closeLogoutWindow() {
+        const logout_window = document.querySelector('.logout_window')
+        remove_elem(logout_window)
+        showScroll()
+    }
+
+    window.addEventListener('click', e => {
+        let current_logout_window;
+        if (typeof logout_window !== 'undefined') {
+            current_logout_window = logout_window
+        } else {
+            current_logout_window = document.querySelector('.logout_window')
+        }
+
+        if (e.target === current_logout_window) closeLogoutWindow()
+    })
+</script>

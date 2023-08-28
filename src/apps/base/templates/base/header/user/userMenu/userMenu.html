@@ -3,7 +3,7 @@
         {% if not icon_menu__selected %}onclick="location.href='{% url 'account:detail' request.user.username %}'"{% endif %}>
         Profile
     </li>
-    <li class="user_menu__item logout_link" onclick="showLogoutWindow()">
+    <li class="user_menu__item logout_link" onclick="openLogoutWindow()">
         Sign out
     </li>
 </ul>

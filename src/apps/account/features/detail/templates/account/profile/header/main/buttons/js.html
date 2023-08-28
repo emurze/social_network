@@ -1,27 +1,20 @@
 <script defer>
+    const edit_profile = document.querySelector('.edit_profile')
+
     function openEditWindow() {
-        async function send_post() {
-            const edit_profile = document.querySelector('.edit_profile')
-            if (edit_profile) show_elem(edit_profile)
-            else {
+        if (edit_profile) {
+            show_elem(edit_profile)
+            hideScroll(edit_profile)
+        } else {
+            async function send_post() {
                 const edit_url = `{% url 'account:edit' user.username %}`
                 const response = await axios.get(edit_url)
                 document.body.insertAdjacentHTML('afterbegin', response.data)
 
                 const edit_profile = document.querySelector('.edit_profile')
-                const widthScroll = window.innerWidth - edit_profile.offsetWidth
-                document.body.style.overflow = 'hidden'
-
-                document.body.style.marginRight = widthScroll + 'px'
-
-                const header = document.querySelector('header')
-                const default_header_width = parseFloat(window.getComputedStyle(header).width)
-                header.style.width = default_header_width - widthScroll + "px"
+                hideScroll(edit_profile)
             }
-
-            const edit_profile__overlay = document.querySelector('.edit_profile__overlay')
-            show_overlay_elem(edit_profile__overlay)
+            send_post()
         }
-        send_post()
     }
 </script>
