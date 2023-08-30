@@ -19,6 +19,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.postgres',
+    'django.contrib.humanize',
     'django.forms',
     'easy_thumbnails',
     'rest_framework',
@@ -53,8 +54,8 @@ USE_TZ = True
 APPS_DIR = BASE_DIR / 'apps'
 
 STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR / 'static'
 STATICFILES_DIRS = [*APPS_DIR.rglob('*static')]
+STATIC_ROOT = BASE_DIR / 'static'
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'

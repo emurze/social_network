@@ -5,9 +5,9 @@ from apps.post.models import Post
 
 
 class PostListView(ListView):
-    template_name = 'post/list.html'
+    template_name = 'post/posts/posts.html'
     context_object_name = 'posts'
 
     def get_queryset(self) -> QuerySet[Post]:
-        return Post.objects.all()
+        return Post.objects.all()[:4]
 

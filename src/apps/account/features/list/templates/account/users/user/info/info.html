@@ -1,0 +1,22 @@
+<div class="user__info">
+
+    <div class="user__info-username">
+        <a href="{% url 'account:detail' user.username %}"
+           class="user__info-username-link">
+            {{ user.username }}
+        </a>
+    </div>
+
+    <div class="user__info-description">
+        {{ user.description|default:""|linebreaks|truncatechars:40}}
+        <div class="follow_button">
+            <form method="POST" class="follow_button__form">
+                {% csrf_token %}
+                <button class="follow_button__button" type="submit">
+                    {{ user.action }}
+                </button>
+            </form>
+        </div>
+    </div>
+
+</div>

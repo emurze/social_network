@@ -1,11 +1,11 @@
 import logging
+import random
 
 from django.contrib.auth import get_user_model
-from django.db import models
+from django.db import models, IntegrityError
+from django.db.models import TextField
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
-from django.urls import reverse
-from django.utils.text import slugify
 
 User = get_user_model()
 lg = logging.getLogger(__name__)
@@ -18,9 +18,8 @@ class Post(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE,
                              related_name='posts')
-    title = models.CharField(max_length=128)
     slug = models.SlugField(max_length=128, unique=True)
-    description = models.TextField(null=True, blank=True)
+    description = TextField()
     photo = models.ImageField(upload_to='posts/%Y/%m/%d')
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -33,16 +32,21 @@ class Post(models.Model):
             models.Index(fields=('-created',)),
         )
 
-    def get_absolute_url(self):
-        return reverse('post:detail', args=(self.slug,))
+    def save(self, *args, **kwargs):
+        try:
+            return super().save(*args, **kwargs)
+        except IntegrityError:
+            lg.warning('Post slug integrity error!')
+            self.slug = None
+            self.save(*args, **kwargs)
 
     def __str__(self) -> str:
-        return self.title
+        return self.description[:30]
 
 
 @receiver(pre_save, sender=Post)
 def set_slug_by_title(sender, instance: Post, *_, **__) -> None:
+    lg.debug(f'Slug signal worked')
     slug = instance.slug
     if slug is None or slug == '':
-        instance.slug = slugify(instance.title)
-    lg.debug(f'WORKED {instance.title}')
+        instance.slug = random.randint(100_000_000_000, 999_999_999_999_999)

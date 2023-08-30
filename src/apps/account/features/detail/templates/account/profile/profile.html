@@ -13,7 +13,11 @@
 
         {% include 'account/profile/header/header.html' %}
 
-        {% include 'account/profile/createImageForm/createImageForm.html' %}
+        {% if is_owner %}
+
+            {% include 'account/profile/createImageForm/createImageForm.html' %}
+
+        {% endif %}
 
         {% include 'account/profile/images/images.html' %}
 

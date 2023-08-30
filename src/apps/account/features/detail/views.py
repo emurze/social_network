@@ -10,48 +10,28 @@ from django.views.decorators.http import require_POST
 from django.views.generic import DetailView
 
 from apps.account.mixins import ProfileSelectedMixin
+from apps.account.sevices.follow.dispatcher import dispatch_follow_action
+from apps.account.sevices.follow.mixins import FollowActionDetailMixin
 
 User = get_user_model()
 lg = logging.getLogger(__name__)
 
 
-class FollowActionMixin:
-    def get_context_data(self, *args, **kwargs):
-        user = self.object
-        your_user = self.request.user
-
-        if your_user.followers.contains(user):
-            action = 'unfollow'
-        else:
-            action = 'follow'
-
-        kwargs['action'] = action
-        return super().get_context_data(*args, **kwargs)
-
-
 @login_required
 @require_POST
-def follow_view(request: WSGIRequest, username: str) -> JsonResponse:
-    user = get_object_or_404(User, username=username)
-    my_user = request.user
-
-    action = request.POST.get('action')
-    match action:
-        case 'follow':
-            action = 'unfollow'
-            my_user.followings.add(user)
-
-        case 'unfollow':
-            action = 'follow'
-            my_user.followings.remove(user)
-
+def follow_detail(request: WSGIRequest, username: str) -> JsonResponse:
+    action = dispatch_follow_action(
+        action=request.POST.get('action'),
+        my_user=request.user,
+        other_user=get_object_or_404(User, username=username)
+    )
     return JsonResponse({'action': action})
 
 
 class AccountDetailView(
     LoginRequiredMixin,
     ProfileSelectedMixin,
-    FollowActionMixin,
+    FollowActionDetailMixin,
     DetailView
 ):
     model = User

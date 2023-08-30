@@ -1,0 +1,10 @@
+{% load static %}
+{% load thumbnail %}
+
+<div class="user__photo">
+    {% if user.photo %}
+        <img src="{% thumbnail user.photo 450x450 crop="smart" quality=100 %}" alt="">
+    {% else %}
+        <img src="{% static 'base/images/profile.png' %}" alt="">
+    {% endif %}
+</div>

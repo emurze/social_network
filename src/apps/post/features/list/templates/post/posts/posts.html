@@ -1,0 +1,25 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Posts{% endblock %}
+
+{% block links %}
+    {% include 'post/posts/css.html' %}
+{% endblock %}
+
+{% block main %}
+    <div class="posts">
+
+        <div class="posts__container">
+            {% for post in posts %}
+                {% include 'post/posts/post/post.html' %}
+            {% endfor %}
+        </div>
+
+        <div class="posts__filters">
+            <div class="posts__filters-container">
+                FILTERS
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

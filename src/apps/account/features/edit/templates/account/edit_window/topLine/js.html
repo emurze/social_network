@@ -1,7 +1,7 @@
 <script defer>
     function closeEditWindow() {
         const edit_link_button = document.querySelector('.edit_link_button')
-        edit_link_button.style.backgroundColor = 'transparent'
+        edit_link_button.classList.remove('edit_link_button--active')
 
         const edit_window = document.querySelector('.edit_window')
         remove_elem(edit_window)

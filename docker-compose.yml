@@ -8,7 +8,6 @@ services:
       sh -c 'cd src &&
              python3 manage.py migrate --no-input &&
              python3 manage.py createadmin &&
-             python3 manage.py fill &&
              python3 manage.py runserver 0.0.0.0:8080'
     stdin_open: true
     tty: true

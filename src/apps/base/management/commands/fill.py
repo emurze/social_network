@@ -10,7 +10,7 @@ from apps.post.models import Post
 
 lg = logging.getLogger(__name__)
 User = get_user_model()
-DEFAULT_USER_AMOUNT = 30
+DEFAULT_USER_AMOUNT = 180
 DEFAULT_POST_AMOUNT = 100
 
 
@@ -42,7 +42,6 @@ class Command(BaseCommand):
         for index in range(1, DEFAULT_POST_AMOUNT):
             Post.objects.create(
                 user=staff_user,
-                title=f'Post_{index}',
                 description=lorem.sentence(),
             )
             lg.debug(f'Post_{index} was created.')

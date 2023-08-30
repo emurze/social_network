@@ -1,0 +1,32 @@
+{% load static %}
+{% load thumbnail %}
+{% load humanize %}
+
+<div class="post__header">
+    <div class="post__header-user">
+
+        <div class="post__header-user-icon">
+            {% if post.user.photo %}
+
+                <img src="{% thumbnail post.user.photo 120x120 crop="smart" %}" alt=""
+                     class="post__header-user-icon-img">
+
+            {% else %}
+
+                <img src="{% static 'base/images/profile.png' %}" alt=""
+                     class="post__header-user-icon-img">
+
+            {% endif %}
+        </div>
+
+        <div class="post__header-user-info">
+            <div class="post__header-user-info-username">
+                {{ post.user.username }}
+            </div>
+            <div class="post__header-user-info-updated">
+                {{ post.updated | naturaltime }}
+            </div>
+        </div>
+
+    </div>
+</div>

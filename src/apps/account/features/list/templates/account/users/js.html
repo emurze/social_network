@@ -1,0 +1,43 @@
+<script defer>
+    function setButtons({forms, follow_buttons, usernames, url}) {
+        const csrf_token_input = document.querySelector("input[name='csrfmiddlewaretoken']")
+        const csrf_token = csrf_token_input ? csrf_token_input.value : null
+        const zip = (...rows) => [...rows[0]].map((_, c) => rows.map(row => row[c]))
+
+        zip(forms, follow_buttons, usernames).forEach(
+            ([form, follow_button, username]) => {
+                form.onsubmit = (e) => {
+                    e.preventDefault()
+                    const action = follow_button.innerText
+
+                    const form = new FormData()
+                    form.append('username', username.innerText)
+                    form.append('action', action)
+
+                    const headers = {
+                        'X-CSRFToken': csrf_token,
+                        'Content-Type': `multipart/form-data;
+                     boundary=${form._boundary}`,
+                    }
+
+                    async function send_post() {
+                        const response = await axios.post(url, form, {headers})
+                        follow_button.innerHTML = response.data.action
+
+                        console.log(response.data)
+                    }
+
+                    send_post()
+                }
+            }
+        )
+    }
+    setButtons({
+        forms: document.querySelectorAll('.follow_button__form'),
+        follow_buttons: document.querySelectorAll('.follow_button__button'),
+        usernames: document.querySelectorAll('.user__info-username-link'),
+        url: "{% url 'account:follow_list' %}",
+    })
+</script>
+
+{% include 'account/users/user/js.html' %}
