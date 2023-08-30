@@ -1,9 +1,21 @@
+{% load static %}
+
 <div class="user__info">
 
     <div class="user__info-username">
         <a href="{% url 'account:detail' user.username %}"
            class="user__info-username-link">
-            {{ user.username }}
+
+            {# don't touch #}
+            <span class="user__info-username-link-username">{{ user.username }}</span>
+            {# don't touch #}
+
+            {% if user.is_staff %}
+                <span style="position: relative; right: 5px;">
+                    {% include 'shared/icon_verified.html' %}
+                </span>
+            {% endif %}
+
         </a>
     </div>
 

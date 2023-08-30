@@ -10,8 +10,8 @@ from django.shortcuts import get_object_or_404
 from django.views.decorators.http import require_POST
 from django.views.generic import ListView
 
-from apps.account.sevices.follow.dispatcher import dispatch_follow_action
-from apps.account.sevices.follow.mixins import FollowActionListMixin
+from apps.account.services.follow.dispatcher import dispatch_follow_action
+from apps.account.services.follow.mixins import FollowActionListMixin
 
 User = get_user_model()
 lg = logging.getLogger(__name__)
@@ -22,6 +22,7 @@ DEFAULT_USER_COUNT = 18
 @require_POST
 def follow_list(request: WSGIRequest) -> JsonResponse:
     username = request.POST.get('username')
+
     action = dispatch_follow_action(
         action=request.POST.get('action'),
         my_user=request.user,

@@ -1,0 +1,65 @@
+<script defer>
+    function setPostsButtons(
+        {forms, like_button_container_set, like_action_set, like_counter_set,
+            post_id_set, url}
+    ) {
+        const csrf_token_input = document.querySelector("input[name='csrfmiddlewaretoken']")
+        const csrf_token = csrf_token_input ? csrf_token_input.value : null
+        const zip = (...rows) => [...rows[0]].map((_, c) => rows.map(row => row[c]))
+
+        zip(forms, like_button_container_set, like_action_set, like_counter_set,
+            post_id_set).forEach(
+            ([form, like_button_container, like_action, like_counter, post_id]) => {
+                form.onsubmit = (e) => {
+                    e.preventDefault()
+                    const form = new FormData()
+                    form.append('post_id', post_id.innerText)
+                    form.append('action', like_action.innerText)
+
+                    const headers = {
+                        'X-CSRFToken': csrf_token,
+                        'Content-Type': `multipart/form-data;
+                         boundary=${form._boundary}`,
+                    }
+
+                    async function send_post() {
+                        const response = await axios.post(url, form, {headers})
+                        const new_like_action = response.data.action
+
+                        like_action.innerHTML = new_like_action
+
+                        if (new_like_action === 'like') {
+                            like_button_container.innerHTML =
+                                `{% include 'post/posts/post/buttons/likeButton/baseButton/baseButton.html' %}`
+
+                            like_counter.classList.remove('like__button-like_counter--liked')
+
+                            if (like_counter.innerText === '1') {
+                                like_counter.innerHTML = ''
+                            } else {
+                                like_counter.innerHTML--
+                            }
+                        }
+                        else if (new_like_action === 'unlike') {
+                            like_button_container.innerHTML =
+                                `{% include 'post/posts/post/buttons/likeButton/likedButton/likedButton.html' %}`
+
+                            like_counter.classList.add('like__button-like_counter--liked')
+
+                            like_counter.innerHTML++
+                        }
+                    }
+                    send_post()
+                }
+            }
+        )
+    }
+    setPostsButtons({
+        forms: document.querySelectorAll('.like__button-form'),
+        like_button_container_set: document.querySelectorAll('.like__button-container'),
+        like_action_set: document.querySelectorAll('.like__button-action'),
+        like_counter_set: document.querySelectorAll('.like__button-like_counter'),
+        post_id_set: document.querySelectorAll('.like__button-post_id'),
+        url: "{% url 'post:like_list' %}",
+    })
+</script>

@@ -1,12 +1,6 @@
 {% load thumbnail %}
 
 <div class="post__image">
-
-    {% if post.photo %}
-
-        <img src="{% thumbnail post.photo 650x650 crop="smart" quality=100 %}" alt=""
-             class="post__image-img" >
-
-    {% endif %}
-
+    <img src="{% thumbnail post.photo 650x650 crop="smart" quality=100 %}" alt=""
+         class="post__image-img" >
 </div>

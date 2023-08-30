@@ -1,19 +1,21 @@
 <style>
     .posts {
         display: flex;
+        transition: .2s;
 
         margin: 15px auto;
-        max-width: 1000px;
+        max-width: 930px;
     }
 
     .posts__container {
-        flex: 0 1 680px;
+        flex: 0 0 690px;
 
         margin: 0 15px;
     }
+    .post__replaced_image_blank {margin-bottom: 2px;}
 
     .posts__filters {
-        flex: 0 1 300px;
+        flex: 1 1 250px;
 
         position: relative;
         width: 100%;
@@ -21,12 +23,20 @@
     }
     .posts__filters-container {
         position: fixed;
-        width: 315px;
+        width: 250px;
         height: 400px;
         margin-right: 15px;
         padding: 10px 20px;
         border: 1px solid rgb(228, 230, 231);
         border-radius: 15px;
+    }
+    @media (max-width: 1050px) {
+        .posts__filters {display: none;}
+        .posts {max-width: 700px;}
+        .posts__container {flex: 1 1 690px;}
+    }
+    @media (max-width: 360px) {
+        .posts {width: 360px}
     }
 </style>
 

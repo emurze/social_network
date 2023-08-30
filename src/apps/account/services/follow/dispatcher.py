@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
 
-from apps.account.sevices.follow.action import FollowAction
+from apps.account.services.follow.action import FollowAction
 
 User = get_user_model()
 

@@ -21,7 +21,16 @@
 
         <div class="post__header-user-info">
             <div class="post__header-user-info-username">
-                {{ post.user.username }}
+                <a href="{{ post.user.get_absolute_url }}">
+                    {{ post.user.username }}
+
+                    {% if post.user.is_staff %}
+                        <span style="position: relative; right: 4px;">
+                            {% include 'shared/icon_verified.html' %}
+                        </span>
+                    {% endif %}
+
+                </a>
             </div>
             <div class="post__header-user-info-updated">
                 {{ post.updated | naturaltime }}

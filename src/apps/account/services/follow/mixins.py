@@ -1,4 +1,4 @@
-from apps.account.sevices.follow.action import FollowAction
+from apps.account.services.follow.action import FollowAction
 
 
 class FollowActionDetailMixin:

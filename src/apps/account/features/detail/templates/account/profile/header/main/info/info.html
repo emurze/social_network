@@ -2,7 +2,16 @@
 {% load human_month %}
 
 <div class="info">
-    <div class="info__username">{{ user.username }}</div>
+    <div class="info__username">
+        {{ user.username }}
+
+        {% if user.is_staff %}
+            <span style="position: relative; right: 6px;">
+                {% include 'shared/icon_verified.html' with width=22 height=22 %}
+            </span>
+        {% endif %}
+
+    </div>
     <div class="info__description">{{ user.description }}</div>
 
     <div class="info__gender">

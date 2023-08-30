@@ -1,1 +1,9 @@
-<div class="post__buttons"></div>
+{% load static %}
+
+<div class="post__buttons">
+
+    {% include 'post/posts/post/buttons/likeButton/likeButton.html' %}
+
+    {% include 'post/posts/post/buttons/replyLink/replyLink.html' %}
+
+</div>

@@ -13,5 +13,5 @@ urlpatterns = [
     path('profile/<slug:username>/', AccountDetailView.as_view(),
          name='detail'),
     path('profile/<slug:username>/follow/', follow_detail, name='follow'),
-    path('profile/users/follows/', follow_list, name='follow_list')
+    path('profile/users/follows/', follow_list, name='follow_list'),
 ]

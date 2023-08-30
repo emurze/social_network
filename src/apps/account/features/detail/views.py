@@ -10,8 +10,8 @@ from django.views.decorators.http import require_POST
 from django.views.generic import DetailView
 
 from apps.account.mixins import ProfileSelectedMixin
-from apps.account.sevices.follow.dispatcher import dispatch_follow_action
-from apps.account.sevices.follow.mixins import FollowActionDetailMixin
+from apps.account.services.follow.dispatcher import dispatch_follow_action
+from apps.account.services.follow.mixins import FollowActionDetailMixin
 
 User = get_user_model()
 lg = logging.getLogger(__name__)

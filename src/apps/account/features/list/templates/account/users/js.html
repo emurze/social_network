@@ -1,5 +1,5 @@
 <script defer>
-    function setButtons({forms, follow_buttons, usernames, url}) {
+    function setUsersButtons({forms, follow_buttons, usernames, url}) {
         const csrf_token_input = document.querySelector("input[name='csrfmiddlewaretoken']")
         const csrf_token = csrf_token_input ? csrf_token_input.value : null
         const zip = (...rows) => [...rows[0]].map((_, c) => rows.map(row => row[c]))
@@ -32,10 +32,10 @@
             }
         )
     }
-    setButtons({
+    setUsersButtons({
         forms: document.querySelectorAll('.follow_button__form'),
         follow_buttons: document.querySelectorAll('.follow_button__button'),
-        usernames: document.querySelectorAll('.user__info-username-link'),
+        usernames: document.querySelectorAll('.user__info-username-link-username'),
         url: "{% url 'account:follow_list' %}",
     })
 </script>

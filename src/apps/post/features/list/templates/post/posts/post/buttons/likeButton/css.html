@@ -1,0 +1,28 @@
+<style>
+    .like__button,
+    .like__button-form,
+    .like__button-button {display: inline-block;}
+
+    .like__button-button {
+        position: relative;
+        border-radius: 50%;
+        padding: 7px 9px 4px 9px;
+        background-color: #ffffff;
+    }
+    .like__button-button--liked {
+        bottom: 5px;
+        padding: 7px 9px 8px 9px;
+    }
+
+    .like__button-like_counter {
+        position: relative;
+        bottom: 8px;
+        right: 8px;
+        font-size: 15px;
+    }
+    .like__button-like_counter--liked {bottom: -1px; color: rgb(255, 0, 120);}
+
+    .like__button-button:hover {background-color: rgb(255, 0, 120, 0.1); transition: 0.1s;}
+    .like__button-button:hover .like__button-button-svg-like {fill: rgb(255, 0, 120);}
+    .like__button-container:hover + .like__button-like_counter {color: rgb(255, 0, 120); transform: rotate(160deg)}
+</style>

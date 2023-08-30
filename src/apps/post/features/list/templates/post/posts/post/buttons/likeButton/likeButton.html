@@ -1,0 +1,29 @@
+{% load static %}
+
+<div class="like__button">
+    <form method="POST" class="like__button-form">
+        {% csrf_token %}
+        <span class="like__button-post_id no_display">{{ post.id }}</span>
+        <span class="like__button-action no_display">{{ post.action }}</span>
+
+        <span class="like__button-container">
+            {% if post.action == 'like' %}
+
+                {% include 'post/posts/post/buttons/likeButton/baseButton/baseButton.html' %}
+
+            {% elif post.action == 'unlike' %}
+
+                {% include 'post/posts/post/buttons/likeButton/likedButton/likedButton.html' %}
+
+            {% endif %}
+        </span>
+
+        <span class="like__button-like_counter
+                    {% if post.action == 'unlike' %}like__button-like_counter--liked{% endif %}">
+
+            {% if post.likes_count != 0 %}
+                {{ post.likes_count }}
+            {% endif %}
+        </span>
+    </form>
+</div>

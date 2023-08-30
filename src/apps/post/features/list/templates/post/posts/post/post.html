@@ -7,7 +7,11 @@
 
     {% include 'post/posts/post/description/description.html' %}
 
-    {% include 'post/posts/post/image/image.html' %}
+    {% if post.photo %}
+        {% include 'post/posts/post/image/image.html' %}
+    {% else %}
+        <div class="post__replaced_image_blank"></div>
+    {% endif %}
 
     {% include 'post/posts/post/buttons/buttons.html' %}
 
