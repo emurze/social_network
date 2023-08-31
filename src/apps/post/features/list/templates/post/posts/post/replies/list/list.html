@@ -1,0 +1,13 @@
+<div class="post__replies-list">
+    {% if post.replies.exists %}
+        {% include 'post/posts/post/replies/list/item/item.html' with reply=post.replies.first first=True %}
+    {% else %}
+        <span class="reply__item--first"></span>
+    {% endif %}
+
+    <div class="post__replies-list-all no_display">
+        {% for reply in post.replies_without_first %}
+            {% include 'post/posts/post/replies/list/item/item.html' %}
+        {% endfor %}
+    </div>
+</div>

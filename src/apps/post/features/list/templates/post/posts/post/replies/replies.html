@@ -1,8 +1,11 @@
- <div class="post__replies">
-    <div class="post__replies-list">
+<div class="post__replies">
 
-    </div>
-    <div class="post__replies-create_button">
+    {% include 'post/posts/post/replies/list/list.html' %}
 
+    <div class="post__replies-show_more {% if not post.replies.count >= 2 %}no_display{% endif %}">
+        Show more replies
     </div>
+
+    {% include 'post/posts/post/replies/footer/footer.html' %}
+
 </div>

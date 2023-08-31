@@ -1,0 +1,41 @@
+<style>
+    .reply_item {
+        display: flex;
+    }
+    .reply_item-user_icon {
+        flex: 0 0 42px;
+        margin-right: 10px;
+    }
+    .reply_item-user_icon-img {
+        object-fit: cover;
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+    }
+    .reply_item:last-child .reply_item-info {border: none}
+    .reply_item-info {
+        flex: 1 1 200px;
+        line-height: 20px;
+
+        margin-bottom: 8px;
+        border-bottom: 1px solid rgb(211, 214, 215);
+        padding-bottom: 8px;
+    }
+
+    .reply_item-info-username {
+        font-weight: bold;
+        font-size: 15px;
+    }
+
+    .reply_item-info-content {
+
+    }
+    .reply_item-info-created {
+        font-size: 13px;
+        color: #4b4b4b;
+    }
+    .reply__item--first {
+        margin-bottom: 3px;
+        border: none
+    }
+</style>

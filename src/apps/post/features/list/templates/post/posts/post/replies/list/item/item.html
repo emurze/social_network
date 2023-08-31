@@ -1,0 +1,32 @@
+{% load static %}
+{% load thumbnail %}
+{% load humanize %}
+
+<article class="reply_item">
+
+    <div class="reply_item-user_icon">
+        {% if reply.user.photo %}
+            <img src="{% thumbnail reply.user.photo 150x150 %}" alt=""
+                 class="reply_item-user_icon-img">
+        {% else %}
+            <img src="{% static 'base/images/profile.png' %}" alt=""
+                 class="reply_item-user_icon-img">
+        {% endif %}
+    </div>
+
+    <div class="reply_item-info {% if first %}reply__item--first{% endif %}">
+        <div class="reply_item-info-username">
+            <a href="{{ reply.user.get_absolute_url }}">
+                {{ reply.user.username }}
+                {% if user.is_staff %}
+                    <span style="position: relative; right: 4px;">
+                        {% include 'shared/icon_verified.html' with width=17 height=17 %}
+                    </span>
+                {% endif %}
+            </a>
+        </div>
+        <div class="reply_item-info-content">{{ reply.content }}</div>
+        <div class="reply_item-info-created">{{ reply.created | naturaltime }}</div>
+    </div>
+
+</article>

@@ -1,0 +1,22 @@
+{% load static %}
+{% load thumbnail %}
+
+<div class="post__replies-footer">
+    <div class="post__replies-footer-user_icon">
+        {% if request.user.photo %}
+            <img src="{% thumbnail request.user.photo 150x150 %}" alt=""
+                 class="post__replies-footer-user_icon-img">
+        {% else %}
+            <img src="{% static 'base/images/profile.png' %}" alt=""
+                 class="post__replies-footer-user_icon-img">
+        {% endif %}
+    </div>
+
+    <form method="POST" class="post__replies-footer-form">
+        {% csrf_token %}
+        {{ reply_form.content }}
+        <p><button type="submit" class="post__replies-footer-form-button">
+            Reply
+        </button></p>
+    </form>
+</div>

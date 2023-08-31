@@ -59,3 +59,26 @@ class LikeContract(models.Model):
 
     def __str__(self) -> str:
         return f'user {self.user} liked post {self.post}'
+
+
+class Reply(models.Model):
+    content = models.CharField(max_length=128)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE,
+                             related_name='replies')
+    user = models.ForeignKey(User, on_delete=models.CASCADE,
+                             related_name='replies')
+    parent = models.ForeignKey('self', on_delete=models.CASCADE,
+                               null=True, blank=True)
+    created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ('-created',)
+        indexes = (
+            models.Index(fields=('-created',)),
+        )
+        verbose_name = 'Reply'
+        verbose_name_plural = 'Replies'
+
+    def __str__(self) -> str:
+        return ('user <%s> add comment <%s> for post <%s>' %
+                (self.user, self.content, self.post))
