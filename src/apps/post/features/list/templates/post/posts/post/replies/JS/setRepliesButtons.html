@@ -1,0 +1,44 @@
+<script defer>
+    function setRepliesButtons(
+        {reply_forms, reply_list_set, post_id_set, content_input_set}
+    ) {
+        zip(reply_forms, reply_list_set, post_id_set, content_input_set).forEach(
+            ([form, reply_list, post_id, content_input]) => {
+                form.onsubmit = (e) => {
+                    e.preventDefault()
+
+                    const form = new FormData()
+                    form.append('post_id', post_id.innerHTML)
+                    form.append('content', content_input.value)
+
+                    const headers = {
+                        'X-CSRFToken': csrf_token,
+                        'Content-Type': `multipart/form-data;
+                         boundary=${form._boundary}`,
+                    }
+
+                    async function generate_reply_item() {
+                        const url = `{% url 'post:reply_list' %}`
+                        const response = await axios.post(url, form, {headers})
+
+                        const generated_reply_item = response.data
+                        if (!response.data.is_errors) {
+                            reply_list.insertAdjacentHTML(
+                                'afterbegin',
+                                generated_reply_item,
+                            )
+                        }
+                        content_input.value = ''
+                    }
+                    generate_reply_item()
+                }
+            }
+        )
+    }
+    setRepliesButtons({
+        reply_forms,
+        reply_list_set,
+        post_id_set,
+        content_input_set,
+    })
+</script>

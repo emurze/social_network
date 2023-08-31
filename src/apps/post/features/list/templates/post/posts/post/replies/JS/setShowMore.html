@@ -1,0 +1,54 @@
+<script defer>
+    const replies__set_all = document.querySelectorAll('.post__replies-list-all')
+    const replies_first_set = document.querySelectorAll('.reply_item-info--first')
+    const replies_show_more_set = document.querySelectorAll('.post__replies-show_more')
+
+    function setShowMore() {
+        zip(replies__set_all, replies_first_set, replies_show_more_set, post_id_set).forEach(
+            ([replies_set, reply_first, show_more, post_id, content_input]) => {
+                let my_counter = 0
+                let stop_request;
+
+                show_more.onclick = () => {
+                    const form = new FormData()
+                    form.append('slice', my_counter)
+                    form.append('post_id', post_id.innerHTML)
+                    my_counter++
+
+                    const headers = {
+                        'X-CSRFToken': csrf_token,
+                        'Content-Type': `multipart/form-data;
+                         boundary=${form._boundary}`,
+                    }
+
+                    if (!stop_request) {
+                        async function _() {
+                            const url = `{% url 'post:reply_download' %}`
+                            const response = await axios.post(url, form, {headers})
+
+                            console.log(response)
+
+                            if (!response.data.completion) {
+                                replies_set.insertAdjacentHTML(
+                                    'beforeend',
+                                    response.data
+                                )
+                            } else {
+                                if (!response.data.no_data) {
+                                    replies_set.insertAdjacentHTML(
+                                        'beforeend',
+                                        response.data.replies,
+                                    )
+                                }
+                                stop_request = true
+                                show_more.remove()
+                            }
+                            reply_first.classList.remove('reply_item-info--first')
+                        }_()
+                    }
+                }
+            }
+        )
+    }
+    setShowMore()
+</script>

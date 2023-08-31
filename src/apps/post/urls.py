@@ -1,11 +1,13 @@
 from django.urls import path
 
-from apps.post.features.list.views import PostListView, like_list, reply_list
+from apps.post.features.list.views import PostListView, like_list, reply_list, \
+    reply_download
 
 app_name = 'post'
 
 urlpatterns = [
     path('posts/', PostListView.as_view(), name='users'),
     path('posts/like_list/', like_list, name='like_list'),
-    path('posts/reply/', reply_list, name='reply_list'),
+    path('posts/reply_list/', reply_list, name='reply_list'),
+    path('posts/reply_dowload/', reply_download, name='reply_download'),
 ]

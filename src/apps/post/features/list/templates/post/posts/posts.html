@@ -25,11 +25,10 @@
     </div>
 {% endblock %}
 
-{% block footer %}
-    {% include 'base/footer/footer.html' %}
-{% endblock %}
-
 {% block scripts %}
-    <script defer src="{% static 'base/js/axios.min.js' %}"></script>
-    {% include 'post/posts/js.html' %}
+
+    <script src="{% static 'base/js/axios.min.js' %}"></script>
+
+    {% include 'post/posts/JS/js.html' %}
+
 {% endblock %}

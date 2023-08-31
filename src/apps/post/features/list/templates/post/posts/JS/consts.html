@@ -1,0 +1,15 @@
+<script defer>
+    const csrf_token_input = document.querySelector("input[name='csrfmiddlewaretoken']")
+    const csrf_token = csrf_token_input ? csrf_token_input.value : null
+    const zip = (...rows) => [...rows[0]].map((_, c) => rows.map(row => row[c]))
+
+    const like_forms =  document.querySelectorAll('.like__button-form')
+    const like_button_container_set = document.querySelectorAll('.like__button-container')
+    const like_action_set = document.querySelectorAll('.like__button-action')
+    const like_counter_set = document.querySelectorAll('.like__button-like_counter')
+    const post_id_set = document.querySelectorAll('.like__button-post_id')
+
+    const reply_forms = document.querySelectorAll('.post__replies-footer-form')
+    const reply_list_set = document.querySelectorAll('.post__replies-list')
+    const content_input_set = document.querySelectorAll('input[id="id_content"]')
+</script>

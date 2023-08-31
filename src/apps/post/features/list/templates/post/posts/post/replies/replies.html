@@ -2,9 +2,9 @@
 
     {% include 'post/posts/post/replies/list/list.html' %}
 
-    <div class="post__replies-show_more {% if not post.replies.count >= 2 %}no_display{% endif %}">
-        Show more replies
-    </div>
+    <span class="post__replies-show_more {% if post.replies.count <= 1 %}no_display{% endif %}">
+        Show more
+    </span>
 
     {% include 'post/posts/post/replies/footer/footer.html' %}
 

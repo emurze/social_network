@@ -1,17 +1,17 @@
 <script defer>
-    function setPostsButtons(
-        {forms, like_button_container_set, like_action_set, like_counter_set,
-            post_id_set, url}
-    ) {
-        const csrf_token_input = document.querySelector("input[name='csrfmiddlewaretoken']")
-        const csrf_token = csrf_token_input ? csrf_token_input.value : null
-        const zip = (...rows) => [...rows[0]].map((_, c) => rows.map(row => row[c]))
-
-        zip(forms, like_button_container_set, like_action_set, like_counter_set,
+    function setPostsButtons({
+        like_forms,
+        like_button_container_set,
+        like_action_set,
+        like_counter_set,
+        post_id_set,
+    }) {
+        zip(like_forms, like_button_container_set, like_action_set, like_counter_set,
             post_id_set).forEach(
             ([form, like_button_container, like_action, like_counter, post_id]) => {
                 form.onsubmit = (e) => {
                     e.preventDefault()
+
                     const form = new FormData()
                     form.append('post_id', post_id.innerText)
                     form.append('action', like_action.innerText)
@@ -22,7 +22,8 @@
                          boundary=${form._boundary}`,
                     }
 
-                    async function send_post() {
+                    async function executeLikeAction() {
+                        const url = `{% url 'post:like_list' %}`
                         const response = await axios.post(url, form, {headers})
                         const new_like_action = response.data.action
 
@@ -45,23 +46,19 @@
                                 `{% include 'post/posts/post/buttons/likeButton/likedButton/likedButton.html' %}`
 
                             like_counter.classList.add('like__button-like_counter--liked')
-
                             like_counter.innerHTML++
                         }
                     }
-                    send_post()
+                    executeLikeAction()
                 }
             }
         )
     }
     setPostsButtons({
-        forms: document.querySelectorAll('.like__button-form'),
-        like_button_container_set: document.querySelectorAll('.like__button-container'),
-        like_action_set: document.querySelectorAll('.like__button-action'),
-        like_counter_set: document.querySelectorAll('.like__button-like_counter'),
-        post_id_set: document.querySelectorAll('.like__button-post_id'),
-        url: "{% url 'post:like_list' %}",
+        like_forms,
+        like_button_container_set,
+        like_action_set,
+        like_counter_set,
+        post_id_set,
     })
 </script>
-
-{% include 'post/posts/post/js.html' %}

@@ -63,10 +63,9 @@
         display: -ms-grid;
         grid-template-areas:
             "header"
-            "main"
-            "footer";
-        grid-template-rows: 50px calc(100% - 110px) 60px;
-        -ms-grid-rows: 50px calc(100% - 110px) 60px;
+            "main";
+        grid-template-rows: 50px calc(100% - 110px);
+        -ms-grid-rows: 50px calc(100% - 110px);
     }
 
     header {grid-area: header}
@@ -86,5 +85,4 @@
     .no_scroll {overflow: hidden;}
 </style>
 
-{% include 'base/footer/css.html' %}
 {% include 'base/header/css.html' %}
