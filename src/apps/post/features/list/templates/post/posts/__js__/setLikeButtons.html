@@ -1,4 +1,5 @@
 <script defer>
+    console.log('hello')
     function setPostsButtons({
         like_forms,
         like_button_container_set,
@@ -26,6 +27,8 @@
                         const url = `{% url 'post:like_list' %}`
                         const response = await axios.post(url, form, {headers})
                         const new_like_action = response.data.action
+
+                        console.log(response.data)
 
                         like_action.innerHTML = new_like_action
 

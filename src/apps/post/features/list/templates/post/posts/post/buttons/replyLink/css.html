@@ -1,7 +1,34 @@
 <style>
     .reply__link {
+        display: inline-block;
         position: relative;
-        top: 3px;
+        right: 3px;
     }
-    .reply__link {display: inline-block;}
+    .reply__link--active svg,
+    .reply__link--active + .reply__link-counter {
+        color: rgb(0, 120, 243);
+    }
+    .reply__link-svg {
+        transition: .25s;
+        cursor: pointer;
+        padding: 6px 9px;
+        border-radius: 50%;
+
+        position: relative;
+        bottom: 4px;
+    }
+
+    .reply__link:hover .reply__link-svg {
+        color: rgb(0, 120, 243);
+        background-color: rgba(218, 235, 246, 0.8);
+    }
+    .reply__link:hover + .reply__link-counter {
+        transition: none;
+        color: rgb(0, 120, 243);
+    }
+    .reply__link-counter {
+        position: relative;
+        right: 7px;
+        bottom: 4px;
+    }
 </style>

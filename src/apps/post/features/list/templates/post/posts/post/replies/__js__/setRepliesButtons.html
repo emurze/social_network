@@ -1,9 +1,12 @@
 <script defer>
+    const reply_link_counter_set = document.querySelectorAll('.reply__link-counter')
+    const post_replies_set = document.querySelectorAll('.post__replies')
+
     function setRepliesButtons(
-        {reply_forms, reply_list_set, post_id_set, content_input_set}
+        {reply_forms, reply_list_set, post_id_set, content_input_set, reply_link_counter_set, replies_show_more_set, post_replies_set}
     ) {
-        zip(reply_forms, reply_list_set, post_id_set, content_input_set).forEach(
-            ([form, reply_list, post_id, content_input]) => {
+        zip(reply_forms, reply_list_set, post_id_set, content_input_set, reply_link_counter_set, replies_show_more_set, post_replies_set).forEach(
+            ([form, reply_list, post_id, content_input, reply_link_counter, replies_show_more, post_replies]) => {
                 form.onsubmit = (e) => {
                     e.preventDefault()
 
@@ -27,6 +30,8 @@
                                 'afterbegin',
                                 generated_reply_item,
                             )
+
+                            reply_link_counter.innerHTML++
                         }
                         content_input.value = ''
                     }
@@ -40,5 +45,8 @@
         reply_list_set,
         post_id_set,
         content_input_set,
+        reply_link_counter_set,
+        replies_show_more_set: document.querySelectorAll('.post__replies-show_more'),
+        post_replies_set,
     })
 </script>

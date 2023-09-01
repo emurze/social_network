@@ -1,6 +1,6 @@
 <div class="post__replies-list">
 
-    {% if post.replies.exists%}
+    {% if post.replies.exists %}
         {% include 'post/posts/post/replies/list/replyItem/replyItem.html' with reply=post.replies_first first=True %}
     {% else %}
         <div class="reply_item-info--first no_display"></div>

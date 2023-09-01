@@ -4,16 +4,18 @@
         max-width: 310px;
     }
 
-    input, textarea {
+    .edit_window input, .edit_window textarea {
         padding: 12px 15px;
         border: 1px solid #d0cccc;
         margin-bottom: 10px;
     }
-    textarea {
+    .edit_window textarea {
         resize: none;
         margin-bottom: 0;
     }
-    input, .edit_form__save_button, textarea {
+    .edit_window input,
+    .edit_form__save_button,
+    .edit_window textarea {
         width: 300px;
         border-radius: 6px;
     }
@@ -55,9 +57,9 @@
     .edit_form__birthday-content option {
         font-size: 15px;
     }
-    select[id="id_birthday_month"] {width: 38%;}
-    select[id="id_birthday_day"] {width: 24%;}
-    select[id="id_birthday_year"] {width: 30%;}
+    .edit_window select[id="id_birthday_month"] {width: 38%;}
+    .edit_window select[id="id_birthday_day"] {width: 24%;}
+    .edit_window select[id="id_birthday_year"] {width: 30%;}
 
     .errorlist {
         max-width: 300px;
@@ -98,7 +100,7 @@
         padding-right: 12px;
     }
 
-    input[type="radio"] {
+    .edit_window input[type="radio"] {
         width: unset;
         position: relative;
         top: 1px;

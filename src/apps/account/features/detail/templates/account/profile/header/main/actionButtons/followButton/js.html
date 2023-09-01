@@ -2,8 +2,6 @@
     const form = document.querySelector('.follow_button__form')
     const follow_button = document.querySelector('.follow_button__button')
     const url = "{% url 'account:follow' user.username %}"
-    const csrf_token_input = document.querySelector("input[name='csrfmiddlewaretoken']")
-    const csrf_token = csrf_token_input ? csrf_token_input.value : null
 
     form.onsubmit = (e) => {
         e.preventDefault()

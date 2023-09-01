@@ -1,5 +1,5 @@
-<div class="reply__link">
-    <svg height="26" viewBox="0 0 24 24" width="26"
+<div class="reply__link" style="height: 40px; width: 44px">
+    <svg height="40" viewBox="0 0 24 24" width="44" class="reply__link-svg"
          xmlns="http://www.w3.org/2000/svg">
         <g fill="none" fill-rule="evenodd">
             <path d="M0 0h24v24H0z"></path>
@@ -9,3 +9,8 @@
         </g>
     </svg>
 </div>
+<span class="reply__link-counter no_select">
+    {% if post.replies.exists %}
+        {{ post.reply_count }}
+    {% endif %}
+</span>

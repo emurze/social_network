@@ -12,14 +12,13 @@ from rest_framework.generics import get_object_or_404
 
 from apps.post.features.list.forms import ReplyForm
 from apps.post.features.list.mixins import AddRepliesWithoutFirstMixin
-from apps.post.features.list.serializers import ReplySerializer
 from apps.post.models import Post, Reply
 from apps.post.services.like.dispatcher import dispatch_like_action
 from apps.post.services.like.mixins import LikeActionListMixin
 
 lg = logging.getLogger(__name__)
 
-REQUEST_REPLY_COUNT = 4
+REQUEST_REPLY_COUNT = 8
 SHOWED_REPLY_COUNT = 1
 
 
@@ -27,15 +26,16 @@ class PostListView(
     LoginRequiredMixin,
     AddRepliesWithoutFirstMixin,
     LikeActionListMixin,
-    ListView
+    ListView,
 ):
     template_name = 'post/posts/posts.html'
     context_object_name = 'posts'
-    extra_context = {'reply_form': ReplyForm(), }
+    extra_context = {'reply_form': ReplyForm()}
 
     def get_queryset(self) -> QuerySet[Post]:
         return (Post.objects
-                .annotate(likes_count=Count('liked_users'))
+                .annotate(likes_count=Count('liked_users', distinct=True),
+                          reply_count=Count('replies', distinct=True))
                 .order_by('-created')[:4])
 
 

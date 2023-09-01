@@ -6,6 +6,7 @@
 
 {% block links %}
     {% include 'account/profile/css.html' %}
+    {% include 'post/posts/css.html' %}
 {% endblock %}
 
 {% block main %}
@@ -13,21 +14,21 @@
 
         {% include 'account/profile/header/header.html' %}
 
-        {% if is_owner %}
-
+        {% if not is_owner %}
             {% include 'account/profile/createImageForm/createImageForm.html' %}
-
         {% endif %}
 
-        {% include 'account/profile/images/images.html' %}
+        <div class="post_container">
+            {% for post in user_posts %}
+                {% include 'post/posts/post/post.html' %}
+            {% endfor %}
+        </div>
 
     </div>
 {% endblock %}
 
 {% block scripts %}
-
     <script defer src="{% static 'base/js/axios.min.js' %}"></script>
-
     {% include 'account/profile/js.html' %}
-
+    {% include 'post/posts/js.html' %}
 {% endblock %}

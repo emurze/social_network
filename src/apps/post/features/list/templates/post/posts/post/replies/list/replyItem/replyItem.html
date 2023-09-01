@@ -7,10 +7,10 @@
     <div class="reply_item-user_icon">
         {% if reply.user.photo %}
             <img src="{% thumbnail reply.user.photo 126x126 %}" alt=""
-                 class="reply_item-user_icon-img">
+                 class="reply_item-user_icon-img no_select">
         {% else %}
             <img src="{% static 'base/images/profile.png' %}" alt=""
-                 class="reply_item-user_icon-img">
+                 class="reply_item-user_icon-img no_select">
         {% endif %}
     </div>
 
@@ -18,7 +18,7 @@
         <div class="reply_item-info-username">
             <a href="{{ reply.user.get_absolute_url }}">
                 {{ reply.user.username }}
-                {% if user.is_staff %}
+                {% if reply.user.is_staff %}
                     <span style="position: relative; right: 4px;">
                         {% include 'shared/icon_verified.html' with width=17 height=17 %}
                     </span>

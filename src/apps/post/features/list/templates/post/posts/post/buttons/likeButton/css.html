@@ -11,7 +11,13 @@
     }
     .like__button-button--liked {
         bottom: 5px;
-        padding: 7px 9px 8px 9px;
+        padding: 8px 10px 11px 10px;
+    }
+    .like__button-button--liked img {
+        position: relative;
+        top: 1px;
+        height: 22px;
+        width: 24px;
     }
 
     .like__button-like_counter {
@@ -20,9 +26,13 @@
         right: 8px;
         font-size: 15px;
     }
-    .like__button-like_counter--liked {bottom: -1px; color: rgb(255, 0, 120);}
+    .like__button-like_counter--liked {
+        right: 8px;
+        bottom: 0;
+        color: rgb(255, 0, 120);
+    }
 
-    .like__button-button:hover {background-color: rgb(255, 0, 120, 0.1); transition: 0.1s;}
-    .like__button-button:hover .like__button-button-svg-like {fill: rgb(255, 0, 120);}
+    .like__button-button:hover {background-color: rgb(255, 224, 240, 0.8); transition: .25s;}
+    .like__button-button:hover .like__button-button-svg-like {fill: rgb(255, 0, 120); transition: .25s;}
     .like__button-container:hover + .like__button-like_counter {color: rgb(255, 0, 120);}
 </style>
