@@ -1,14 +1,13 @@
 <script defer>
-    console.log('hello')
-    function setPostsButtons({
+    function setLikeButtons({
         like_forms,
         like_button_container_set,
         like_action_set,
         like_counter_set,
         post_id_set,
     }) {
-        zip(like_forms, like_button_container_set, like_action_set, like_counter_set,
-            post_id_set).forEach(
+        zip(like_forms, like_button_container_set, like_action_set, like_counter_set, post_id_set)
+            .forEach(
             ([form, like_button_container, like_action, like_counter, post_id]) => {
                 form.onsubmit = (e) => {
                     e.preventDefault()
@@ -24,11 +23,9 @@
                     }
 
                     async function executeLikeAction() {
-                        const url = `{% url 'post:like_list' %}`
+                        const url = `{% url 'post:execute_like_action' %}`
                         const response = await axios.post(url, form, {headers})
                         const new_like_action = response.data.action
-
-                        console.log(response.data)
 
                         like_action.innerHTML = new_like_action
 
@@ -57,7 +54,7 @@
             }
         )
     }
-    setPostsButtons({
+    setLikeButtons({
         like_forms,
         like_button_container_set,
         like_action_set,

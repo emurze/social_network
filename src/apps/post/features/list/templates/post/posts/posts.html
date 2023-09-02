@@ -11,9 +11,7 @@
     <div class="posts">
 
         <div class="posts__container">
-            {% for post in posts %}
-                {% include 'post/posts/post/post.html' %}
-            {% endfor %}
+            {% include 'post/posts/postsListGenerated/postsListGenerated.html' %}
         </div>
 
         <div class="posts__filters">
@@ -30,5 +28,6 @@
     <script src="{% static 'base/js/axios.min.js' %}"></script>
 
     {% include 'post/posts/js.html' %}
+
 
 {% endblock %}

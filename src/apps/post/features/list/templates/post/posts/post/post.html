@@ -1,7 +1,7 @@
 {% load static %}
 {% load thumbnail %}
 
-<article class="post">
+<article class="post" {% if forloop.last %} hx-trigger="revealed" {% endif %}>
     <div class="post__container">
 
         {% include 'post/posts/post/header/header.html' %}

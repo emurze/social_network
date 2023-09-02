@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     'django.forms',
     'easy_thumbnails',
     'rest_framework',
+    'django_htmx',
 
     'apps.base.apps.BaseConfig',
     'apps.account.apps.AccountConfig',
@@ -37,6 +38,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_htmx.middleware.HtmxMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -54,7 +56,9 @@ USE_TZ = True
 APPS_DIR = BASE_DIR / 'apps'
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [*APPS_DIR.rglob('*static')]
+STATICFILES_DIRS = [
+    *APPS_DIR.rglob('*static'),
+]
 STATIC_ROOT = BASE_DIR / 'static'
 
 MEDIA_URL = 'media/'
