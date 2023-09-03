@@ -160,5 +160,4 @@ def download_posts(request: WSGIRequest) -> HttpResponse:
     }
 
     template_name = 'post/posts/postsListGenerated/postsListGenerated.html'
-
     return render(request, template_name, context)
