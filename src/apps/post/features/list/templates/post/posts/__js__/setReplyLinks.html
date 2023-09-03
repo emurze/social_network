@@ -11,17 +11,19 @@
 
                 reply_link.onclick = () => {
                     if (!replies_footer_form_is_showed) {
-                        post_replies.style.padding = '14px 20px 6px 18px'
+                        post_replies.style.padding = '14px 20px 14px 18px'
                         post_replies.style.borderTop = '1px solid rgb(208, 208, 208)'
                         post_replies.style.marginBottom = '0'
-
-                        reply_footer_form.style.display = 'flex'
-                        reply_footer_form.style.bottom = '8px'
                         replies_footer_form_is_showed = true
 
                         reply_link.classList.add('reply__link--active')
+                        reply_footer_form.style.display = 'flex'
 
-                        show_elem(reply_footer_form)
+                        // and reply link is active
+                        if (post_replies.dataset.type === 'show_more') {
+                            post_replies.style.padding = '14px 20px 4px 18px'
+                            reply_footer_form.style.bottom = '9px'
+                        }
                     }
                     content_input.focus()
                 }

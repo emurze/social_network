@@ -2,9 +2,9 @@
      {% if not post.replies.exists %}
         style="padding: 0; border-top: 0;"
      {% elif post.replies.count >= 2 %}
-        style="padding: 14px 20px 0 18px; margin-bottom: -10px;"
+        style="padding: 14px 20px 0 18px; margin-bottom: -8px;" data-type="show_more"
      {% elif post.replies.count == 1 %}
-        style="margin-bottom: -10px;"
+        style="margin-bottom: -13px;"
      {% endif %}>
 
     {% include 'post/posts/post/replies/list/list.html' %}

@@ -5,8 +5,6 @@
                 let my_counter = 0
                 let stop_request = false;
 
-                console.log('hello')
-
                 show_more.onclick = () => {
                     const form = new FormData()
                     form.append('slice', my_counter)
@@ -38,6 +36,10 @@
                                 }
                                 stop_request = true
                                 show_more.remove()
+
+                                const replies = replies_set.children
+                                const last_elem = replies[replies.length-1]
+                                last_elem.style.marginBottom = '8px'
                             }
                             reply_first.classList.remove('reply_item-info--first')
                         }_()
