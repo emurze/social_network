@@ -1,0 +1,24 @@
+<script defer>
+    const create_form = document.querySelector('.posts__create_form')
+
+    create_form.onsubmit = e => {
+        e.preventDefault()
+
+        const form = new FormData()
+        form.append('description', '')
+        form.append('photo', '')
+
+        const headers = {
+            'X-CSRFToken': csrf_token,
+            'Content-Type': `multipart/form-data;
+             boundary=${form._boundary}`
+        }
+
+        async function _() {
+            const url = `{% url 'post:create' %}`
+            const response = await axios.post(url, form, {headers})
+
+            console.log(response)
+        }_()
+    }
+</script>

@@ -1,0 +1,56 @@
+<style>
+    .posts__create_post {
+        display: flex;
+        position: relative;
+        width: 100%;
+        margin-bottom: 16px;
+        padding: 12px 20px;
+        border: 1px solid rgb(208, 208, 208);
+        border-radius: 15px;
+        box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, .01);
+        background-color: #ffffff;
+    }
+    .posts__create_form {flex: 1 1 500px;}
+    .posts__user_icon {margin-right: 10px;}
+    .posts__user_icon-img {
+        flex: 0 0 50px;
+        object-fit: cover;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+    }
+
+    .posts__create_post-description {}
+    .posts__create_post-description textarea {
+        height: 40px;
+        min-height: 40px;
+
+        padding: 7px 10px;
+        border-radius: 10px;
+        resize: none;
+        font-size: 20px;
+        line-height: 24px;
+    }
+
+    .posts__create_post-photo {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+    }
+
+    .posts__create_post-save {
+        position: absolute;
+        right: 10px;
+        bottom: 10px;
+    }
+    .posts__create_post-save-button {
+        border-radius: 20px;
+        padding: 11px 18px;
+        font-weight: bold;
+        font-size: 16px;
+        background-color: rgb(29, 155, 240);
+        color: #ffffff;
+    }
+</style>
+
+{% include 'post/posts/createPostForm/photoWidget/css.html' %}

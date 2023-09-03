@@ -5,13 +5,21 @@
 
 {% block links %}
     {% include 'post/posts/css.html' %}
+    {% include 'post/posts/createPostForm/css.html' %}
 {% endblock %}
 
 {% block main %}
     <div class="posts">
+        <div class="posts__wrapper">
 
-        <div class="posts__container">
-            {% include 'post/posts/postsListGenerated/postsListGenerated.html' %}
+            <div>
+                {% include 'post/posts/createPostForm/createPostForm.html' %}
+            </div>
+
+            <div class="posts__container">
+                {% include 'post/posts/postsListGenerated/postsListGenerated.html' %}
+            </div>
+
         </div>
 
         <div class="posts__filters">
@@ -28,6 +36,6 @@
     <script src="{% static 'base/js/axios.min.js' %}"></script>
 
     {% include 'post/posts/js.html' %}
-
+    {% include 'post/posts/createPostForm/js.html' %}
 
 {% endblock %}

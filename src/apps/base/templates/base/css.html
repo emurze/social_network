@@ -55,7 +55,6 @@
                      sans-serif;
         line-height: 2.6em;
         background-color: #fcfcfc;
-        transition: .2s;
     }
 
     #app_wrapper {
@@ -85,6 +84,13 @@
     .no_display {display: none;}
     .no_opacity {opacity: 0;}
     .no_scroll {overflow: hidden;}
+
+    @keyframes spin {
+        to {transform: rotate(360deg)}
+    }
+    @-webkit-keyframes spin {
+        to {-webkit-transform: rotate(360deg);}
+    }
 </style>
 
 {% include 'base/header/css.html' %}

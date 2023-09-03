@@ -1,4 +1,4 @@
-body {background-color: rgb(222, 223, 223);}
+body {background-color: rgb(222, 223, 223); overflow: hidden;}
 
 .login {
     position: relative;

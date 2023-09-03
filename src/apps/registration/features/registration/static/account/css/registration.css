@@ -1,5 +1,6 @@
 body {
     background-color: rgb(222, 223, 223);
+    overflow: hidden;
 }
 
 .registration {
@@ -86,10 +87,12 @@ input[type="radio"] {
     top: 4px;
 }
 .birthday {
+    text-align: start;
     width: 310px;
     margin: 0 auto;
 }
 .birthday__label {
+
     text-align: start;
 }
 

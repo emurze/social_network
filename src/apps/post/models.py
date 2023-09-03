@@ -19,7 +19,8 @@ class Post(models.Model):
                              related_name='posts')
     slug = models.SlugField(max_length=128, unique=True)
     description = models.TextField()
-    photo = models.ImageField(upload_to='posts/%Y/%m/%d', null=True, blank=True)
+    photo = models.ImageField(upload_to='posts/%Y/%m/%d', null=True,
+                              blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     status = models.CharField(max_length=2, choices=Status.choices,

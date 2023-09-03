@@ -14,11 +14,11 @@
 
         {% include 'account/profile/header/header.html' %}
 
-        {% if not is_owner %}
-            {% include 'account/profile/createImageForm/createImageForm.html' %}
+        {% if is_owner %}
+            {% include 'post/posts/../../../../../../post/features/create/templates/post/posts/createPostForm/createPostForm.html' %}
         {% endif %}
 
-        <div class="post_container">
+        <div class="profile-posts__container posts__container">
             {% for post in user_posts %}
                 {% include 'post/posts/post/post.html' %}
             {% endfor %}

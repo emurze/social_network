@@ -1,9 +1,12 @@
 from django.urls import path
 
+from apps.post.features.create.views import create_post
 from apps.post.features.list.views import (
     execute_like_action,
     download_replies_by_slice,
-    create_reply, download_posts, PostListView,
+    create_reply,
+    download_posts,
+    PostListView,
 )
 
 app_name = 'post'
@@ -15,5 +18,7 @@ urlpatterns = [
     path('posts/create_reply/', create_reply, name='create_reply'),
     path('posts/download_replies_by_slice/', download_replies_by_slice,
          name='download_replies_by_slice'),
-    path('posts/download_posts/', download_posts, name='download_posts')
+    path('posts/download_posts/', download_posts, name='download_posts'),
+
+    path('posts/create/', create_post, name='create'),
 ]
