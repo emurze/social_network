@@ -14,7 +14,7 @@ from apps.account.features.detail.mixins import AddUserPosts, \
 from apps.account.mixins import ProfileSelectedMixin
 from apps.account.services.follow.dispatcher import dispatch_follow_action
 from apps.account.services.follow.mixins import FollowActionDetailMixin
-from apps.post.features.list.mixins import AddReplyFormMixin
+from apps.post.features.list.mixins import AddReplyFormMixin, AddPostForm
 
 User = get_user_model()
 lg = logging.getLogger(__name__)
@@ -36,6 +36,7 @@ class AccountDetailView(
     ProfileSelectedMixin,
     FollowActionDetailMixin,
     AddUserPosts,
+    AddPostForm,
     AddReplyFormMixin,
     LikeActionAccountDetailMixin,
     DetailView

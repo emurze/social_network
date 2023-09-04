@@ -7,6 +7,7 @@
 {% block links %}
     {% include 'account/profile/css.html' %}
     {% include 'post/posts/css.html' %}
+    {% include 'post/posts/createPostForm/css.html' %}
 {% endblock %}
 
 {% block main %}
@@ -14,16 +15,27 @@
 
         {% include 'account/profile/header/header.html' %}
 
-        {% if is_owner %}
-            {% include 'post/posts/../../../../../../post/features/create/templates/post/posts/createPostForm/createPostForm.html' %}
-        {% endif %}
+        <div class="profile__main_content">
 
-        <div class="profile-posts__container posts__container">
-            {% for post in user_posts %}
-                {% include 'post/posts/post/post.html' %}
-            {% endfor %}
+            <div class="profile_all_posts">
+                {% if is_owner %}
+                    <div class="profile__create_post_form">
+                        {% include 'post/posts/createPostForm/createPostForm.html' %}
+                    </div>
+                {% endif %}
+
+                <div class="profile-posts__container posts__container">
+                    {% for post in user_posts %}
+                        {% include 'post/posts/post/post.html' %}
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="profile__followings">
+                Followings
+            </div>
+
         </div>
-
     </div>
 {% endblock %}
 
@@ -31,4 +43,5 @@
     <script defer src="{% static 'base/js/axios.min.js' %}"></script>
     {% include 'account/profile/js.html' %}
     {% include 'post/posts/js.html' %}
+
 {% endblock %}
