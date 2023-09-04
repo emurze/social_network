@@ -11,7 +11,7 @@ from django.views.generic import ListView
 from rest_framework.generics import get_object_or_404
 
 from apps.post.features.list.forms import ReplyForm
-from apps.post.features.list.mixins import AddRepliesWithoutFirstMixin, \
+from apps.post.features.list.mixins import \
     AddPostQuerysetMixin, AddReplyFormMixin, PageLimitQuerysetMixin, \
     AddPostForm
 from apps.post.models import Post, Reply
@@ -28,8 +28,6 @@ class PostListView(
     AddReplyFormMixin,
 
     AddPostForm,
-
-    AddRepliesWithoutFirstMixin,
 
     PageLimitQuerysetMixin,
     AddPostQuerysetMixin,
@@ -142,7 +140,6 @@ def download_posts(request: WSGIRequest) -> HttpResponse:
             return kwargs
 
     class ClassToFunc(
-        AddRepliesWithoutFirstMixin,
         AddReplyFormMixin,
         LikeActionListMixin,
         Returns,

@@ -1,12 +1,15 @@
 <script defer>
-    const create_form = document.querySelector('.posts__create_form')
+    const post_create_form = document.forms.post_create_form
+    const description_input = post_create_form.elements.description
+    const photo_input = post_create_form.elements.photo
+    const posts_container = document.querySelector('.posts__container')
 
-    create_form.onsubmit = e => {
+    post_create_form.onsubmit = e => {
         e.preventDefault()
 
         const form = new FormData()
-        form.append('description', '')
-        form.append('photo', '')
+        form.append('description', description_input.value)
+        form.append('photo', photo_input.files[0])
 
         const headers = {
             'X-CSRFToken': csrf_token,
@@ -18,7 +21,43 @@
             const url = `{% url 'post:create' %}`
             const response = await axios.post(url, form, {headers})
 
-            console.log(response)
+            const post_wrapper = document.createElement('div')
+            post_wrapper.innerHTML = response.data.post
+
+            setReplyLinks({
+                reply_footer_form_set: post_wrapper.querySelectorAll('.post__replies-footer'),
+                content_input_set: post_wrapper.querySelectorAll('input[id="id_content"]'),
+                reply_link_set: post_wrapper.querySelectorAll('.reply__link'),
+                post_replies_set: post_wrapper.querySelectorAll('.post__replies'),
+            })
+            setLikeButtons({
+                like_forms: post_wrapper.querySelectorAll('.like__button-form'),
+                like_button_container_set: post_wrapper.querySelectorAll('.like__button-container'),
+                like_action_set: post_wrapper.querySelectorAll('.like__button-action'),
+                like_counter_set: post_wrapper.querySelectorAll('.like__button-like_counter'),
+                post_id_set: post_wrapper.querySelectorAll('.like__button-post_id'),
+            })
+            setRepliesButtons({
+                reply_forms: post_wrapper.querySelectorAll('.post__replies-footer-form'),
+                reply_list_set: post_wrapper.querySelectorAll('.post__replies-list'),
+                post_id_set: post_wrapper.querySelectorAll('.like__button-post_id'),
+                content_input_set: post_wrapper.querySelectorAll('input[id="id_content"]'),
+                reply_link_counter_set: post_wrapper.querySelectorAll('.reply__link-counter'),
+            })
+
+            posts_container.insertAdjacentElement(
+                'afterbegin',
+                post_wrapper,
+            )
         }_()
     }
+</script>
+
+<script defer>
+    const textarea = document.querySelector('.posts__create_post-description textarea')
+
+    textarea.addEventListener("input", event => {
+        textarea.style.height = 0;
+        textarea.style.height = textarea.scrollHeight + "px";
+    })
 </script>

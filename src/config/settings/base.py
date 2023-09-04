@@ -7,11 +7,11 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 
 DEBUG = bool(os.environ.get("DEBUG", default=0))
 
-ALLOWED_HOSTS = ['mysite.com', '0.0.0.0', '127.0.0.1']
+ALLOWED_HOSTS = ['mysite.com', '0.0.0.0', '127.0.0.1', '192.168.100.7']
 
 INSTALLED_APPS = [
     'apps.registration.apps.RegistrationConfig',
-    
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -21,9 +21,9 @@ INSTALLED_APPS = [
     'django.contrib.postgres',
     'django.contrib.humanize',
     'django.forms',
+    'debug_toolbar',
     'easy_thumbnails',
     'rest_framework',
-    'django_htmx',
 
     'apps.base.apps.BaseConfig',
     'apps.account.apps.AccountConfig',
@@ -38,7 +38,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django_htmx.middleware.HtmxMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -97,3 +96,11 @@ START_REQUEST_POST_COUNT = 8
 REQUEST_POST_COUNT = 14
 
 REQUEST_REPLY_COUNT = 8
+
+#
+# if DEBUG:
+#     import socket  # only if you haven't already imported this
+#     hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
+#     INTERNAL_IPS = [ip[: ip.rfind(".")] + ".1" for ip in ips] + \
+#                    ["0.0.0.0", "127.0.0.1", "10.0.2.2"]
+#     MIDDLEWARE.append('debug_toolbar.middleware.DebugToolbarMiddleware')

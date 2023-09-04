@@ -1,3 +1,33 @@
 <script defer>
-    
+    const description_wrapper = document.querySelector('.posts__create_post-description')
+
+    function ShowCreatedImage(input) {
+        const files = input.files
+        const reader = []
+
+        for (let i in files) {
+            if (files.hasOwnProperty(i)) {
+                const name = 'file' + i
+
+                reader[i] = new FileReader()
+                reader[i].readAsDataURL(input.files[i])
+
+                const last_image = document.querySelector('.posts__create_post-description-new_photo')
+                last_image && last_image.remove()
+
+                description_wrapper.insertAdjacentHTML(
+                    'beforeend',
+                    '<img id="'+ name +'" src="" alt="" class="posts__create_post-description-new_photo" />'
+                )
+
+                reader[i].onload = e => {
+                    const photo_elem = document.getElementById(name)
+                    photo_elem.src = e.target.result
+                    setTimeout(() => {
+                        console.log(photo_elem.naturalWidth)
+                    }, 200)
+                }
+            }
+        }
+    }
 </script>

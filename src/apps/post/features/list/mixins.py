@@ -6,19 +6,6 @@ from apps.post.features.list.forms import ReplyForm
 from apps.post.models import Post
 
 
-class AddRepliesWithoutFirstMixin:
-    def get_context_data(self, *args, **kwargs):
-        posts = self.object_list
-
-        for post in posts:
-            replies = post.replies.all()
-
-            post.replies_first = replies.first()
-            post.replies_without_first = replies[1:]
-
-        return super().get_context_data(*args, **kwargs)
-
-
 class AddReplyFormMixin:
     def get_context_data(self, *args, **kwargs):
         kwargs['reply_form'] = ReplyForm()
@@ -36,7 +23,9 @@ class AddPostQuerysetMixin:
         posts = Post.objects.annotate(
             likes_count=Count('liked_users', distinct=True),
             reply_count=Count('replies', distinct=True)
-        ).order_by('-created')
+        ).order_by('-created').select_related(
+            'user'
+        ).prefetch_related('replies', 'replies__user', 'liked_users')
         return posts
 
 

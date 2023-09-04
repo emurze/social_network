@@ -18,7 +18,3 @@ class AccountEditView(LoginRequiredMixin, AjaxErrorsMixin, UpdateView):
     context_object_name = 'user'
     slug_field = 'username'
     slug_url_kwarg = 'username'
-
-    def get_context_data(self, **kwargs):
-        kwargs |= {'user': self.object}
-        return super().get_context_data(**kwargs)

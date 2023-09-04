@@ -49,4 +49,3 @@ class Contract(models.Model):
 
     def __str__(self) -> str:
         return f'{self.user_from} follows {self.user_to}'
-

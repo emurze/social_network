@@ -13,7 +13,7 @@
         {% endif %}
     </div>
 
-    <form method="POST" class="posts__create_form">
+    <form method="POST" class="posts__create_form" name="post_create_form">
         {% csrf_token %}
         <div class="posts__create_post-description">
             {{ post_form.description }}

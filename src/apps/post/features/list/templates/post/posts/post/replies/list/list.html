@@ -1,10 +1,14 @@
 <div class="post__replies-list">
 
-    {% if post.replies.exists %}
-        {% include 'post/posts/post/replies/list/replyItem/replyItem.html' with reply=post.replies_first first=True %}
-    {% else %}
-        <div class="reply_item-info--first no_display"></div>
-    {% endif %}
+    {% with post.replies as replies %}
+
+        {% if replies.exists %}
+            {% include 'post/posts/post/replies/list/replyItem/replyItem.html' with reply=replies.first first=True %}
+        {% else %}
+            <div class="reply_item-info--first no_display"></div>
+        {% endif %}
+
+    {% endwith %}
 
     <div class="post__replies-list-all"></div>
 </div>

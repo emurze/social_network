@@ -15,6 +15,10 @@ class Post(models.Model):
         PUBLISHED = ('PB', 'Published')
         DRAFT = ('DF', 'Draft')
 
+    class Action(models.TextChoices):
+        LIKE = ('LK', 'Like')
+        UNLIKE = ('UK', 'Unlike')
+
     user = models.ForeignKey(User, on_delete=models.CASCADE,
                              related_name='posts')
     slug = models.SlugField(max_length=128, unique=True)
@@ -54,8 +58,10 @@ def set_slug_by_title(sender, instance: Post, *_, **__) -> None:
 
 
 class LikeContract(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,
+                             related_name='like_contracts')
+    post = models.ForeignKey(Post, on_delete=models.CASCADE,
+                             related_name='like_contracts')
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:

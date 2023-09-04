@@ -1,5 +1,6 @@
 <style>
     .posts__create_post {
+        transition: .2s;
         display: flex;
         position: relative;
         width: 100%;
@@ -10,7 +11,7 @@
         box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, .01);
         background-color: #ffffff;
     }
-    .posts__create_form {flex: 1 1 500px;}
+    .posts__create_form {flex: 1 1 500px; overflow: hidden}
     .posts__user_icon {margin-right: 10px;}
     .posts__user_icon-img {
         flex: 0 0 50px;
@@ -20,28 +21,42 @@
         border-radius: 50%;
     }
 
-    .posts__create_post-description {}
+    .posts__create_post-description {
+        transition: .2s;
+        margin-bottom: 35px;
+    }
     .posts__create_post-description textarea {
+        margin-top: 2px;
         height: 40px;
         min-height: 40px;
 
         padding: 7px 10px;
-        border-radius: 10px;
         resize: none;
         font-size: 20px;
         line-height: 24px;
+        width: 100%;
+    }
+    .posts__create_post-description-new_photo {
+        position: relative;
+        bottom: 5px;
+        border-radius: 15px;
+        object-fit: cover;
+        max-width: 650px;
+        max-height: 650px;
+        margin-bottom: 15px;
     }
 
     .posts__create_post-photo {
         position: absolute;
-        right: 10px;
-        top: 10px;
+        right: 90px;
+        bottom: -7px;
     }
 
     .posts__create_post-save {
+        transition: .2s;
         position: absolute;
         right: 10px;
-        bottom: 10px;
+        bottom: 12px;
     }
     .posts__create_post-save-button {
         border-radius: 20px;

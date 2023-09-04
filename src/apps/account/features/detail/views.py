@@ -9,7 +9,7 @@ from django.shortcuts import get_object_or_404
 from django.views.decorators.http import require_POST
 from django.views.generic import DetailView
 
-from apps.account.features.detail.mixins import AddRepliesWithoutFirstMixin, \
+from apps.account.features.detail.mixins import AddUserPosts, \
     LikeActionAccountDetailMixin
 from apps.account.mixins import ProfileSelectedMixin
 from apps.account.services.follow.dispatcher import dispatch_follow_action
@@ -35,7 +35,7 @@ class AccountDetailView(
     LoginRequiredMixin,
     ProfileSelectedMixin,
     FollowActionDetailMixin,
-    AddRepliesWithoutFirstMixin,
+    AddUserPosts,
     AddReplyFormMixin,
     LikeActionAccountDetailMixin,
     DetailView
