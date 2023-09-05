@@ -17,15 +17,14 @@
 
                 description_wrapper.insertAdjacentHTML(
                     'beforeend',
-                    '<img id="'+ name +'" src="" alt="" class="posts__create_post-description-new_photo" />'
+                    '<div class="posts__create_post-description-new_photo">' +
+                    '<img id="'+ name +'" src="" alt="" class="posts__create_post-description-new_photo-img" />' +
+                    '</div>'
                 )
 
                 reader[i].onload = e => {
                     const photo_elem = document.getElementById(name)
                     photo_elem.src = e.target.result
-                    setTimeout(() => {
-                        console.log(photo_elem.naturalWidth)
-                    }, 200)
                 }
             }
         }

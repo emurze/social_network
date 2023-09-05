@@ -12,29 +12,41 @@
 
 {% block main %}
     <div class="profile">
+        <div class="profile__container">
+            {% include 'account/profile/header/header.html' %}
 
-        {% include 'account/profile/header/header.html' %}
+            <div class="profile__main_content">
 
-        <div class="profile__main_content">
+                <div class="profile_all_posts">
+                    {% if is_owner %}
+                        <div class="profile__create_post_form">
+                            {% include 'post/posts/createPostForm/createPostForm.html' %}
+                        </div>
+                    {% endif %}
 
-            <div class="profile_all_posts">
-                {% if is_owner %}
-                    <div class="profile__create_post_form">
-                        {% include 'post/posts/createPostForm/createPostForm.html' %}
+                    <div class="profile-posts__container posts__container">
+                        {% for post in user_posts %}
+                            {% include 'post/posts/post/post.html' %}
+                        {% endfor %}
                     </div>
-                {% endif %}
-
-                <div class="profile-posts__container posts__container">
-                    {% for post in user_posts %}
-                        {% include 'post/posts/post/post.html' %}
-                    {% endfor %}
                 </div>
-            </div>
 
-            <div class="profile__followings">
-                Followings
-            </div>
+                <div class="profile__followings">
+                    Followings
 
+                    <article>adm1</article>
+                    <article>adm2</article>
+                    <article>adm3</article>
+                    <article>adm4</article>
+                    <article>adm5</article>
+                    <article>adm6</article>
+                    <article>adm7</article>
+                    <article>adm8</article>
+                    <article>adm9</article>
+                    <article>adm10</article>
+                </div>
+
+            </div>
         </div>
     </div>
 {% endblock %}
