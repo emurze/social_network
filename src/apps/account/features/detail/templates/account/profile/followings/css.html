@@ -1,0 +1,50 @@
+<style>
+    .profile__followings {
+       flex: 0 1 26%;
+       position: -webkit-sticky; /* for Safari */
+       position: sticky;
+       top: 60px;
+       align-self: flex-start;
+       margin: 16px 0 0 15px;
+       padding: 10px 20px;
+       border: 1px solid rgb(208, 208, 208);
+       box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, .01);
+       border-radius: 15px;
+       -ms-word-break: break-all;
+       word-break: break-all;
+       word-break: break-word;
+       line-height: 20px;
+   }
+   .profile__followings-title {
+       font-size: 17px;
+       padding-bottom: 6px;
+       margin-bottom: 13px;
+       color: #212425;
+       border-bottom: 1px solid rgb(208, 208, 208);
+   }
+   .following_user__username {
+       font-weight: bold;
+   }
+   .following_user {
+       display: flex;
+       transition: .2s;
+       cursor: pointer;
+       margin-bottom: 15px;
+       border-radius: 15px;
+   }
+   .following_user:last-child {margin-bottom: 0;}
+   .following_user:hover {
+       background-color: #f8f8f8;
+   }
+    .following_user__image {
+       flex: 0 0 50px;
+       width: 50px;
+       height: 50px;
+       margin-right: 10px;
+   }
+   .following_user__image-img {
+       width: 50px;
+       height: 50px;
+       border-radius: 50%;
+   }
+</style>

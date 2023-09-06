@@ -4,9 +4,9 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.handlers.wsgi import WSGIRequest
-from django.http import JsonResponse
-from django.shortcuts import get_object_or_404
-from django.views.decorators.http import require_POST
+from django.http import JsonResponse, HttpResponse
+from django.shortcuts import get_object_or_404, render
+from django.views.decorators.http import require_POST, require_GET
 from django.views.generic import DetailView
 
 from apps.account.features.detail.mixins import AddUserPosts, \
@@ -46,3 +46,13 @@ class AccountDetailView(
     context_object_name = 'user'
     slug_field = 'username'
     slug_url_kwarg = 'username'
+
+
+@login_required
+@require_GET
+def follow_pagination(request: WSGIRequest) -> HttpResponse:
+    lg.debug(request.GET)
+
+    if ():
+        return HttpResponse('')
+    return render(request, '')

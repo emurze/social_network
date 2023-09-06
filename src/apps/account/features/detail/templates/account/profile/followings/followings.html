@@ -1,0 +1,44 @@
+{% load static %}
+{% load thumbnail %}
+
+<div class="profile__followings">
+    {% if not user.followings.exists %}
+        <div style="padding: 2px 0">No followings yet</div>
+    {% else %}
+        <div class="profile__followings-title">Followings</div>
+    {% endif %}
+
+    {% for following_user in user.followings.all|slice:"8" %}
+        <article class="following_user"
+                 onclick="location.href='{{ following_user.get_absolute_url }}'">
+
+            <div class="following_user__image">
+                {% if following_user.photo %}
+                    <img src="{% thumbnail following_user.photo 100x100 crop="smart" %}"
+                         class="following_user__image-img" alt="">
+                {% else %}
+                    <img src="{% static 'base/images/profile.png' %}"
+                         class="following_user__image-img" alt="">
+                {% endif %}
+            </div>
+
+            <div class="following_user__username">
+                {{ following_user.username }}
+                {% if following_user.is_staff %}
+                    <span style="position: relative; right: 4px;">
+                        {% include 'shared/icon_verified.html' %}
+                    </span>
+                {% endif %}
+            </div>
+
+        </article>
+    {% endfor %}
+
+    {% if user.followings.exists %}
+        <div class="followings__pagination">
+            <span><-</span>
+            <span>1, 2, 3, 4</span>
+            <span>-></span>
+        </div>
+    {% endif %}
+</div>

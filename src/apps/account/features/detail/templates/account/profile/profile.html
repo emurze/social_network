@@ -1,6 +1,5 @@
 {% extends 'base/base.html' %}
 {% load static %}
-{% load thumbnail %}
 
 {% block title %}Profile{% endblock %}
 
@@ -39,40 +38,7 @@
                     </div>
                 </div>
 
-                <div class="profile__followings">
-                    {% if not user.followings.exists %}
-                        <div style="padding: 2px 0">No followings yet</div>
-                    {% else %}
-                        <div class="profile__followings-title">Followings</div>
-                    {% endif %}
-
-                    {% for following_user in user.followings.all|slice:"8" %}
-                        <article class="following_user">
-                            <div class="following_user__image">
-                                {% if following_user.photo %}
-
-                                    <img src="{% thumbnail following_user.photo 100x100 crop="smart" %}"
-                                         class="following_user__image-img" alt="">
-
-                                {% else %}
-
-                                    <img src="{% static 'base/images/profile.png' %}"
-                                         class="following_user__image-img" alt="">
-
-                                {% endif %}
-                            </div>
-                            <div class="following_user__username"
-                                 onclick="location.href='{{ following_user.get_absolute_url }}'">
-                                {{ following_user.username }}
-                                {% if following_user.is_staff %}
-                                    <span style="position: relative; right: 4px;">
-                                        {% include 'shared/icon_verified.html' %}
-                                    </span>
-                                {% endif %}
-                            </div>
-                        </article>
-                    {% endfor %}
-                </div>
+                {% include 'account/profile/followings/followings.html' %}
 
             </div>
         </div>
