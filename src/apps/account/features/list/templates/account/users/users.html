@@ -4,7 +4,7 @@
 {% block title %}Users{% endblock %}
 
 {% block links %}
-    {% include 'base/footer/css.html' %}
+{#    {% include 'base/footer/css.html' %}#}
     {% include 'account/users/css.html' %}
 {% endblock %}
 
@@ -12,9 +12,7 @@
     <div class="users">
 
         <div class="users__container">
-            {% for user in users %}
-                {% include 'account/users/user/user.html' %}
-            {% endfor %}
+            {% include 'account/users/userListGenerated/userListGenerated.html' with no_last_target=True %}
         </div>
 
         <div class="users__filters">
@@ -29,6 +27,6 @@
     {% include 'account/users/js.html' %}
 {% endblock %}
 
-{% block footer %}
-    {% include 'base/footer/footer.html' %}
-{% endblock %}
+{#{% block footer %}#}
+{#    {% include 'base/footer/footer.html' %}#}
+{#{% endblock %}#}

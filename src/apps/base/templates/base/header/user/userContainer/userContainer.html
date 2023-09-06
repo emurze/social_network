@@ -1,18 +1,20 @@
 {% load static %}
 {% load thumbnail %}
 
-<div class="user__container" onclick="toggleMenu()">
-    <a class="user__icon">
-        {% if request.user.photo %}
-            <img src="{% thumbnail request.user.photo 96x96 crop="smart" quality=100 %}" alt="">
-        {% else %}
-            <img src="{% static 'base/images/profile.png' %}" alt="">
-        {% endif %}
-    </a>
-    <span class="user__down_arrow">
-        <img src="{% static 'base/images/arrow_down.svg' %}" alt="">
-    </span>
-    <span class="user__up_arrow no_display">
-        <img src="{% static 'base/images/arrow_up.svg' %}" alt="">
-    </span>
+<div class="user__container">
+    <div style="max-width: 75px; cursor: pointer;" onclick="toggleMenu()">
+        <a class="user__icon">
+            {% if request.user.photo %}
+                <img src="{% thumbnail request.user.photo 96x96 crop="smart" quality=100 %}" alt="">
+            {% else %}
+                <img src="{% static 'base/images/profile.png' %}" alt="">
+            {% endif %}
+        </a>
+        <span class="user__down_arrow">
+            <img src="{% static 'base/images/arrow_down.svg' %}" alt="">
+        </span>
+        <span class="user__up_arrow no_display">
+            <img src="{% static 'base/images/arrow_up.svg' %}" alt="">
+        </span>
+        </div>
 </div>

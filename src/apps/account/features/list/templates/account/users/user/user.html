@@ -1,4 +1,4 @@
-<article class="user">
+<article class="user" {% if not no_last_target and forloop.last %} hx-trigger="revealed" {% endif %}>
 
     {% include 'account/users/user/photo/photo.html' %}
 

@@ -1,0 +1,5 @@
+<script defer>
+    const csrf_token_input = document.querySelector("input[name='csrfmiddlewaretoken']")
+    const csrf_token = csrf_token_input ? csrf_token_input.value : null
+    const zip = (...rows) => [...rows[0]].map((_, c) => rows.map(row => row[c]))
+</script>

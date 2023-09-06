@@ -1,0 +1,41 @@
+<script defer>
+    function setUsersButtons({forms, follow_buttons, usernames}) {
+        zip(forms, follow_buttons, usernames).forEach(
+            ([form, follow_button, username]) => {
+                setUserButton({form, follow_button, username})
+            }
+        )
+    }
+    function setUserButton({form, follow_button, username}) {
+        form.onsubmit = (e) => {
+            e.preventDefault()
+            const action = follow_button.innerText
+
+            const form = new FormData()
+            form.append('username', username.innerText)
+            form.append('action', action)
+
+            const headers = {
+                'X-CSRFToken': csrf_token,
+                'Content-Type': `multipart/form-data;
+             boundary=${form._boundary}`,
+            }
+
+            async function _() {
+                const url = "{% url 'account:follow_list' %}"
+                const response = await axios.post(url, form, {headers})
+                const new_action = response.data.action
+
+                follow_button.innerHTML = new_action
+                follow_button.style.backgroundColor =
+                    new_action === 'Follow' ? 'rgb(1, 135, 180)' : 'red'
+
+            }_()
+        }
+    }
+    setUsersButtons({
+        forms: document.querySelectorAll('.follow_button__form'),
+        follow_buttons: document.querySelectorAll('.follow_button__button'),
+        usernames: document.querySelectorAll('.user__info-username-link-username'),
+    })
+</script>

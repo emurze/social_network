@@ -1,0 +1,118 @@
+<script defer>
+    window.addEventListener('DOMContentLoaded', () => {
+        const users_container = document.querySelector('.users__container')
+        async function _() {
+            users_container.insertAdjacentHTML(
+                'beforeend',
+                `{% include 'shared/loading_icon.html' %}`
+            )
+
+            const page = 2
+            const url = `{% url 'account:download_users' %}`
+            const response = await axios.get(
+                `${url}?&page=${page}`
+            )
+            const html = response.data
+
+            if (html !== '') {
+                const elementFinder = document.createElement('div')
+                elementFinder.innerHTML = html
+
+                const elements = Array.from(elementFinder.children)
+                elements.forEach(
+                    elem => {
+                        users_container.insertAdjacentElement(
+                            'beforeend', elem
+                        )
+                        setUserButton({
+                            form: elem.querySelector('.follow_button__form'),
+                            follow_button: elem.querySelector('.follow_button__button'),
+                            username: elem.querySelector('.user__info-username-link-username'),
+                        })
+                    }
+                )
+            }
+
+            const loading_icon = document.querySelector('.loading_icon')
+            loading_icon.remove()
+        }_()
+
+        const extraMargin = 0
+
+        let blockRequest = false
+        let emptyPage = false
+        let page = 1 + 1
+
+        let elem
+        let isFirst = true
+        let created = false
+
+        window.onscroll = () => {
+            if (!blockRequest && !emptyPage) {
+                const offset = elem => elem.getBoundingClientRect().top
+
+                if (isFirst) {
+                    elem = document.querySelector('[hx-trigger="revealed"]')
+                    isFirst = false
+                } else if (!created) {
+                    created = true
+                    setTimeout(() => {
+                        created = false
+                        elem = document.querySelector('[hx-trigger="revealed"]')
+                    }, 100)
+                }
+                const clientHeight = document.documentElement.clientHeight
+                const last_post = elem ? offset(elem) : clientHeight+1
+                const margin = last_post - extraMargin
+
+                if (clientHeight > margin) {
+
+                    users_container.insertAdjacentHTML(
+                        'beforeend',
+                        `{% include 'shared/loading_icon.html' %}`
+                    )
+
+                    console.log(elem)
+                    elem && elem.removeAttribute('hx-trigger')
+                    blockRequest = true
+                    page++
+                    console.log(page)
+
+                    {async function _() {
+                        const url = `{% url 'account:download_users' %}`
+                        const response = await axios.get(
+                            `${url}?&page=${page}`
+                        )
+                        const html = response.data
+
+                        if (html === '') {
+                            emptyPage = true
+                        } else {
+                            const elementFinder = document.createElement('div')
+                            elementFinder.innerHTML = html
+
+                            const elements = Array.from(elementFinder.children)
+                            elements.forEach(
+                                elem => {
+                                    users_container.insertAdjacentElement(
+                                        'beforeend', elem
+                                    )
+                                    setUserButton({
+                                        form: elem.querySelector('.follow_button__form'),
+                                        follow_button: elem.querySelector('.follow_button__button'),
+                                        username: elem.querySelector('.user__info-username-link-username'),
+                                    })
+                                }
+                            )
+
+                            blockRequest = false
+                        }
+
+                        const loading_icon = document.querySelector('.loading_icon')
+                        loading_icon.remove()
+                    }_()}
+                }
+            }
+        }
+    })
+</script>

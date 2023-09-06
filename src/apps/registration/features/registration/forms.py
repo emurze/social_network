@@ -33,6 +33,15 @@ class RegistrationForm(forms.ModelForm):
             'username': forms.TextInput(attrs={'placeholder': 'Username'}),
         }
 
+    def clean_username(self) -> str:
+        cd = self.cleaned_data
+
+        username = cd.get('username')
+        if len(username) > 25:
+            raise forms.ValidationError('Username should be less then 26')
+
+        return username
+
     def clean_password(self):
         cd = self.cleaned_data
 

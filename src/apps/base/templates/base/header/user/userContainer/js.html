@@ -9,6 +9,7 @@
             user_down_arrow,
             user_up_arrow,
         )
+        setTimeout(() => window.addEventListener('click', removeMenu), 0)
     }
     function removeMenu() {
         remove_elems(
@@ -16,5 +17,6 @@
             user_up_arrow,
         )
         show_elem(user_down_arrow)
+        setTimeout(() => window.removeEventListener('click', removeMenu), 0)
     }
 </script>

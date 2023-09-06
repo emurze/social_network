@@ -1,5 +1,6 @@
 import logging
 
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.handlers.wsgi import WSGIRequest
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
@@ -119,6 +120,7 @@ def download_replies_by_slice(request: WSGIRequest) -> HttpResponse:
         return render(request, template_name, context)
 
 
+@login_required
 @require_GET
 def download_posts(request: WSGIRequest) -> HttpResponse:
     _request = request

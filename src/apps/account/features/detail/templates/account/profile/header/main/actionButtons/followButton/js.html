@@ -17,9 +17,11 @@
         }
         async function send_post() {
             const response = await axios.post(url, form, {headers})
-            follow_button.innerHTML = response.data.action
+            const new_action = response.data.action
 
-            console.log(response.data)
+            follow_button.innerHTML = new_action
+            follow_button.style.backgroundColor =
+                new_action === 'Follow' ? 'rgb(1, 135, 180)' : 'red'
         }
         send_post()
     }

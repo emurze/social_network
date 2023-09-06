@@ -6,9 +6,7 @@
         <a href="{% url 'account:detail' user.username %}"
            class="user__info-username-link">
 
-            {# don't touch #}
             <span class="user__info-username-link-username">{{ user.username }}</span>
-            {# don't touch #}
 
             {% if user.is_staff %}
                 <span style="position: relative; right: 5px;">
@@ -24,7 +22,8 @@
         <div class="follow_button">
             <form method="POST" class="follow_button__form">
                 {% csrf_token %}
-                <button class="follow_button__button" type="submit">
+                <button class="follow_button__button {% if user.action == 'Unfollow' %}follow_button__button--active{% endif %}"
+                        type="submit">
                     {{ user.action }}
                 </button>
             </form>

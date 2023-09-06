@@ -23,3 +23,12 @@ class AccountEditForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ('username', 'description', 'birthday', 'gender', 'photo')
+
+    def clean_username(self) -> str:
+        cd = self.cleaned_data
+
+        username = cd.get('username')
+        if len(username) > 25:
+            raise forms.ValidationError('Username should be less then 26')
+
+        return username
