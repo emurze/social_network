@@ -1,25 +1,57 @@
-<div class="followings__pagination">
-    <span class="followings__pagination-left_arrow followings__pagination-arrow"
-          onclick="">
-        {% if following_users.has_previous %}
-            {% include 'shared/left_arrow.html' with left_arrow_width=10 left_arrow_height=10 %}
-        {% endif %}
+<div class="followings_pagination_blank"></div>
+<div class="followings_pagination no_select">
+
+    {% if following_users.has_previous %}
+        <span class="previous_arrow previous_arrow--base"
+              data-previous="{{ following_users.previous_page_number }}">
+            {% include 'shared/followings/left_arrow.html' %}
+        </span>
+    {% else %}
+        <span class="previous_arrow--base">
+            {% include 'shared/followings/left_arrow.html' %}
+        </span>
+    {% endif %}
+
+    {% if following_users.number|add:'-3' > 0 %}
+        <span class="full_left">...</span>
+    {% endif %}
+    {% if following_users.number|add:'-2' > 0 %}
+        <span class="followings__pagination-item">
+            {{ following_users.number|add:'-2' }}
+        </span>
+    {% endif %}
+    {% if following_users.number|add:'-1' > 0 %}
+        <span class="followings__pagination-item">
+            {{ following_users.number|add:'-1' }}
+        </span>
+    {% endif %}
+
+    <span class="followings__pagination-current_item">
+        {{ following_users.number }}
     </span>
 
-
-    <span class="followings__pagination-range">
-        {% for page_number in following_users.paginator.page_range %}
-            <span class="followings__pagination-item
-                         {% if page_number == page %}followings__pagination-item--active{% endif %}">
-                {{ page_number }}
-            </span>
-        {% endfor %}
-    </span>
+    {% if following_users.number|add:'1' <= following_users.paginator.num_pages %}
+        <span class="followings__pagination-item">
+            {{ following_users.number|add:'1' }}
+        </span>
+    {% endif %}
+    {% if following_users.number|add:'2' <= following_users.paginator.num_pages %}
+        <span class="followings__pagination-item">
+            {{ following_users.number|add:'2' }}
+        </span>
+    {% endif %}
+    {% if following_users.number|add:'3' <= following_users.paginator.num_pages %}
+        <span class="full_right">...</span>
+    {% endif %}
 
     {% if following_users.has_next %}
-        <span class="followings__pagination-right_arrow followings__pagination-arrow"
-              onclick="">
-            {% include 'shared/right_arrow.html' with right_arrow_width=10 right_arrow_height=10 %}
+        <span class="next_arrow next_arrow--base"
+              data-next="{{ following_users.next_page_number }}">
+            {% include 'shared/followings/right_arrow.html' %}
+        </span>
+    {% else %}
+        <span class="next_arrow--base">
+            {% include 'shared/followings/right_arrow.html' %}
         </span>
     {% endif %}
 

@@ -1,28 +1,29 @@
 <style>
-    .followings__pagination {
-        position: relative;
-        right: 10px;
-        font-size: 15px;
+    .followings_pagination_blank {height: 30px}
+    .followings_pagination {
+        display: flex;
+        gap: 4px;
+        font-size: 15.5px;
+        color: #2a2a2a;
+        position: absolute;
+        bottom: 5px;
+        left: 10px;
     }
-    .followings__pagination-arrow {
-        display: inline-block;
-        width: 20px;
-        height: 10px;
+
+    .followings__pagination-item,
+    .full_right, .full_left {
+        cursor: pointer;
+    }
+
+    .followings__pagination-current_item {
+        font-weight: bold;
+    }
+
+    .next_arrow--base,
+    .previous_arrow--base {
         cursor: pointer;
         padding: 5px;
         position: relative;
-        border-radius: 50%;
-    }
-    .followings__pagination-arrow:hover {
-        background-color: gray;
-    }
-    .followings__pagination-left_arrow {left: 5px;}
-    .followings__pagination-right_arrow {right: 5px;}
-    .followings__pagination-range {}
-    .followings__pagination-item {cursor: pointer;}
-    .followings__pagination-item--active {
-        color: black;
-        font-size: 16px;
-        cursor: inherit;
+        bottom: 5px;
     }
 </style>

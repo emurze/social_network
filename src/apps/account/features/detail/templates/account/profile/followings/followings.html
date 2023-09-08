@@ -1,11 +1,8 @@
 <div class="profile__followings">
-
     {% if not user.followings.exists %}
-        <div style="padding: 2px 0">No followings yet</div>
+        <div class="no_followings_yet">No followings yet</div>
     {% else %}
         <div class="profile__followings-title">Followings</div>
+        {% include 'account/profile/followings/followingContent/followingContent.html' %}
     {% endif %}
-
-    {% include 'account/profile/followings/followingContent/followingContent.html' %}
-
 </div>
