@@ -126,10 +126,13 @@ def download_posts(request: WSGIRequest) -> HttpResponse:
     _request = request
 
     posts = AddPostQuerysetMixin().get_queryset()
+
+    if user_id := request.GET.get('user_id'):
+        posts = posts.filter(user_id=user_id)
+
     paginator = Paginator(posts, settings.REQUEST_POST_COUNT)
 
     page = request.GET.get('page')
-
     try:
         posts = paginator.page(page)
     except (EmptyPage, PageNotAnInteger):

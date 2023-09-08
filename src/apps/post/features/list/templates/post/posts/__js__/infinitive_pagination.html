@@ -42,9 +42,11 @@
                     page++
 
                     {async function _() {
+                        const isUserPage = Boolean(`{{ is_user_posts }}`)
                         const url = `{% url 'post:download_posts' %}`
                         const response = await axios.get(
-                            `${url}?&page=${page}`
+                             isUserPage ? `${url}?&page=${page}&user_id={{ user.id }}`
+                                        : `${url}?&page=${page}`
                         )
                         const html = response.data
 

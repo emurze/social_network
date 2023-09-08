@@ -18,6 +18,6 @@ urlpatterns = [
     path('profile/<slug:username>/', AccountDetailView.as_view(),
          name='detail'),
     path('profile/<slug:username>/follow/', follow_detail, name='follow'),
-    path('profile/follow_pagination/', follow_pagination,
+    path('profile/follow_pagination/<int:user_id>/', follow_pagination,
          name='follow_pagination')
 ]

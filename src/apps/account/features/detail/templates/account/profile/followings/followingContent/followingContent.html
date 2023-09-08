@@ -1,0 +1,9 @@
+<div class="following__content">
+
+    {% include 'account/profile/followings/generatedFollowingList/generatedFollowingList.html' %}
+
+    {% if user.followings.exists %}
+        {% include 'account/profile/followings/followingContent/pagination/pagination.html' %}
+    {% endif %}
+
+</div>

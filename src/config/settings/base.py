@@ -99,6 +99,8 @@ REQUEST_REPLY_COUNT = 8
 
 REQUEST_USER_COUNT = 30
 
+DEFAULT_SHOWED_FOLLOWINGS_PAGE = 1
+
 # if DEBUG:
 #     import socket  # only if you haven't already imported this
 #     hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())

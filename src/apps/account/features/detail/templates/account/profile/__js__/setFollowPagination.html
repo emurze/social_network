@@ -1,6 +1,32 @@
 <script defer>
-    function setFollowPagination() {
-        console.log(1)
+    const following_content = document.querySelector('.following__content')
+
+    function setFollowPagination(pagination_items) {
+        const url = `{% url 'account:follow_pagination' user.id %}`
+
+        for (let item of pagination_items) {
+            item.onclick = function() {
+                const page = this.innerHTML
+                async function _() {
+                    const response = await axios.get(
+                        `${url}?page=${page}`
+                    )
+                    const following_elem = document.createElement('div')
+                    following_elem.innerHTML = response.data
+
+                    console.log(response.data)
+                    console.log(`set ${page}`)
+                    setFollowPagination(
+                        following_elem.querySelectorAll('.followings__pagination-item')
+                    )
+
+                    following_content.innerHTML = ''
+                    following_content.append(following_elem)
+                }_()
+            }
+        }
     }
-    setFollowPagination()
+    setFollowPagination(
+        document.querySelectorAll('.followings__pagination-item')
+    )
 </script>

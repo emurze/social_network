@@ -29,8 +29,13 @@
        display: flex;
        transition: .2s;
        cursor: pointer;
-       margin-bottom: 15px;
-       border-radius: 15px;
+       margin-bottom: 5px;
+       border-radius: 20px;
+       padding: 10px;
+
+       position: relative;
+       right: 10px;
+       {#padding-right: 8px;#}
    }
    .following_user:last-child {margin-bottom: 0;}
    .following_user:hover {
@@ -48,3 +53,5 @@
        border-radius: 50%;
    }
 </style>
+
+{% include 'account/profile/followings/followingContent/pagination/css.html' %}
