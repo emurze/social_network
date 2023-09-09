@@ -26,6 +26,8 @@ class Account(AbstractUser):
     followings = models.ManyToManyField('self', through='Contract',
                                         symmetrical=False,
                                         related_name='followers')
+    cover = models.ImageField(blank=True, null=True,
+                              upload_to='accounts/cover/%Y/%m/%d/')
 
     def get_absolute_url(self):
         return reverse('account:detail', args=(self.username,))

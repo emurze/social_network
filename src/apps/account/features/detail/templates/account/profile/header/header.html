@@ -7,7 +7,9 @@
 
     {% include 'account/profile/header/cover/cover.html' %}
 
-    {% include 'account/profile/header/editCoverButton/editCoverButton.html' %}
+    {% if is_owner %}
+        {% include 'account/profile/header/editCoverButton/editCoverButton.html' %}
+    {% endif %}
 
     {% include 'account/profile/header/main/main.html'  %}
 

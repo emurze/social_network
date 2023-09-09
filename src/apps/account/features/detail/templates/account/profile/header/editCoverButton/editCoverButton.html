@@ -1,6 +1,7 @@
 {% load static %}
 <div class="edit_cover_button">
-    <img src="{% static 'base/css/change_cover.baseButton' %}"
-         width="15px" height="15px" alt="">
-    <button>Change cover</button>
+    <label for="cover_file_loader" class="edit_cover_button-button">
+        Change cover
+    </label>
+    <input type="file" id="cover_file_loader" class="cover_file_loader">
 </div>

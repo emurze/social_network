@@ -2,6 +2,7 @@ import logging
 
 from django.conf import settings
 
+from apps.account.features.detail.forms import EditCoverForm
 from apps.account.features.detail.services.get_followings_paginator import \
     get_followings_paginator
 from apps.post.features.list.mixins import AddPostQuerysetMixin

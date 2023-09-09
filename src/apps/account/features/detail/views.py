@@ -10,6 +10,7 @@ from django.shortcuts import get_object_or_404, render
 from django.views.decorators.http import require_POST, require_GET
 from django.views.generic import DetailView
 
+from apps.account.features.detail.forms import EditCoverForm
 from apps.account.features.detail.mixins import AddUserPosts, \
     LikeActionAccountDetailMixin, AddFollowingUsersMixin
 from apps.account.features.detail.services.get_followings_paginator import \
@@ -72,3 +73,20 @@ def follow_pagination(request: WSGIRequest, user_id: int) -> HttpResponse:
     template_name = 'account/profile/followings/followingContent/followingContent.html'
     return render(request, template_name, context)
 
+
+@login_required
+@require_POST
+def edit_cover(request: WSGIRequest, username: str) -> HttpResponse:
+    user = get_object_or_404(User, username=username)
+    form = EditCoverForm(
+        instance=user,
+        data=request.POST,
+        files=request.FILES,
+    )
+
+    if form.is_valid():
+        form.save()
+    else:
+        lg.warning('User edit form without data.')
+
+    return HttpResponse('')

@@ -14,9 +14,7 @@
             {% include 'account/users/userListGenerated/userListGenerated.html' with no_last_target=True %}
         </div>
 
-        <div class="users__filters">
-            FILTERS
-        </div>
+        {% include 'account/users/filters/filters.html' %}
 
     </div>
 {% endblock %}

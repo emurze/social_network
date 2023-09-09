@@ -6,7 +6,7 @@
         border-radius: 15px;
         height: 100%;
         margin: 18px auto;
-        max-width: 1280px;
+        max-width: 1180px;
     }
 
     .users__container {
@@ -27,11 +27,12 @@
         position: sticky;
         top: 65px;
 
-        border-radius: 12px;
-        padding: 10px 20px;
         margin-right: 15px;
-        background-color: #e3e4e5;
         max-height: 400px;
+
+        {#box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, .01);#}
+        {#border: 1px solid rgb(208, 208, 208);#}
+        {#border-radius: 15px;#}
     }
 
     @media (max-width: 1420px) {
@@ -56,4 +57,6 @@
         .users__container {width: 360px;}
     }
 </style>
+
 {% include 'account/users/user/css.html' %}
+{% include 'account/users/filters/css.html' %}

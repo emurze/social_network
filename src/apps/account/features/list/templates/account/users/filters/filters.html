@@ -1,0 +1,13 @@
+<div class="filters">
+    <form method="POST" style="display: flex; align-items: center;">
+        <div class="filters__search">
+            <input type="text"
+                   placeholder="Search"/>
+        </div>
+        <div class="filters__search_button">
+            <button class="filters__search_button-button">
+                {% include 'shared/search.html' with search_width=20 search_height=20 %}
+            </button>
+        </div>
+    </form>
+</div>

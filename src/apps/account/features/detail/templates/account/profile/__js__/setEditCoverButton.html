@@ -1,0 +1,48 @@
+<script defer>
+    document.addEventListener('DOMContentLoaded', () => {
+        const csrf_token_input = document.querySelector("input[name='csrfmiddlewaretoken']")
+        const csrf_token = csrf_token_input ? csrf_token_input.value : null
+
+        const cover_file_loader = document.getElementById('cover_file_loader')
+
+        const profile_header_cover_image = document.querySelector('.profile__header-cover-base_image') ||
+                                           document.querySelector('.profile__header-cover-image')
+
+        cover_file_loader.onchange = function() {
+            const input = this
+            const files = input.files
+            const reader = []
+
+            for (let i in files) {
+                if (files.hasOwnProperty(i)) {
+                    const name = 'file' + i
+
+                    reader[i] = new FileReader()
+                    reader[i].readAsDataURL(input.files[i])
+
+                    const form = new FormData()
+                    form.append('cover', input.files[0])
+
+                    const headers = {
+                        'X-CSRFToken': csrf_token,
+                        'Content-Type': `multipart/form-data;
+                         boundary=${form._boundary}`
+                    }
+                    async function _() {
+                        const url = `{% url 'account:edit_cover' user.username %}`
+                        const response = await axios.post(url, form, {headers})
+
+                        console.log(response)
+                    }_()
+
+                    reader[i].onload = e => {
+                        profile_header_cover_image.innerHTML =
+                            '<img id="'+ name +'" src="" alt="" ' +
+                            'class="profile__header-cover-image-img" />'
+                        document.getElementById(name).src = e.target.result
+                    }
+                }
+            }
+        }
+    })
+</script>

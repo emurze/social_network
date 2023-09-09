@@ -2,28 +2,39 @@
     .followings_pagination_blank {height: 30px}
     .followings_pagination {
         display: flex;
-        gap: 4px;
         font-size: 15.5px;
         color: #2a2a2a;
         position: absolute;
-        bottom: 5px;
+        bottom: 15px;
         left: 10px;
     }
 
     .followings__pagination-item,
     .full_right, .full_left {
         cursor: pointer;
+        padding: 3px;
     }
 
     .followings__pagination-current_item {
         font-weight: bold;
+        padding: 3px;
     }
 
     .next_arrow--base,
     .previous_arrow--base {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: .2s;
         cursor: pointer;
-        padding: 5px;
+        height: 20px;
+        padding: 0 7px;
         position: relative;
-        bottom: 5px;
+        top: 3px;
+        border-radius: 50%;
+    }
+    .next_arrow--base:hover,
+    .previous_arrow--base:hover {
+        background-color: #f6f2f2;
     }
 </style>
