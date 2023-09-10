@@ -23,7 +23,7 @@
                     }
 
                     async function executeLikeAction() {
-                        const url = `{% url 'post:execute_like_action' %}`
+                        const url = `{% url 'post:like_post' %}`
                         const response = await axios.post(url, form, {headers})
                         const new_like_action = response.data.action
 

@@ -2,14 +2,14 @@
     function setShowMore({replies_list_all_set, replies_first_set, replies_show_more_set, post_id_set}) {
         zip(replies_list_all_set, replies_first_set, replies_show_more_set, post_id_set).forEach(
             ([replies_set, reply_first, show_more, post_id]) => {
-                let my_counter = 0
+                let page = 0
                 let stop_request = false;
 
                 show_more.onclick = () => {
                     const form = new FormData()
-                    form.append('slice', my_counter)
+                    form.append('page', page)
                     form.append('post_id', post_id.innerHTML)
-                    my_counter++
+                    page++
 
                     const headers = {
                         'X-CSRFToken': csrf_token,
@@ -19,7 +19,7 @@
 
                     if (!stop_request) {
                         async function _() {
-                            const url = `{% url 'post:download_replies_by_slice' %}`
+                            const url = `{% url 'post:download_replies' %}`
                             const response = await axios.post(url, form, {headers})
 
                             if (!response.data.completion) {

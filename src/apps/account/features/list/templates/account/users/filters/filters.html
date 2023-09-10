@@ -1,13 +1,85 @@
-<div class="filters">
-    <form method="POST" style="display: flex; align-items: center;">
-        <div class="filters__search">
-            <input type="text"
-                   placeholder="Search"/>
-        </div>
-        <div class="filters__search_button">
-            <button class="filters__search_button-button">
-                {% include 'shared/search.html' with search_width=20 search_height=20 %}
-            </button>
-        </div>
-    </form>
+<div class="users__filters filters">
+
+    <section class="users__filters-search">
+        <form method="POST" style="display: flex; align-items: center;">
+            <div class="filters__search">
+                <input type="text" placeholder="Search" />
+            </div>
+            <div class="filters__search_button">
+                <button class="filters__search_button-button">
+                    {% include 'shared/search.html' with search_width=23 search_height=23 %}
+                </button>
+            </div>
+        </form>
+    </section>
+
+    <section class="users__filters-tags">
+        <form method="POST">
+            <div class="tags__gender"
+                 style="display: flex; justify-content: space-between;
+                        margin-bottom: 10px;">
+                <div style="margin-right: 20px;">
+                    Gender
+                </div>
+
+                <div class="choices">
+                    <label for="male" style="display: block;">
+                        <input type="radio" id="male" name="gender" value="ML"
+                               style="position: relative; right: 3px;"/>
+                        Male
+                    </label>
+
+                    <label for="female" style="display: block;">
+                        <input type="radio" id="female" name="gender" value="FL"
+                                style="position: relative; right: 3px;"/>
+                        Female
+                    </label>
+
+                    <label for="custom" style="display: block;">
+                        <input type="radio" id="custom" name="gender" value="custom"
+                               style="position: relative; right: 3px;"/>
+                        Custom
+                    </label>
+                </div>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                <div>Age</div>
+
+                <div style="margin-right: 5px;">
+                    <label for="young" style="display: block;">
+                        <input type="checkbox" id="young" name="gender" value="ML"
+                               style="position: relative; right: 3px; top: 1px;"/>
+                        10 - 18
+                    </label>
+
+                    <label for="adult-young" style="display: block;">
+                        <input type="checkbox" id="adult-young" name="gender" value="FL"
+                                style="position: relative; right: 3px; top: 1px;"/>
+                        18 - 26
+                    </label>
+
+                    <label for="adult" style="display: block;">
+                        <input type="checkbox" id="adult" name="gender" value="custom"
+                               style="position: relative; right: 3px; top: 1px;"/>
+                        26 - 34
+                    </label>
+
+                    <label for="post-adult" style="display: block;">
+                        <input type="checkbox" id="post-adult" name="gender" value="custom"
+                               style="position: relative; right: 3px;"/>
+                        34+
+                    </label>
+               </div>
+            </div>
+
+            <div style="text-align: end;">
+                <button style="padding: 7px 20px; width: 100%;
+                               border-radius: 15px; font-size: 15px;
+                               position: relative; top: 3px;
+                               background-color: rgb(7,154,203);; font-weight: bold; color: #ffffff;">Find</button>
+            </div>
+        </form>
+    </section>
+
 </div>

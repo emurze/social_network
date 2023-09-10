@@ -15,14 +15,14 @@
                 const last_image = document.querySelector('.posts__create_post-description-new_photo')
                 last_image && last_image.remove()
 
-                description_wrapper.insertAdjacentHTML(
-                    'beforeend',
-                    '<div class="posts__create_post-description-new_photo">' +
-                    '<img id="'+ name +'" src="" alt="" class="posts__create_post-description-new_photo-img" />' +
-                    '</div>'
-                )
-
                 reader[i].onload = e => {
+                    description_wrapper.insertAdjacentHTML(
+                        'beforeend',
+                        '<div class="posts__create_post-description-new_photo">' +
+                        '<img id="'+ name +'" src="" alt="" class="posts__create_post-description-new_photo-img" />' +
+                        '</div>'
+                    )
+
                     const photo_elem = document.getElementById(name)
                     photo_elem.src = e.target.result
                 }

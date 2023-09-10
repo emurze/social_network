@@ -1,11 +1,7 @@
-import logging
-
 from django.db import models
 
 from django.contrib.auth.models import AbstractUser
 from django.urls import reverse
-
-lg = logging.getLogger(__name__)
 
 
 class Account(AbstractUser):
@@ -23,11 +19,14 @@ class Account(AbstractUser):
                               blank=True, null=True, verbose_name='Avatar')
     birthday = models.DateField(null=True)
     gender = models.CharField(max_length=2, choices=Gender.choices)
-    followings = models.ManyToManyField('self', through='Contract',
+    followings = models.ManyToManyField('self', through='FollowContract',
                                         symmetrical=False,
                                         related_name='followers')
     cover = models.ImageField(blank=True, null=True,
                               upload_to='accounts/cover/%Y/%m/%d/')
+
+    def get_followings(self):
+        return self.followings.order_by('-username')
 
     def get_absolute_url(self):
         return reverse('account:detail', args=(self.username,))
@@ -36,7 +35,7 @@ class Account(AbstractUser):
         return self.username
 
 
-class Contract(models.Model):
+class FollowContract(models.Model):
     user_from = models.ForeignKey(Account, on_delete=models.CASCADE,
                                   related_name='rel_from_set')
     user_to = models.ForeignKey(Account, on_delete=models.CASCADE,

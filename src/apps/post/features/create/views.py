@@ -10,8 +10,6 @@ from apps.post.features.create.forms import PostForm
 from apps.post.features.list.forms import ReplyForm
 from apps.post.services.like.action import LikeAction
 
-lg = logging.getLogger(__name__)
-
 
 @login_required
 @require_POST

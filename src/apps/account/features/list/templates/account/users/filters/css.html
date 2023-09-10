@@ -1,19 +1,35 @@
 <style>
     .filters {}
 
-    .filters__search {
-
-    }
+    .filters__search {}
     .filters__search input {
-        font-size: 18px;
-        max-width: 150px;
+        font-size: 17px;
+        max-width: 130px;
+        {#padding-right: 7px;#}
+        color: #313030;
     }
     .filters__search_button {}
     .filters__search_button-button {
+        transition: .25s;
         font-weight: bold;
         background-color: transparent;
+        display: flex;
+        align-items: center;
+        padding: 7px;
+        border-radius: 50%;
+
+        position: relative;
+        left: 4px;
     }
+    .filters__search_button-button:hover {
+        background-color: rgba(200, 200, 200, 0.20)
+    }
+    .filters__search_button-button:hover svg {
+        fill: #333131;
+    }
+
     .filters__search_button-button svg {
         {#background-color: red;#}
+        fill: #6c6c6c;
     }
 </style>

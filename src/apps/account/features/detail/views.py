@@ -1,23 +1,23 @@
 import logging
 
+from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.handlers.wsgi import WSGIRequest
-from django.core.paginator import EmptyPage, PageNotAnInteger
 from django.http import JsonResponse, HttpResponse
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404
 from django.views.decorators.http import require_POST, require_GET
 from django.views.generic import DetailView
 
 from apps.account.features.detail.forms import EditCoverForm
 from apps.account.features.detail.mixins import AddUserPosts, \
     LikeActionAccountDetailMixin, AddFollowingUsersMixin
-from apps.account.features.detail.services.get_followings_paginator import \
-    get_followings_paginator
 from apps.account.mixins import ProfileSelectedMixin
 from apps.account.services.follow.dispatcher import dispatch_follow_action
 from apps.account.services.follow.mixins import FollowActionDetailMixin
+from apps.account.services.page_downloader.page_downloader import \
+    PageQuerySetDownloader
 from apps.post.features.list.mixins import AddReplyFormMixin, AddPostForm
 
 User = get_user_model()
@@ -57,21 +57,22 @@ class AccountDetailView(
 @require_GET
 def follow_pagination(request: WSGIRequest, user_id: int) -> HttpResponse:
     user = get_object_or_404(User, id=user_id)
-    paginator = get_followings_paginator(user=user)
-
     page = request.GET.get('page')
-    try:
-        following_users = paginator.page(page)
-    except (EmptyPage, PageNotAnInteger):
-        return HttpResponse('')
 
-    context = {
-        'user': user,
-        'page': int(page),  # for page_number == page
-        'following_users': following_users,
-    }
-    template_name = 'account/profile/followings/followingContent/followingContent.html'
-    return render(request, template_name, context)
+    downloader = PageQuerySetDownloader(
+        request=request,
+        page=page,
+        queryset=user.get_followings(),
+        per_page_count=settings.REQUEST_FOLLOWINGS_COUNT,
+        context_object_name='following_users',
+        template_name='account/profile/followings/followingContent/'
+                      'followingContent.html',
+        extra_context={
+            'user': user,
+            'page': int(page)
+        },
+    )
+    return downloader.render()
 
 
 @login_required
@@ -83,10 +84,8 @@ def edit_cover(request: WSGIRequest, username: str) -> HttpResponse:
         data=request.POST,
         files=request.FILES,
     )
-
     if form.is_valid():
         form.save()
     else:
         lg.warning('User edit form without data.')
-
-    return HttpResponse('')
+        return HttpResponse('')

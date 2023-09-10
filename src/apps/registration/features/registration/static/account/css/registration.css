@@ -141,7 +141,7 @@ select[id="id_birthday_year"] {width: 33%;}
 .errorlist {
     width: 310px;
     font-size: 13px;
-    height: 26px;
+    height: 0;
     color: #f80101;
     text-align: start;
     padding-left: 5px;

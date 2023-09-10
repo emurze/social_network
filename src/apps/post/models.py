@@ -6,6 +6,8 @@ from django.db import models, IntegrityError
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 
+from apps.post.dal import PostDAL
+
 User = get_user_model()
 lg = logging.getLogger(__name__)
 
@@ -14,10 +16,6 @@ class Post(models.Model):
     class Status(models.TextChoices):
         PUBLISHED = ('PB', 'Published')
         DRAFT = ('DF', 'Draft')
-
-    class Action(models.TextChoices):
-        LIKE = ('LK', 'Like')
-        UNLIKE = ('UK', 'Unlike')
 
     user = models.ForeignKey(User, on_delete=models.CASCADE,
                              related_name='posts')
@@ -31,6 +29,8 @@ class Post(models.Model):
                               default=Status.PUBLISHED)
     liked_users = models.ManyToManyField(User, through='LikeContract',
                                          related_name='liked_posts')
+
+    objects = PostDAL()
 
     class Meta:
         ordering = ('-created',)
