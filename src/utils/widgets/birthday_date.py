@@ -1,13 +1,16 @@
 import datetime
 
+from django.conf import settings
 from django.forms import SelectDateWidget
-
-NOW = datetime.date.today().year
-OLDER_HUMAN = 122
 
 
 class BirthdayDateWidget(SelectDateWidget):
-    years = tuple(reversed(range(NOW - OLDER_HUMAN, NOW)))
+    years = tuple(
+        reversed(
+            range(settings.CURRENT_YEAR - settings.OLDEST_HUMAN,
+                  settings.CURRENT_YEAR)
+        )
+    )
     is_required = False
 
     def __init__(self, attrs=None, years=None, months=None, empty_label=None):

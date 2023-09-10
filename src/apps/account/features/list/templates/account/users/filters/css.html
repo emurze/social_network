@@ -27,9 +27,65 @@
     .filters__search_button-button:hover svg {
         fill: #333131;
     }
-
     .filters__search_button-button svg {
         {#background-color: red;#}
         fill: #6c6c6c;
+    }
+
+
+    .search_gender {
+        display: flex;
+        justify-content: space-between;
+    }
+    .search_gender__title {}
+    .search_gender__choices {}
+    .search_gender__label {
+        display: block;
+        position: relative;
+    }
+    .search_gender__label:nth-child(2) {bottom: 3px;}
+    .search_gender__label:nth-child(3) {bottom: 6px;}
+    .search_gender__label-input {
+        position: relative;
+        right: 3px;
+        top: 1px;
+    }
+
+    .search_age {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: -10px;
+    }
+    .search_age__title {}
+    .search_age__choices {
+        margin-right: 5px;
+        margin-bottom: 5px;
+    }
+    .search_age__label {
+        display: block;
+        position: relative;
+    }
+    .search_age__label:nth-child(2) {bottom: 3px;}
+    .search_age__label:nth-child(3) {bottom: 6px;}
+    .search_age__label:nth-child(4) {bottom: 9px;}
+    .search_age__label-input {
+        position: relative;
+        right: 3px;
+        top: 1px;
+    }
+
+    .find_button {
+        text-align: end;
+    }
+    .find_button-button {
+        padding: 7px 20px;
+        width: 100%;
+        border-radius: 15px;
+        font-size: 15px;
+        position: relative;
+        top: 3px;
+        background-color: rgb(7,154,203);;
+        font-weight: bold;
+        color: #ffffff;
     }
 </style>

@@ -1,3 +1,4 @@
+import datetime
 import os
 from pathlib import Path
 
@@ -103,6 +104,9 @@ REQUEST_USER_COUNT = 30
 DEFAULT_SHOWED_FOLLOWINGS_PAGE = 1
 DEFAULT_FOLLOWINGS_COUNT = 8
 REQUEST_FOLLOWINGS_COUNT = 8
+
+OLDEST_HUMAN = 122
+CURRENT_YEAR = datetime.date.today().year
 
 # if DEBUG:
 #     import socket  # only if you haven't already imported this

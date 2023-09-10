@@ -3,6 +3,8 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.urls import reverse
 
+from apps.account.dal import AccountDAL
+
 
 class Account(AbstractUser):
     class Gender(models.TextChoices):
@@ -24,6 +26,8 @@ class Account(AbstractUser):
                                         related_name='followers')
     cover = models.ImageField(blank=True, null=True,
                               upload_to='accounts/cover/%Y/%m/%d/')
+
+    ext_objects = AccountDAL()
 
     def get_followings(self):
         return self.followings.order_by('-username')

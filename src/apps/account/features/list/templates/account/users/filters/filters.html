@@ -14,70 +14,63 @@
     </section>
 
     <section class="users__filters-tags">
-        <form method="POST">
-            <div class="tags__gender"
-                 style="display: flex; justify-content: space-between;
-                        margin-bottom: 10px;">
-                <div style="margin-right: 20px;">
-                    Gender
-                </div>
+        <form method="POST" name="filters_form">
+            <div class="search_gender">
+                <div class="search_gender__title">Gender</div>
 
-                <div class="choices">
-                    <label for="male" style="display: block;">
-                        <input type="radio" id="male" name="gender" value="ML"
-                               style="position: relative; right: 3px;"/>
+                <div class="search_gender__choices">
+                    <label for="male" class="search_gender__label">
+                        <input type="checkbox" id="male" name="gender" value="ML"
+                               class="search_gender__label-input"/>
                         Male
                     </label>
 
-                    <label for="female" style="display: block;">
-                        <input type="radio" id="female" name="gender" value="FL"
-                                style="position: relative; right: 3px;"/>
+                    <label for="female" class="search_gender__label">
+                        <input type="checkbox" id="female" name="gender" value="FL"
+                               class="search_gender__label-input"/>
                         Female
                     </label>
 
-                    <label for="custom" style="display: block;">
-                        <input type="radio" id="custom" name="gender" value="custom"
-                               style="position: relative; right: 3px;"/>
+                    <label for="custom" class="search_gender__label">
+                        <input type="checkbox" id="custom" name="gender" value="CM"
+                               class="search_gender__label-input"/>
                         Custom
                     </label>
                 </div>
             </div>
 
-            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                <div>Age</div>
+            <div class="search_age">
+                <div class="search_age__title">Age</div>
 
-                <div style="margin-right: 5px;">
-                    <label for="young" style="display: block;">
-                        <input type="checkbox" id="young" name="gender" value="ML"
-                               style="position: relative; right: 3px; top: 1px;"/>
+                <div class="search_age__choices">
+                    <label for="young" class="search_age__label">
+                        <input type="checkbox" id="young" name="age" value="Y"
+                               class="search_age__label-input"/>
                         10 - 18
                     </label>
 
-                    <label for="adult-young" style="display: block;">
-                        <input type="checkbox" id="adult-young" name="gender" value="FL"
-                                style="position: relative; right: 3px; top: 1px;"/>
+                    <label for="young-adult" class="search_age__label">
+                        <input type="checkbox" id="young-adult" name="age" value="YA"
+                               class="search_age__label-input"/>
                         18 - 26
                     </label>
 
-                    <label for="adult" style="display: block;">
-                        <input type="checkbox" id="adult" name="gender" value="custom"
-                               style="position: relative; right: 3px; top: 1px;"/>
+                    <label for="adult" class="search_age__label">
+                        <input type="checkbox" id="adult" name="age" value="A"
+                               class="search_age__label-input"/>
                         26 - 34
                     </label>
 
-                    <label for="post-adult" style="display: block;">
-                        <input type="checkbox" id="post-adult" name="gender" value="custom"
-                               style="position: relative; right: 3px;"/>
+                    <label for="post-adult" class="search_age__label">
+                        <input type="checkbox" id="post-adult" name="age" value="PA"
+                               class="search_age__label-input"/>
                         34+
                     </label>
                </div>
             </div>
 
-            <div style="text-align: end;">
-                <button style="padding: 7px 20px; width: 100%;
-                               border-radius: 15px; font-size: 15px;
-                               position: relative; top: 3px;
-                               background-color: rgb(7,154,203);; font-weight: bold; color: #ffffff;">Find</button>
+            <div class="find_button">
+                <button type="submit" class="find_button-button">Find</button>
             </div>
         </form>
     </section>
