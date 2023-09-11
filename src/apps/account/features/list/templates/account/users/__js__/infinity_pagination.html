@@ -1,5 +1,5 @@
 <script defer>
-    window.addEventListener('DOMContentLoaded', () => {
+    function infinityPaginationHandler(url, query_strings = '') {
         const users_container = document.querySelector('.users__container')
         async function _() {
             users_container.insertAdjacentHTML(
@@ -72,16 +72,16 @@
                         `{% include 'shared/loading_icon.html' %}`
                     )
 
-                    console.log(elem)
                     elem && elem.removeAttribute('hx-trigger')
                     blockRequest = true
                     page++
-                    console.log(page)
 
                     {async function _() {
-                        const url = `{% url 'account:download_users' %}`
+                        console.log('TOTAL URL')
+                        console.log(`${url}?&page=${page}${query_strings}`)
+
                         const response = await axios.get(
-                            `${url}?&page=${page}`
+                            `${url.slice(0, -1)}?page=${page}${query_strings}`
                         )
                         const html = response.data
 
@@ -114,5 +114,13 @@
                 }
             }
         }
-    })
+    }
+
+    window.addEventListener(
+        'DOMContentLoaded',
+        () => {
+            const url = `{% url 'account:download_users' %}`
+            infinityPaginationHandler(url)
+        }
+    )
 </script>

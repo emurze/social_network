@@ -1,0 +1,14 @@
+<script defer>
+    const search_form = document.querySelector('.users__filters-search-form')
+
+    search_form.onsubmit = (e) => {
+        e.preventDefault()
+
+        async function _() {
+            const query = document.querySelector('.filters__search-input').value
+            const url = `{% url 'account:search_users' %}`
+            const response = await axios.get(`${url}?query=${query}`)
+
+        }_()
+    }
+</script>

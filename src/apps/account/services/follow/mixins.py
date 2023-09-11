@@ -20,8 +20,6 @@ class FollowActionListMixin:
         users = self.object_list
         my_user = self.request.user
 
-        # users.annotate(When())
-
         for user in users:
             if my_user.followings.contains(user):
                 user.action = FollowAction.UNFOLLOW

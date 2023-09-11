@@ -1,6 +1,5 @@
 import itertools
 import logging
-from itertools import starmap
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
@@ -13,10 +12,13 @@ from django.shortcuts import get_object_or_404, render
 from django.views.decorators.http import require_POST, require_GET
 from django.views.generic import ListView
 
+from apps.account.services.follow.action import FollowAction
 from apps.account.services.follow.dispatcher import dispatch_follow_action
 from apps.account.services.follow.mixins import FollowActionListMixin
 from apps.account.services.page_downloader.page_downloader import \
     PageQuerySetDownloader
+from apps.account.services.search_queryset.search_queryset import \
+    BaseSearchQuerySet, SearchQuerySet
 
 User = get_user_model()
 lg = logging.getLogger(__name__)
@@ -54,10 +56,32 @@ class AccountListView(LoginRequiredMixin, FollowActionListMixin, ListView):
 @login_required
 @require_GET
 def download_users(request: WSGIRequest) -> HttpResponse:
+    lg.debug(f'DOWNLOAD {request.GET}')
+
+    users = User.objects.all()
+
+    gender_list = request.GET.getlist('gender')
+    requested_age_list = request.GET.getlist('age')
+    age_list = (age for x in requested_age_list if (age := AGE_DICT.get(x)))
+
+    options = {}
+    if gender_list:
+        options['gender__in'] = gender_list
+    if requested_age_list:
+        range_set = itertools.starmap(range, age_list)
+        age_range = set(itertools.chain(*range_set))
+        birthday_range = [settings.CURRENT_YEAR - age for age in age_range]
+        options['birthday__year__in'] = birthday_range
+
+    lg.debug(f'OPTIONS {options}')
+    users = users.filter(**options)
+
+    lg.debug(f'USERS 2 {users}')
+
     downloader = PageQuerySetDownloader(
         request=request,
         page=request.GET.get('page'),
-        queryset=User.objects.all(),
+        queryset=users,
         per_page_count=settings.REQUEST_USER_COUNT,
         context_object_name='users',
         template_name='account/users/userListGenerated/userListGenerated.html',
@@ -69,30 +93,47 @@ def download_users(request: WSGIRequest) -> HttpResponse:
 @login_required
 @require_GET
 def search_users(request: WSGIRequest) -> HttpResponse:
-    lg.debug(request.GET)
+    query = request.GET.get('query')
+
+    searcher: BaseSearchQuerySet = SearchQuerySet(
+        queryset=User.objects.all(),
+        query=query,
+    )
+    lg.debug(searcher)
+    lg.debug('test')
+
+    return HttpResponse('')
+
+
+@login_required
+@require_GET
+def filter_users(request: WSGIRequest) -> HttpResponse:
+    lg.debug(f'FILTER {request.GET}')
 
     gender_list = request.GET.getlist('gender')
     requested_age_list = request.GET.getlist('age')
 
-    need = bool(len(gender_list) + len(requested_age_list))
-    if not need:
-        return HttpResponse('')
-
     age_list = (age for x in requested_age_list if (age := AGE_DICT.get(x)))
     users = User.ext_objects.get_users(excluded_user=request.user)
 
+    options = {}
     if gender_list:
-        users = users.filter(gender__in=gender_list)
-        lg.debug(gender_list)
-
+        options['gender__in'] = gender_list
     if requested_age_list:
         range_set = itertools.starmap(range, age_list)
         age_range = set(itertools.chain(*range_set))
         birthday_range = [settings.CURRENT_YEAR - age for age in age_range]
-        lg.debug(birthday_range)
+        options['birthday__year__in'] = birthday_range
 
-        users = users.filter(birthday__year__in=birthday_range)
+    users = users.filter(**options)
+
+    my_user = request.user
+    for user in users:
+        if my_user.followings.contains(user):
+            user.action = FollowAction.UNFOLLOW
+        else:
+            user.action = FollowAction.FOLLOW
 
     template_name = 'account/users/userListGenerated/userListGenerated.html'
-    context = {}
+    context = {'users': users[:settings.DEFAULT_USER_COUNT]}
     return render(request, template_name, context)
