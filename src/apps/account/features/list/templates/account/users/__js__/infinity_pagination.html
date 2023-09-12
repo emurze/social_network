@@ -1,63 +1,22 @@
 <script defer>
-    function infinityPaginationHandler(url, query_strings = '') {
+    function infinityPaginationHandler(query_strings = '') {
         const users_container = document.querySelector('.users__container')
-        async function _() {
-            users_container.insertAdjacentHTML(
-                'beforeend',
-                `{% include 'shared/loading_icon.html' %}`
-            )
-
-            const page = 2
-            const url = `{% url 'account:download_users' %}`
-            const response = await axios.get(
-                `${url}?&page=${page}`
-            )
-            const html = response.data
-
-            if (html !== '') {
-                const elementFinder = document.createElement('div')
-                elementFinder.innerHTML = html
-
-                const elements = Array.from(elementFinder.children)
-                elements.forEach(
-                    elem => {
-                        users_container.insertAdjacentElement(
-                            'beforeend', elem
-                        )
-                        setUserButton({
-                            form: elem.querySelector('.follow_button__form'),
-                            follow_button: elem.querySelector('.follow_button__button'),
-                            username: elem.querySelector('.user__info-username-link-username'),
-                        })
-                    }
-                )
-            }
-
-            const loading_icon = document.querySelector('.loading_icon')
-            loading_icon.remove()
-        }_()
-
-        const extraMargin = 0
+        const extraMargin = -180  // depends on icon height
 
         let blockRequest = false
         let emptyPage = false
-        let page = 1 + 1
-
-        let elem
-        let isFirst = true
-        let created = false
+        let page = 1
+        let elem = document.querySelector('[hx-trigger="revealed"]')
+        let isCreated = false
 
         window.onscroll = () => {
             if (!blockRequest && !emptyPage) {
                 const offset = elem => elem.getBoundingClientRect().top
 
-                if (isFirst) {
-                    elem = document.querySelector('[hx-trigger="revealed"]')
-                    isFirst = false
-                } else if (!created) {
-                    created = true
+                if (!isCreated) {
+                    isCreated = true
                     setTimeout(() => {
-                        created = false
+                        isCreated = false
                         elem = document.querySelector('[hx-trigger="revealed"]')
                     }, 100)
                 }
@@ -65,7 +24,7 @@
                 const last_post = elem ? offset(elem) : clientHeight+1
                 const margin = last_post - extraMargin
 
-                if (clientHeight > margin) {
+                if (!blockRequest && !emptyPage && clientHeight > margin) {
 
                     users_container.insertAdjacentHTML(
                         'beforeend',
@@ -77,11 +36,12 @@
                     page++
 
                     {async function _() {
-                        console.log('TOTAL URL')
-                        console.log(`${url}?&page=${page}${query_strings}`)
+                        const url = `{% url 'account:download_users' %}`
+
+                        console.log(`${url}?&page=${page}&${query_strings}`)
 
                         const response = await axios.get(
-                            `${url.slice(0, -1)}?page=${page}${query_strings}`
+                            `${url}?page=${page}&${query_strings}`
                         )
                         const html = response.data
 
@@ -117,10 +77,6 @@
     }
 
     window.addEventListener(
-        'DOMContentLoaded',
-        () => {
-            const url = `{% url 'account:download_users' %}`
-            infinityPaginationHandler(url)
-        }
+        'DOMContentLoaded', () => infinityPaginationHandler()
     )
 </script>

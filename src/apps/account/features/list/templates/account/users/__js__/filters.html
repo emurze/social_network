@@ -28,8 +28,10 @@
         async function _() {
             const url = `{% url 'account:filter_users' %}`
 
+            // IF CAHN+++
+
             const response = await axios.get(
-                `${url.slice(0, -1)}?${data}`
+                `${url}?${data}`
             )
 
             window.scrollTo(0, 0)
@@ -50,11 +52,7 @@
                 elem => users_container.insertAdjacentElement('afterbegin', elem)
             )
 
-            const download_url = `{% url 'account:download_users' %}`
-            infinityPaginationHandler(download_url.slice(0, -1), `?gender=CM`)
-
-            gender_input_set && gender_input_set.map(input => input.checked = false)
-            age_input_set && age_input_set.map(input => input.checked = false)
+            infinityPaginationHandler(`${data}`)
         }_()
     }
 </script>
