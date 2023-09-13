@@ -1,0 +1,8 @@
+<script defer>
+    function returnsToBaseUsers() {
+        const _event = new CustomEvent('scroll', {detail: {force: true}});
+        window.dispatchEvent(_event)
+        infinityPaginationHandler()
+        this.hidden = true;
+    }
+</script>

@@ -1,4 +1,3 @@
-import itertools
 import logging
 
 from django.conf import settings
@@ -20,7 +19,8 @@ from apps.account.services.gender_age_filter.gender_age_filter import \
 from apps.account.services.page_downloader.page_downloader import \
     PageQuerySetDownloader
 from apps.account.services.search_queryset.search_queryset import \
-    BaseSearchQuerySet, SearchQuerySet
+    BaseSearchQuerySet, UsersSearchQuerySet
+from config.settings import DEFAULT_USER_COUNT
 
 User = get_user_model()
 lg = logging.getLogger(__name__)
@@ -52,12 +52,30 @@ class AccountListView(LoginRequiredMixin, FollowActionListMixin, ListView):
 @login_required
 @require_GET
 def download_users(request: WSGIRequest) -> HttpResponse:
+    lg.debug(request.GET)
+
     users = User.ext_objects.get_users(excluded_user=request.user)
-    users = gender_age_users_filter(
-        users=users,
-        gender_list=request.GET.getlist('gender'),
-        age_list=request.GET.getlist('age'),
-    )
+    gender_list = request.GET.getlist('gender')
+    age_list = request.GET.getlist('age')
+    query = request.GET.get('query')
+
+    if query:
+        searcher: BaseSearchQuerySet = UsersSearchQuerySet(
+            queryset=users,
+            query=query,
+        )
+        users = searcher.search()
+
+        lg.debug('QUERY WORKED')
+
+    if gender_list or age_list:
+        users = gender_age_users_filter(
+            users=users,
+            gender_list=gender_list,
+            age_list=age_list,
+        )
+
+        lg.debug('FILTERS WORKED')
 
     downloader = PageQuerySetDownloader(
         request=request,
@@ -68,6 +86,7 @@ def download_users(request: WSGIRequest) -> HttpResponse:
         template_name='account/users/userListGenerated/userListGenerated.html',
         mixins=(FollowActionListMixin,),
     )
+
     return downloader.render()
 
 
@@ -75,21 +94,30 @@ def download_users(request: WSGIRequest) -> HttpResponse:
 @require_GET
 def search_users(request: WSGIRequest) -> HttpResponse:
     query = request.GET.get('query')
-
-    searcher: BaseSearchQuerySet = SearchQuerySet(
-        queryset=User.objects.all(),
+    searcher: BaseSearchQuerySet = UsersSearchQuerySet(
+        queryset=User.objects.exclude(id=request.user.id),
         query=query,
     )
-    lg.debug(searcher)
-    lg.debug('test')
+    users = searcher.search()
 
-    return HttpResponse('')
+    my_user = request.user
+    for user in users:
+        if my_user.followings.contains(user):
+            user.action = FollowAction.UNFOLLOW
+        else:
+            user.action = FollowAction.FOLLOW
+
+    context = {
+        'users': users[:DEFAULT_USER_COUNT],
+        'query': query,
+    }
+    template_name = 'account/users/userListGenerated/userListGenerated.html'
+    return render(request, template_name, context)
 
 
 @login_required
 @require_GET
 def filter_users(request: WSGIRequest) -> HttpResponse:
-    _request = request
     users = User.ext_objects.get_users(excluded_user=request.user)
     users = gender_age_users_filter(
         users=users,

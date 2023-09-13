@@ -9,7 +9,9 @@
         let elem = document.querySelector('[hx-trigger="revealed"]')
         let isCreated = false
 
-        window.onscroll = () => {
+        window.onscroll = (event) => {
+            const force = event.detail ? event.detail.force : false
+
             if (!blockRequest && !emptyPage) {
                 const offset = elem => elem.getBoundingClientRect().top
 
@@ -24,7 +26,9 @@
                 const last_post = elem ? offset(elem) : clientHeight+1
                 const margin = last_post - extraMargin
 
-                if (!blockRequest && !emptyPage && clientHeight > margin) {
+                console.log(clientHeight, '>', margin)
+
+                if (!blockRequest && !emptyPage && clientHeight > margin || force) {
 
                     users_container.insertAdjacentHTML(
                         'beforeend',
@@ -33,17 +37,27 @@
 
                     elem && elem.removeAttribute('hx-trigger')
                     blockRequest = true
-                    page++
+
+                    if (!force)
+                        page++
 
                     {async function _() {
+                        let full_url = ''
                         const url = `{% url 'account:download_users' %}`
 
                         console.log(`${url}?&page=${page}&${query_strings}`)
 
-                        const response = await axios.get(
-                            `${url}?page=${page}&${query_strings}`
-                        )
+                        if (force) {
+                            full_url = `${url}?page=1`
+                            users_container.innerHTML = ''
+                        } else {
+                            full_url = `${url}?page=${page}&${query_strings}`
+                        }
+
+                        const response = await axios.get(full_url)
                         const html = response.data
+
+                        console.log(response)
 
                         if (html === '') {
                             emptyPage = true
@@ -64,12 +78,13 @@
                                     })
                                 }
                             )
+                            showScroll()
 
                             blockRequest = false
                         }
 
                         const loading_icon = document.querySelector('.loading_icon')
-                        loading_icon.remove()
+                        loading_icon && loading_icon.remove()
                     }_()}
                 }
             }

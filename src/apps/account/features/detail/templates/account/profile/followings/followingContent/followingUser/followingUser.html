@@ -7,10 +7,10 @@
     <div class="following_user__image">
         {% if following_user.photo %}
             <img src="{% thumbnail following_user.photo 100x100 crop="smart" %}"
-                 class="following_user__image-img" alt="">
+                 class="following_user__image-img" loading="lazy" alt="">
         {% else %}
             <img src="{% static 'base/images/profile.png' %}"
-                 class="following_user__image-img" alt="">
+                 class="following_user__image-img" loading="lazy" alt="">
         {% endif %}
     </div>
 

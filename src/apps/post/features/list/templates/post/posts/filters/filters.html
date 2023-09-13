@@ -1,0 +1,12 @@
+<section class="users__filters-search">
+    <form method="POST" class="users__filters-search-form" style="display: flex; align-items: center;">
+        <div class="filters__search">
+            <input type="text" placeholder="Search" class="filters__search-input" />
+        </div>
+        <div class="filters__search_button">
+            <button class="filters__search_button-button">
+                {% include 'shared/search.html' with search_width=23 search_height=23 %}
+            </button>
+        </div>
+    </form>
+</section>

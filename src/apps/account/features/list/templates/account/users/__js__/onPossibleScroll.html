@@ -1,0 +1,17 @@
+<script defer>
+    function onPossibleScroll(header_width) {
+        if (document.body.scrollHeight === document.body.offsetHeight) {
+            console.log('R', window.innerWidth, header_width)
+
+            const widthScroll = window.innerWidth - parseFloat(header_width)
+            document.body.style.overflow = 'hidden'
+            document.body.style.marginRight = widthScroll + 'px'
+            header.style.setProperty('width', `calc(100% - ${widthScroll}px)`)
+
+            console.log('scroll is hidden')
+        } else {
+            showScroll()
+            console.log('scroll exists')
+        }
+    }
+</script>

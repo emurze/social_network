@@ -1,9 +1,15 @@
+{% load static %}
+
 <div class="users__filters filters">
 
     <section class="users__filters-search">
         <form method="POST" class="users__filters-search-form" style="display: flex; align-items: center;">
-            <div class="filters__search">
-                <input type="text" placeholder="Search" class="filters__search-input" />
+            <div class="filters__search" style="position: relative;">
+                <input type="text" placeholder="Search" maxlength="32" class="filters__search-input" />
+                <span class="filters__search-cross" onclick="returnsToBaseUsers()" hidden>
+                    <img style="width: 23px; height: 23px; padding: 5px; border-radius: 50%; cursor: pointer;"
+                         src="{% static 'base/images/filters_cross.svg' %}" alt="">
+                </span>
             </div>
             <div class="filters__search_button">
                 <button class="filters__search_button-button">
@@ -13,7 +19,7 @@
         </form>
     </section>
 
-    <section class="users__filters-tags">
+    <section class="users__filters-tags" hidden>
         <form method="POST" name="filters_form">
             <div class="search_gender">
                 <div class="search_gender__title">Gender</div>
@@ -75,4 +81,17 @@
         </form>
     </section>
 
+    <div class="filters__link_button"
+         onclick="const block_filters = document.querySelector('.users__filters-tags');
+                  block_filters.hidden = false;
+                  this.style.display = 'none';">
+        <div>
+            Filters
+        </div>
+        <div style="width: 24px; height: 24px;">
+            <svg enable-background="new 0 0 24 24" height="24" viewBox="0 0 24 24" width="24" fill="currentColor" focusable="false" style="pointer-events: none; display: block; width: 100%; height: 100%;">
+                <path d="M15 17h6v1h-6v-1zm-4 0H3v1h8v2h1v-5h-1v2zm3-9h1V3h-1v2H3v1h11v2zm4-3v1h3V5h-3zM6 14h1V9H6v2H3v1h3v2zm4-2h11v-1H10v1z"></path>
+            </svg>
+        </div>
+    </div>
 </div>

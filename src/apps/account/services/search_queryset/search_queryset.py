@@ -1,6 +1,7 @@
 import abc
 from dataclasses import dataclass, field
 
+from django.contrib.postgres.search import TrigramSimilarity
 from django.db.models import QuerySet
 
 
@@ -14,13 +15,16 @@ class BaseSearchQuerySet(abc.ABC):
 
 
 @dataclass
-class SearchQuerySet(BaseSearchQuerySet):
+class UsersSearchQuerySet(BaseSearchQuerySet):
     queryset: QuerySet = field(repr=False)
     query: str
 
     def search(self) -> QuerySet:
         """Algorithm"""
-        return self.queryset
+
+        return self.queryset.annotate(
+            similarity=TrigramSimilarity("username", self.query),
+        ).filter(similarity__gt=0.65).order_by("similarity")
 
     def get_queryset(self) -> QuerySet:
         return self.queryset

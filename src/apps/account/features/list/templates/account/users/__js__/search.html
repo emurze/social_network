@@ -1,14 +1,53 @@
 <script defer>
+    const gender_input = filters_form.gender
+    const age_input = filters_form.age
+
     const search_form = document.querySelector('.users__filters-search-form')
+    const input = document.querySelector('.filters__search-input')
 
     search_form.onsubmit = (e) => {
         e.preventDefault()
 
-        async function _() {
-            const query = document.querySelector('.filters__search-input').value
-            const url = `{% url 'account:search_users' %}`
-            const response = await axios.get(`${url}?query=${query}`)
+        const header_width = getComputedStyle(document.querySelector('header')).width
+        const query = input.value
 
-        }_()
+        if (query) {
+            async function _() {
+                const url = `{% url 'account:search_users' %}`
+                const response = await axios.get(`${url}?query=${query}`)
+
+                input.value = ''
+
+                window.scrollTo(0, 0)
+
+                const users_batch = document.createElement('div')
+                users_batch.innerHTML = response.data
+
+                setUsersButtons({
+                    forms: users_batch.querySelectorAll('.follow_button__form'),
+                    follow_buttons: users_batch.querySelectorAll('.follow_button__button'),
+                    usernames: users_batch.querySelectorAll('.user__info-username-link-username'),
+                })
+
+                users_container.innerHTML = ''
+
+                const elements = Array.from(users_batch.children)
+                elements.forEach(
+                    elem => users_container.insertAdjacentElement('afterbegin', elem)
+                )
+
+                gender_input.forEach(elem => elem.checked = false)
+                age_input.forEach(elem => elem.checked = false)
+
+                infinityPaginationHandler(`query=${query}`)
+
+                onPossibleScroll(header_width)
+
+                const cross = document.querySelector('.filters__search-cross')
+                cross.hidden = false
+            }_()
+        } else {
+            input.focus()
+        }
     }
 </script>
