@@ -12,6 +12,9 @@
         const query = input.value
 
         if (query) {
+            users_container.innerHTML = `{% include 'shared/loading_icon.html' with center=True %}`
+            onPossibleScroll(header_width)
+
             async function _() {
                 const url = `{% url 'account:search_users' %}`
                 const response = await axios.get(`${url}?query=${query}`)
@@ -40,7 +43,6 @@
                 age_input.forEach(elem => elem.checked = false)
 
                 infinityPaginationHandler(`query=${query}`)
-
                 onPossibleScroll(header_width)
 
                 const cross = document.querySelector('.filters__search-cross')

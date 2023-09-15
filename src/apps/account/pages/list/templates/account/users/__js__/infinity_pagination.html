@@ -3,11 +3,11 @@
         const users_container = document.querySelector('.users__container')
         const extraMargin = -180  // depends on icon height
 
-        let blockRequest = false
         let emptyPage = false
         let page = 1
         let elem = document.querySelector('[hx-trigger="revealed"]')
         let isCreated = false
+        let blockRequest = false
 
         window.onscroll = (event) => {
             const force = event.detail ? event.detail.force : false
@@ -92,6 +92,12 @@
     }
 
     window.addEventListener(
-        'DOMContentLoaded', () => infinityPaginationHandler()
+        'DOMContentLoaded', () => {
+            {#if (!BLOCK)#}
+                const l = setInterval(() => {
+                    infinityPaginationHandler()
+                    clearInterval(l)
+                }, 5)
+        }
     )
 </script>

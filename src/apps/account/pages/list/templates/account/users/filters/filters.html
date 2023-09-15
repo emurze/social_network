@@ -19,7 +19,7 @@
         </form>
     </section>
 
-    <section class="users__filters-tags" hidden>
+    <section class="users__filters-tags no_display">
         <form method="POST" name="filters_form">
             <div class="search_gender">
                 <div class="search_gender__title">Gender</div>
@@ -76,17 +76,14 @@
             </div>
 
             <div class="find_button">
-                <button type="submit" class="find_button-button">Find</button>
+                <button type="submit" class="find_button-button">
+                    Find
+                </button>
             </div>
         </form>
     </section>
 
-    <div class="filters__link_button"
-         onclick="const block_filters = document.querySelector('.users__filters-tags');
-                  block_filters.hidden = false;
-                  this.style.display = 'none';
-                  const users_search_input = document.querySelector('.users__filters-search')
-                  users_search_input.style.borderBottom = '1px solid rgb(222, 222, 222)'">
+    <div class="filters__link_button" onclick="showFilter(this)">
         <div>
             Filters
         </div>
