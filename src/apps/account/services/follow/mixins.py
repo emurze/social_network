@@ -1,4 +1,5 @@
 from apps.account.services.follow.action import FollowAction
+from apps.post.models import lg
 
 
 class FollowActionDetailMixin:

@@ -1,9 +1,9 @@
 from django.contrib.auth import views as auth_views
 from django.urls import path, reverse_lazy
 
-from apps.registration.features.login.forms import MyAuthForm
-from apps.registration.features.password_reset.forms import MyPasswordResetForm
-from apps.registration.features.registration.views import RegistrationView
+from apps.registration.pages.login.forms import MyAuthForm
+from apps.registration.pages.password_reset.forms import MyPasswordResetForm
+from apps.registration.pages.registration.views import RegistrationView
 
 urlpatterns = [
     path('login/',

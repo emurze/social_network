@@ -1,0 +1,131 @@
+<style>
+    .edit_form {
+        margin: 0 auto;
+        max-width: 310px;
+    }
+
+    .edit_window input, .edit_window textarea {
+        padding: 12px 15px;
+        border: 1px solid #d0cccc;
+        margin-bottom: 10px;
+    }
+    .edit_window textarea {
+        resize: none;
+        margin-bottom: 0;
+    }
+    .edit_window input,
+    .edit_form__save_button,
+    .edit_window textarea {
+        width: 300px;
+        border-radius: 6px;
+    }
+    .edit_form__save_button {
+        display: block;
+        padding: 12px 15px;
+        background-color: rgb(1, 135, 180);
+        color: #ffffff;
+        font-size: 15px;
+    }
+    .edit_form__save_button {
+        padding-top: 10px;
+    }
+
+    .edit_form__username-label,
+    .edit_form__description-label {font-size: 15px;}
+
+    .edit_form__description-content {
+        margin-bottom: 0;
+        height: calc(100% - 10px);
+    }
+
+    .edit_form__birthday {margin-bottom: 9.5px;}
+    .edit_form__birthday-content {
+        display: flex;
+        justify-content: space-between;
+        position: relative;
+        max-width: 300px;
+        height: 42px;
+    }
+    .edit_form__birthday-content select {
+        font-size: 14px;
+        padding: 10px;
+        border: 1px solid #d0cccc;
+        border-radius: 6px;
+        background-color: #ffffff;
+        color: #1c1e21;
+    }
+    .edit_form__birthday-content option {
+        font-size: 15px;
+    }
+    .edit_window select[id="id_birthday_month"] {width: 38%;}
+    .edit_window select[id="id_birthday_day"] {width: 24%;}
+    .edit_window select[id="id_birthday_year"] {width: 30%;}
+
+    .errorlist {
+        max-width: 300px;
+        font-size: 13px;
+        color: #f80101;
+        text-align: start;
+        padding-left: 5px;
+        line-height: 22px;
+    }
+    .errorlist li {line-height: 22px;}
+
+    .edit_form__gender-label {
+        text-align: start;
+    }
+    .edit_form__gender-content {
+        display: flex;
+        justify-content: space-between;
+        margin: 0 0 10px 0;
+        max-width: 300px;
+        height: 38px;
+        color: #1c1e21;
+        font-family: SFProText-Medium, Helvetica, Arial, sans-serif;
+    }
+    .edit_form__gender-item {
+        padding: 0 10px;
+        border: 1px solid #d0cccc;
+        border-radius: 6px;
+        font-size: 14px;
+        background-color: #ffffff;
+    }
+    .gender__item label {
+        display: inline-flex;
+        justify-content: space-between;
+        position: relative;
+        top: 1px;
+    }
+    .edit_form__gender-item-name {
+        padding-right: 12px;
+    }
+
+    .edit_window input[type="radio"] {
+        width: unset;
+        position: relative;
+        top: 1px;
+    }
+
+    .edit_form__gender-label,
+    .edit_form__birthday-label {
+        display: flex;
+        align-items: center;
+        height: 30.5px;
+        font-size: 14px;
+    }
+
+    .edit_form__username, .edit_form__description,
+    .edit_form__birthday, .edit_form__gender,
+    .edit_form__photo, .edit_form__save_button {
+        margin: 0 auto;
+        max-width: 300px;
+    }
+
+    .edit_form__photo-label {
+        height: 30.5px;
+        display: flex;
+        align-items: center;
+    }
+</style>
+
+{% include 'account/profile/edit_window/form/photoWidget/css.html' %}

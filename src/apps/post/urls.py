@@ -1,7 +1,7 @@
 from django.urls import path
 
-from apps.post.features.create.views import create_post
-from apps.post.features.list.views import (
+from apps.post.pages.list.views import (
+    create_post,
     like_post,
     download_replies,
     create_reply,
@@ -15,7 +15,7 @@ urlpatterns = [
     path('posts/', PostListView.as_view(), name='list'),
     path('posts/like_post/', like_post, name='like_post'),
     path('posts/create_reply/', create_reply, name='create_reply'),
-    path('posts/download_replies_by_slice/', download_replies,
+    path('posts/download_replies/', download_replies,
          name='download_replies'),
     path('posts/download_posts/', download_posts, name='download_posts'),
 

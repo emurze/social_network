@@ -1,0 +1,97 @@
+<style>
+    .users {
+        display: flex;
+        transition: .25s;
+
+        border-radius: 15px;
+        height: 100%;
+        margin: 18px auto;
+        max-width: 1180px;
+    }
+
+    .users__container {
+        flex: 1 0 980px;
+
+        display: grid;
+        gap: 18px;
+        grid-template-columns: repeat(3, minmax(230px, 1fr));
+        grid-auto-rows: 168px;
+        padding: 0 15px;
+
+        height: 100%;
+    }
+
+    .users__filters {
+        flex: 0 0 206px;
+        position: -webkit-sticky; /* for Safari */
+        position: sticky;
+        top: 68px;
+
+        margin-right: 15px;
+        align-self: flex-start;
+        {#max-height: 400px;#}
+
+        box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, .01);
+        border: 1px solid rgb(222, 222, 222);
+        border-radius: 15px;
+    }
+    section[class="users__filters-search"] {
+        padding: 5px 18px;
+    }
+    section[class="users__filters-tags"] {
+        border-radius: 15px;
+        padding: 10px 20px;
+        color: #282c2c;
+    }
+
+    @media (max-width: 1300px) {
+        .users {
+            max-width: 920px;
+        }
+        .users__container {
+            flex: 1 1 730px;
+            grid-template-columns: repeat(2, minmax(230px, 1fr));
+        }
+    }
+    @media (max-width: 950px) {
+        .users {max-width: 750px;}
+        .filters {display: none;}
+    }
+    @media (max-width: 650px) {
+        .users__container {
+            grid-template-columns: repeat(1, minmax(230px, 1fr));
+        }
+    }
+    @media (max-width: 380px) {
+        .users__container {width: 360px;}
+    }
+
+    .users_error_message {
+        position: absolute;
+        font-size: 16px;
+        padding: 7px 16px;
+        color: #282c2c;
+    }
+    .filters__link_button {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        position: absolute;
+        transition: .2s;
+        right: 0;
+        top: 55px;
+        width: 92px;
+        height: 34px;
+        color: #353a3d;
+        border-radius: 15px;
+        padding: 2px 13px;
+        cursor: pointer;
+    }
+    .filters__link_button:hover {
+        background-color: #f6f3f3;
+    }
+</style>
+
+{% include 'account/users/user/css.html' %}
+{% include 'account/users/filters/css.html' %}

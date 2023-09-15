@@ -1,0 +1,80 @@
+<style>
+    .profile {
+        margin: 16px auto;
+        max-width: 1080px;
+    }
+    .profile__container {margin: 0 4%;}
+    .profile-posts__container {
+        transition: .2s;
+        max-width: 670px;
+        padding: 0;
+        margin: 16px 0;  !important;
+    }
+    .post__replies-footer {
+        display: flex;
+        align-items: center;
+        width: 100%;
+    }
+
+    .post__replies-footer-user_icon {
+        flex: 0 0 42px;
+        margin-right: 2px;
+    }
+    .post__replies-footer-user_icon-img {
+        object-fit: cover;
+        height: 42px;
+        width: 42px;
+        border-radius: 50%;
+    }
+
+   .post__replies-footer-form {
+       flex: 1 1 450px;
+
+       display: flex;
+   }
+
+   input[id="id_content"] {
+       flex: 1 1 300px;
+       margin-right: 6px;
+       padding: 9px 13px;
+       height: 38px;
+
+       border-radius: 7px;
+       font-size: 17px;
+       background: transparent;
+       border: none;
+   }
+   .post__replies-footer-form-button {
+       font-weight: bold;
+       border: 1px solid rgb(29, 155, 240);
+       border-radius: 25px;
+       padding: 8px 12px;
+       background-color: rgb(29, 155, 240);
+       color: #ffffff;
+
+       position: relative;
+       top: 5px;
+   }
+
+   .profile__create_post_form {
+       max-width: 670px;
+       margin: 16px 0;
+       transition: .2s;
+   }
+
+   .profile__main_content {display: flex; height: 100%;}
+   .profile_all_posts {flex: 1 0 65%;}
+   .no_exists__post_container {
+       padding: 4px 20px !important;
+   }
+    @media (max-width: 690px) {
+       .profile__followings {display: none;}
+        .profile__create_post_form {max-width: 635px;}
+        .profile-posts__container {max-width: 635px;}
+         .profile__container {margin: 0 15px;}
+    }
+</style>
+
+{% include 'account/profile/edit_window/css.html' %}
+{% include 'account/profile/header/css.html' %}
+{% include 'account/profile/followings/css.html' %}

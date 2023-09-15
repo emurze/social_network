@@ -1,0 +1,35 @@
+<script defer>
+    function AddPhotoWidget(input) {
+        const files = input.files || input.currentTarget.files
+        const photo_widget = document.querySelector('.photo_widget')
+        const reader = []
+
+        for (let i in files) {
+            if (files.hasOwnProperty(i)) {
+                const name = 'file' + i
+
+                reader[i] = new FileReader()
+                reader[i].readAsDataURL(input.files[i])
+
+                const data_file_input = photo_widget.querySelector('.photo_file__loader')
+                photo_widget.insertAdjacentHTML(
+                    'beforebegin',
+                    `{% include 'account/profile/edit_window/form/photoWidget/photoWidget.html' with image_loaded=True %}`
+                )
+
+                const new_photo_widget = document.querySelector('.photo_widget')
+                const photo_file__label = document.querySelector('.photo_file__label')
+                photo_file__label.append(data_file_input)
+                new_photo_widget.insertAdjacentHTML(
+                    'afterbegin',
+                    '<img id="'+ name +'" src="" alt="" class="photo_widget__image" />'
+                )
+                photo_widget.remove()
+
+                reader[i].onload = e => {
+                    document.getElementById(name).src = e.target.result
+                }
+            }
+        }
+    }
+</script>

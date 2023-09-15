@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 
 from apps.post.models import Post
-from apps.post.services.like.action import LikeAction
+from .action import LikeAction
 
 User = get_user_model()
 

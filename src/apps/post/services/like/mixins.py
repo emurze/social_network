@@ -1,4 +1,4 @@
-from apps.post.services.like.action import LikeAction
+from .action import LikeAction
 
 
 class LikeActionListMixin:

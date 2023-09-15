@@ -1,9 +1,8 @@
 from django.urls import path
 
-from apps.account.features.edit.views import AccountEditView
-from apps.account.features.detail.views import AccountDetailView, \
-    follow_detail, follow_pagination, edit_cover
-from apps.account.features.list.views import AccountListView, follow_list, \
+from apps.account.pages.detail.views import AccountDetailView, \
+    AccountEditView, follow_detail, follow_pagination, edit_cover
+from apps.account.pages.list.views import AccountListView, follow_list, \
     download_users, filter_users, search_users
 
 app_name = 'account'
