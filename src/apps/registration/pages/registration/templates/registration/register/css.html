@@ -1,0 +1,151 @@
+<style>
+    body {
+        background-color: rgb(222, 223, 223);
+        overflow: hidden;
+    }
+
+    .registration {
+        position: relative;
+        top: 10%;
+        background-color: #ffffff;
+        color: #454a4d;
+        width: 345px;
+        border-radius: 15px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1);
+        margin: 15px auto;
+        padding: 12px 14px;
+        text-align: center;
+        font-size: 15px;
+    }
+    .registration__title {
+        margin-bottom: 10px;
+        font-size: 20px;
+        color: #454a4d;
+    }
+
+    input {
+        padding: 12px 15px;
+        border: 1px solid #d0cccc;
+        margin-bottom: 9px;
+    }
+    input, button {
+        width: 310px;
+        font-size: 15px;
+        border-radius: 6px;
+    }
+    button {
+        padding: 12px 15px;
+        background-color: rgb(1, 135, 180);
+        color: #ffffff;
+        font-size: 15px;
+    }
+    .registration__label {
+        width: 100%;
+        text-align: start;
+    }
+
+    .gender {
+        width: 310px;
+        margin: 0 auto;
+    }
+    .gender__label {
+        text-align: start;
+    }
+    .gender__content {
+        display: flex;
+        justify-content: space-between;
+        margin: 0 auto 10px auto;
+        width: 310px;
+        height: 38px;
+        color: #1c1e21;
+        font-family: SFProText-Medium, Helvetica, Arial, sans-serif;
+    }
+    .gender__item {
+        padding: 0 10px;
+        border: 1px solid #d0cccc;
+        border-radius: 6px;
+        font-size: 14px;
+    }
+    .gender__item label {
+        display: inline-flex;
+        justify-content: space-between;
+        width: 100%;
+        position: relative;
+        top: 1px;
+    }
+    input[type="radio"] {
+        width: unset;
+        position: relative;
+        top: 1px;
+    }
+    .gender__name {
+        padding-right: 19px;
+    }
+
+    .gender__label, .birthday__label {
+        font-size: 14px;
+        position: relative;
+        top: 4px;
+    }
+    .birthday {
+        text-align: start;
+        width: 310px;
+        margin: 0 auto;
+    }
+    .birthday__label {
+
+        text-align: start;
+    }
+
+    input[id="id_password"], input[id="id_password2"] {
+        display: inline-block;
+        margin-bottom: 1px;
+    }
+    input[id="id_password"] {width: 135px;}
+    input[id="id_password2"] {width: 163px;}
+
+    .registration__passwords {
+        margin: 0 auto;
+        text-align: center;
+        width: 310px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .birthday__content {
+        display: flex;
+        justify-content: space-between;
+        position: relative;
+        width: 310px;
+        height: 42px;
+    }
+    .birthday__content select {
+        font-size: 14px;
+        padding: 10px;
+        border: 1px solid #d0cccc;
+        border-radius: 6px;
+        background-color: #ffffff;
+        color: #1c1e21;
+    }
+    .birthday__content option {
+        font-size: 15px;
+    }
+    .birthday__item {
+        display: flex;
+        justify-content: space-between;
+        width: 310px;
+    }
+    select[id="id_birthday_month"] {width: 34%;}
+    select[id="id_birthday_day"] {width: 25%;}
+    select[id="id_birthday_year"] {width: 33%;}
+
+    .errorlist {
+        width: 310px;
+        font-size: 13px;
+        height: 0;
+        color: #f80101;
+        text-align: start;
+        padding-left: 5px;
+    }
+    .errorlist li {height: 26px;}
+</style>

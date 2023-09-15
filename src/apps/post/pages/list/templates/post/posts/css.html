@@ -15,23 +15,50 @@
     .posts__container {}
 
     .posts__filters {
-        flex: 1 1 260px;
+        flex: 0 0 206px;
+        position: -webkit-sticky; /* for Safari */
         position: sticky;
-        top: 0;
-        width: 100%;
-        height: 100%;
-    }
-    .posts__filters-container {
-        position: fixed;
-        width: 250px;
-        height: 400px;
-        margin-right: 16px;
-        padding: 10px 20px;
-        box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, .01);
-        border: 1px solid rgb(208, 208, 208);
+        top: 68px;
         border-radius: 15px;
-        background-color: white;
+        border: 1px solid rgb(222, 222, 222);
+        box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, .01);
+
+        margin-right: 15px;
+        align-self: flex-start;
     }
+    section[class="users__filters-search"] {
+        padding: 5px 20px;
+    }
+    section[class="users__filters-tags"] {
+        padding: 8px 20px 10px 20px;
+        color: #282c2c;
+        animation: 0.25s show ease;
+    }
+    @keyframes show {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .filters__link_button {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        position: absolute;
+        transition: .25s;
+        right: 0;
+        top: 55px;
+        width: 92px;
+        height: 34px;
+        color: #353a3d;
+        border-radius: 15px;
+        padding: 2px 13px;
+        cursor: pointer;
+    }
+    .filters__link_button:hover {
+        background-color: rgba(200, 200, 200, 0.15);
+    }
+
     @media (max-width: 900px) {
         .posts__filters {display: none;}
         .posts {max-width: 570px;}
