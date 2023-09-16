@@ -26,10 +26,7 @@
                 const last_post = elem ? offset(elem) : clientHeight+1
                 const margin = last_post - extraMargin
 
-                console.log(clientHeight, '>', margin)
-
                 if (!blockRequest && !emptyPage && clientHeight > margin || force) {
-
                     users_container.insertAdjacentHTML(
                         'beforeend',
                         `{% include 'shared/loading_icon.html' %}`
@@ -38,18 +35,14 @@
                     elem && elem.removeAttribute('hx-trigger')
                     blockRequest = true
 
-                    if (!force)
-                        page++
+                    if (!force) page++
 
-                    {async function _() {
-                        let full_url = ''
+                    async function _() {
                         const url = `{% url 'account:download_users' %}`
-
-                        console.log(`${url}?&page=${page}&${query_strings}`)
+                        let full_url = ''
 
                         if (force) {
                             full_url = `${url}?page=1`
-                            users_container.innerHTML = ''
                         } else {
                             full_url = `${url}?page=${page}&${query_strings}`
                         }
@@ -57,14 +50,12 @@
                         const response = await axios.get(full_url)
                         const html = response.data
 
-                        console.log(response)
-
-                        if (html === '') {
-                            emptyPage = true
-                        } else {
+                        if (html === '') emptyPage = true
+                        else {
                             const elementFinder = document.createElement('div')
                             elementFinder.innerHTML = html
 
+                            if (force) users_container.innerHTML = ''
                             const elements = Array.from(elementFinder.children)
                             elements.forEach(
                                 elem => {
@@ -79,13 +70,12 @@
                                 }
                             )
                             showScroll()
-
-                            blockRequest = false
                         }
+                        blockRequest = false
 
                         const loading_icon = document.querySelector('.loading_icon')
                         loading_icon && loading_icon.remove()
-                    }_()}
+                    }_()
                 }
             }
         }

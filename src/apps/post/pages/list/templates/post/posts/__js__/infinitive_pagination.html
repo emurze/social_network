@@ -1,31 +1,24 @@
-{% load static %}
-
 <script defer>
     function infinityPaginationHandler(query_strings = '') {
         const posts_container = document.querySelector('.posts__container')
         const extraMargin = 0
 
-        let blockRequest = false
         let emptyPage = false
         let page = 1
-
-        let elem
-        let isFirst = true
-        let created = false
+        let elem = document.querySelector('[hx-trigger="revealed"]')
+        let isCreated = false
+        let blockRequest = false
 
         window.onscroll = (event) => {
             const force = event.detail ? event.detail.force : false
 
-            if (!blockRequest && !emptyPage || force) {
+            if (!blockRequest && !emptyPage) {
                 const offset = elem => elem.getBoundingClientRect().top
 
-                if (isFirst) {
-                    elem = document.querySelector('[hx-trigger="revealed"]')
-                    isFirst = false
-                } else if (!created) {
-                    created = true
+                if (!isCreated) {
+                    isCreated = true
                     setTimeout(() => {
-                        created = false
+                        isCreated = false
                         elem = document.querySelector('[hx-trigger="revealed"]')
                     }, 100)
                 }
@@ -33,25 +26,18 @@
                 const last_post = elem ? offset(elem) : clientHeight+1
                 const margin = last_post - extraMargin
 
-                if (clientHeight > margin || force) {
-                    if (force) {
-                        const header_width = getComputedStyle(document.querySelector('header')).width
-                        posts_container.innerHTML = `{% include 'shared/loading_icon.html' with center=True %}`
-                        onPossibleScroll(header_width)
-                    } else {
-                        posts_container.insertAdjacentHTML(
-                            'beforeend',
-                            `{% include 'shared/loading_icon.html' %}`
-                        )
-                    }
+                if (!blockRequest && !emptyPage && clientHeight > margin || force) {
+                    posts_container.insertAdjacentHTML(
+                        'beforeend',
+                        `{% include 'shared/loading_icon.html' with center=True %}`
+                    )
 
                     elem && elem.removeAttribute('hx-trigger')
                     blockRequest = true
 
-                    if (!force)
-                        page++
+                    if (!force) page++
 
-                    {async function _() {
+                    async function _() {
                         console.log('QUERY')
 
                         const url = `{% url 'post:download_posts' %}`
@@ -63,56 +49,54 @@
                             full_url = `${url}?page=${page}&${query_strings}`
                         }
 
-                        console.log(full_url)
-
                         const response = await axios.get(full_url)
                         const html = response.data
 
-                        if (html === '') {
-                            emptyPage = true
-                        } else {
+                        if (html === '') emptyPage = true
+                        else {
                             const elementFinder  = document.createElement('div')
                             elementFinder.innerHTML = html
 
-                            posts_container.insertAdjacentElement(
-                                'beforeend',
-                                elementFinder,
-                            )
-
-                            blockRequest = false
-                            setReplyLinks({
-                                reply_footer_form_set: elementFinder.querySelectorAll('.post__replies-footer'),
-                                content_input_set: elementFinder.querySelectorAll('input[id="id_content"]'),
-                                reply_link_set: elementFinder.querySelectorAll('.reply__link'),
-                                post_replies_set: elementFinder.querySelectorAll('.post__replies'),
+                            if (force) posts_container.innerHTML = ''
+                            const elements = Array.from(elementFinder.children)
+                            elements.forEach(elem => {
+                                posts_container.insertAdjacentElement(
+                                    'beforeend', elem
+                                )
+                                setReplyLink({
+                                    reply_footer_form: elem.querySelector('.post__replies-footer'),
+                                    content_input: elem.querySelector('input[id="id_content"]'),
+                                    reply_link: elem.querySelector('.reply__link'),
+                                    post_replies: elem.querySelector('.post__replies'),
+                                })
+                                setLikeButton({
+                                    form: elem.querySelector('.like__button-form'),
+                                    like_button_container: elem.querySelector('.like__button-container'),
+                                    like_action: elem.querySelector('.like__button-action'),
+                                    like_counter: elem.querySelector('.like__button-like_counter'),
+                                    post_id: elem.querySelector('.like__button-post_id')
+                                })
+                                setRepliesButton({
+                                    form: elem.querySelector('.post__replies-footer-form'),
+                                    reply_list: elem.querySelector('.post__replies-list'),
+                                    post_id: elem.querySelector('.like__button-post_id'),
+                                    content_input: elem.querySelector('input[id="id_content"]'),
+                                    reply_link_counter: elem.querySelector('.reply__link-counter'),
+                                })
+                                setShowMoreItem({
+                                    replies_set: elem.querySelector('.post__replies-list-all'),
+                                    replies_first: elem.querySelector('.reply_item-info--first'),
+                                    show_more: elem.querySelector('.post__replies-show_more'),
+                                    post_id: elem.querySelector('.like__button-post_id'),
+                                })
                             })
-                            setLikeButtons({
-                                like_forms: elementFinder.querySelectorAll('.like__button-form'),
-                                like_button_container_set: elementFinder.querySelectorAll('.like__button-container'),
-                                like_action_set: elementFinder.querySelectorAll('.like__button-action'),
-                                like_counter_set: elementFinder.querySelectorAll('.like__button-like_counter'),
-                                post_id_set: elementFinder.querySelectorAll('.like__button-post_id'),
-                            })
-                            setRepliesButtons({
-                                reply_forms: elementFinder.querySelectorAll('.post__replies-footer-form'),
-                                reply_list_set: elementFinder.querySelectorAll('.post__replies-list'),
-                                post_id_set: elementFinder.querySelectorAll('.like__button-post_id'),
-                                content_input_set: elementFinder.querySelectorAll('input[id="id_content"]'),
-                                reply_link_counter_set: elementFinder.querySelectorAll('.reply__link-counter'),
-                            })
-                            setShowMore({
-                                replies_list_all_set: elementFinder.querySelectorAll('.post__replies-list-all'),
-                                replies_first_set: elementFinder.querySelectorAll('.reply_item-info--first'),
-                                replies_show_more_set: elementFinder.querySelectorAll('.post__replies-show_more'),
-                                post_id_set: elementFinder.querySelectorAll('.like__button-post_id'),
-                            })
+                            showScroll()
                         }
-                        const header_width = getComputedStyle(document.querySelector('header')).width
-                        onPossibleScroll(header_width)
+                        blockRequest = false
 
                         const loading_icon = document.querySelector('.loading_icon')
                         loading_icon && loading_icon.remove()
-                    }_()}
+                    }_()
                 }
             }
         }

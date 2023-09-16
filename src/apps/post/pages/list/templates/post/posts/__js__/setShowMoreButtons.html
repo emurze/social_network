@@ -1,50 +1,56 @@
 <script defer>
+    function setShowMoreItem({replies_set, reply_first, show_more, post_id}) {
+        let page = 0
+        let stop_request = false;
+
+        console.log(show_more)
+
+        show_more.onclick = () => {
+            const form = new FormData()
+            form.append('page', page)
+            form.append('post_id', post_id.innerHTML)
+            page++
+
+            const headers = {
+                'X-CSRFToken': csrf_token,
+                'Content-Type': `multipart/form-data;
+                 boundary=${form._boundary}`,
+            }
+
+            if (!stop_request) {
+                async function _() {
+                    const url = `{% url 'post:download_replies' %}`
+                    const response = await axios.post(url, form, {headers})
+
+                    if (!response.data.completion) {
+                        replies_set.insertAdjacentHTML(
+                            'beforeend',
+                            response.data
+                        )
+                    } else {
+                        if (!response.data.no_data) {
+                            replies_set.insertAdjacentHTML(
+                                'beforeend',
+                                response.data.replies,
+                            )
+                        }
+                        stop_request = true
+                        show_more.remove()
+
+                        const replies = replies_set.children
+                        const last_elem = replies[replies.length-1]
+                        last_elem.style.marginBottom = '8px'
+                    }
+                    reply_first.classList.remove('reply_item-info--first')
+                }_()
+            }
+        }
+    }
+
     function setShowMore({replies_list_all_set, replies_first_set, replies_show_more_set, post_id_set}) {
         zip(replies_list_all_set, replies_first_set, replies_show_more_set, post_id_set).forEach(
             ([replies_set, reply_first, show_more, post_id]) => {
-                let page = 0
-                let stop_request = false;
-
-                show_more.onclick = () => {
-                    const form = new FormData()
-                    form.append('page', page)
-                    form.append('post_id', post_id.innerHTML)
-                    page++
-
-                    const headers = {
-                        'X-CSRFToken': csrf_token,
-                        'Content-Type': `multipart/form-data;
-                         boundary=${form._boundary}`,
-                    }
-
-                    if (!stop_request) {
-                        async function _() {
-                            const url = `{% url 'post:download_replies' %}`
-                            const response = await axios.post(url, form, {headers})
-
-                            if (!response.data.completion) {
-                                replies_set.insertAdjacentHTML(
-                                    'beforeend',
-                                    response.data
-                                )
-                            } else {
-                                if (!response.data.no_data) {
-                                    replies_set.insertAdjacentHTML(
-                                        'beforeend',
-                                        response.data.replies,
-                                    )
-                                }
-                                stop_request = true
-                                show_more.remove()
-
-                                const replies = replies_set.children
-                                const last_elem = replies[replies.length-1]
-                                last_elem.style.marginBottom = '8px'
-                            }
-                            reply_first.classList.remove('reply_item-info--first')
-                        }_()
-                    }
-                }
+                setShowMoreItem({replies_set, reply_first, show_more, post_id})
             }
         )
     }

@@ -23,9 +23,11 @@
 
                 posts_container.innerHTML = ''
                 addParsedPostsToContainer(response)
-
                 infinityPaginationHandler(`query=${query}`)
-                onPossibleScroll(header_width)
+
+                showScroll()  // here
+                const new_header_width = getComputedStyle(document.querySelector('header')).width
+                onPossibleScroll(new_header_width)
             }_()
         } else {input.focus()}
 
@@ -34,43 +36,39 @@
     function addParsedPostsToContainer(response) {
         const users_batch = document.createElement('div')
         users_batch.innerHTML = response.data
-        setJS(users_batch)
-        addElementsToPostsContainer(users_batch)
 
-        function addElementsToPostsContainer(users_batch) {
-            const elements = Array.from(users_batch.children)
-            elements.forEach(
-                elem => posts_container.insertAdjacentElement('afterbegin', elem)
-            )
-        }
+        const elements = Array.from(users_batch.children)
+        elements.forEach(
+            elem => posts_container.insertAdjacentElement(
+                'beforeend', elem
+            ),
+        )
 
-        function setJS(users_batch) {
-            setReplyLinks({
-                reply_footer_form_set: users_batch.querySelectorAll('.post__replies-footer'),
-                content_input_set: users_batch.querySelectorAll('input[id="id_content"]'),
-                reply_link_set: users_batch.querySelectorAll('.reply__link'),
-                post_replies_set: users_batch.querySelectorAll('.post__replies'),
-            })
-            setLikeButtons({
-                like_forms: users_batch.querySelectorAll('.like__button-form'),
-                like_button_container_set: users_batch.querySelectorAll('.like__button-container'),
-                like_action_set: users_batch.querySelectorAll('.like__button-action'),
-                like_counter_set: users_batch.querySelectorAll('.like__button-like_counter'),
-                post_id_set: users_batch.querySelectorAll('.like__button-post_id'),
-            })
-            setRepliesButtons({
-                reply_forms: users_batch.querySelectorAll('.post__replies-footer-form'),
-                reply_list_set: users_batch.querySelectorAll('.post__replies-list'),
-                post_id_set: users_batch.querySelectorAll('.like__button-post_id'),
-                content_input_set: users_batch.querySelectorAll('input[id="id_content"]'),
-                reply_link_counter_set: users_batch.querySelectorAll('.reply__link-counter'),
-            })
-            setShowMore({
-                replies_list_all_set: users_batch.querySelectorAll('.post__replies-list-all'),
-                replies_first_set: users_batch.querySelectorAll('.reply_item-info--first'),
-                replies_show_more_set: users_batch.querySelectorAll('.post__replies-show_more'),
-                post_id_set: users_batch.querySelectorAll('.like__button-post_id'),
-            })
-        }
+        setReplyLinks({
+            reply_footer_form_set: users_batch.querySelectorAll('.post__replies-footer'),
+            content_input_set: users_batch.querySelectorAll('input[id="id_content"]'),
+            reply_link_set: users_batch.querySelectorAll('.reply__link'),
+            post_replies_set: users_batch.querySelectorAll('.post__replies'),
+        })
+        setLikeButtons({
+            like_forms: users_batch.querySelectorAll('.like__button-form'),
+            like_button_container_set: users_batch.querySelectorAll('.like__button-container'),
+            like_action_set: users_batch.querySelectorAll('.like__button-action'),
+            like_counter_set: users_batch.querySelectorAll('.like__button-like_counter'),
+            post_id_set: users_batch.querySelectorAll('.like__button-post_id'),
+        })
+        setRepliesButtons({
+            reply_forms: users_batch.querySelectorAll('.post__replies-footer-form'),
+            reply_list_set: users_batch.querySelectorAll('.post__replies-list'),
+            post_id_set: users_batch.querySelectorAll('.like__button-post_id'),
+            content_input_set: users_batch.querySelectorAll('input[id="id_content"]'),
+            reply_link_counter_set: users_batch.querySelectorAll('.reply__link-counter'),
+        })
+        setShowMore({
+            replies_list_all_set: users_batch.querySelectorAll('.post__replies-list-all'),
+            replies_first_set: users_batch.querySelectorAll('.reply_item-info--first'),
+            replies_show_more_set: users_batch.querySelectorAll('.post__replies-show_more'),
+            post_id_set: users_batch.querySelectorAll('.like__button-post_id'),
+        })
     }
 </script>

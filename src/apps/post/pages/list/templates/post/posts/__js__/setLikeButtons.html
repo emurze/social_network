@@ -1,56 +1,58 @@
 <script defer>
+    function setLikeButton({form, like_button_container, like_action, like_counter, post_id}) {
+        form.onsubmit = (e) => {
+            e.preventDefault()
+
+            const form = new FormData()
+            form.append('post_id', post_id.innerText)
+            form.append('action', like_action.innerText)
+
+            const headers = {
+                'X-CSRFToken': csrf_token,
+                'Content-Type': `multipart/form-data;
+                 boundary=${form._boundary}`,
+            }
+
+            async function executeLikeAction() {
+                const url = `{% url 'post:like_post' %}`
+                const response = await axios.post(url, form, {headers})
+                const new_like_action = response.data.action
+
+                like_action.innerHTML = new_like_action
+
+                console.log(new_like_action)
+
+                if (new_like_action === 'like') {
+                    like_button_container.innerHTML =
+                        `{% include 'post/posts/post/buttons/likeButton/baseButton/baseButton.html' %}`
+
+                    like_counter.classList.remove('like__button-like_counter--liked')
+
+                    if (like_counter.innerText === '1') {
+                        like_counter.innerHTML = ''
+                    } else {
+                        like_counter.innerHTML--
+                    }
+                }
+                else if (new_like_action === 'unlike') {
+                    like_button_container.innerHTML =
+                        `{% include 'post/posts/post/buttons/likeButton/likedButton/likedButton.html' %}`
+
+                    like_counter.classList.add('like__button-like_counter--liked')
+                    like_counter.innerHTML++
+                }
+            }
+            executeLikeAction()
+        }
+    }
+
     function setLikeButtons({
-        like_forms,
-        like_button_container_set,
-        like_action_set,
-        like_counter_set,
-        post_id_set,
+        like_forms, like_button_container_set,
+        like_action_set, like_counter_set, post_id_set,
     }) {
         zip(like_forms, like_button_container_set, like_action_set, like_counter_set, post_id_set)
-            .forEach(
-            ([form, like_button_container, like_action, like_counter, post_id]) => {
-                form.onsubmit = (e) => {
-                    e.preventDefault()
-
-                    const form = new FormData()
-                    form.append('post_id', post_id.innerText)
-                    form.append('action', like_action.innerText)
-
-                    const headers = {
-                        'X-CSRFToken': csrf_token,
-                        'Content-Type': `multipart/form-data;
-                         boundary=${form._boundary}`,
-                    }
-
-                    async function executeLikeAction() {
-                        const url = `{% url 'post:like_post' %}`
-                        const response = await axios.post(url, form, {headers})
-                        const new_like_action = response.data.action
-
-                        like_action.innerHTML = new_like_action
-
-                        if (new_like_action === 'like') {
-                            like_button_container.innerHTML =
-                                `{% include 'post/posts/post/buttons/likeButton/baseButton/baseButton.html' %}`
-
-                            like_counter.classList.remove('like__button-like_counter--liked')
-
-                            if (like_counter.innerText === '1') {
-                                like_counter.innerHTML = ''
-                            } else {
-                                like_counter.innerHTML--
-                            }
-                        }
-                        else if (new_like_action === 'unlike') {
-                            like_button_container.innerHTML =
-                                `{% include 'post/posts/post/buttons/likeButton/likedButton/likedButton.html' %}`
-
-                            like_counter.classList.add('like__button-like_counter--liked')
-                            like_counter.innerHTML++
-                        }
-                    }
-                    executeLikeAction()
-                }
+            .forEach(([form, like_button_container, like_action, like_counter, post_id]) => {
+                setLikeButton({form, like_button_container, like_action, like_counter, post_id})
             }
         )
     }

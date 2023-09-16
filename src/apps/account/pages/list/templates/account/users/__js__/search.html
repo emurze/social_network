@@ -4,6 +4,7 @@
 
     const search_form = document.querySelector('.users__filters-search-form')
     const input = document.querySelector('.filters__search-input')
+    const cross = document.querySelector('.filters__search-cross')
 
     search_form.onsubmit = (e) => {
         e.preventDefault()
@@ -20,8 +21,8 @@
                 const response = await axios.get(`${url}?query=${query}`)
 
                 input.value = ''
-
                 window.scrollTo(0, 0)
+                cross.hidden = false
 
                 const users_batch = document.createElement('div')
                 users_batch.innerHTML = response.data
@@ -46,9 +47,6 @@
 
                 const new_header_width = getComputedStyle(document.querySelector('header')).width
                 onPossibleScroll(new_header_width)
-
-                const cross = document.querySelector('.filters__search-cross')
-                cross.hidden = false
             }_()
         } else {
             input.focus()
