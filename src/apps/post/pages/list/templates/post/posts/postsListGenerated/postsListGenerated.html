@@ -1,3 +1,23 @@
-{% for post in posts %}
-    {% include 'post/posts/post/post.html' %}
-{% endfor %}
+{% load static %}
+
+{% if posts %}
+    {% for post in posts %}
+        {% include 'post/posts/post/post.html' %}
+    {% endfor %}
+{% elif query %}
+    <div class="users_error_message" style="position: relative; left: 10px;">
+        Your search - <strong>{{ query }}</strong> - didn't match any users.
+        <div style="margin-top: 5px; border-radius: 50%; padding: 10px;">
+            <img style="border-radius: 50%; width: 250px; height: 250px;"
+                 src="{% static 'base/images/earth.jpg' %}" alt="">
+        </div>
+    </div>
+{% else %}SS
+    <div class="users_error_message" style="position: relative; left: 10px;">
+        Your filters didn't match any users.
+        <div style="margin-top: 5px; border-radius: 50%; padding: 10px;">
+            <img style="border-radius: 50%; width: 250px; height: 250px;"
+                 src="{% static 'base/images/earth.jpg' %}" alt="">
+        </div>
+    </div>
+{% endif %}

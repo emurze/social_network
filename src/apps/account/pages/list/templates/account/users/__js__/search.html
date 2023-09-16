@@ -43,7 +43,9 @@
                 age_input.forEach(elem => elem.checked = false)
 
                 infinityPaginationHandler(`query=${query}`)
-                onPossibleScroll(header_width)
+
+                const new_header_width = getComputedStyle(document.querySelector('header')).width
+                onPossibleScroll(new_header_width)
 
                 const cross = document.querySelector('.filters__search-cross')
                 cross.hidden = false

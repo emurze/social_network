@@ -3,6 +3,7 @@ import logging
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.handlers.wsgi import WSGIRequest
+from django.db.models import QuerySet
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render
 from django.template.loader import render_to_string
@@ -12,6 +13,8 @@ from rest_framework.generics import get_object_or_404
 
 from apps.account.services.page_downloader.page_downloader import \
     PageQuerySetDownloader
+from apps.account.services.search_queryset.search_queryset import \
+    BaseSearchQuerySet
 from .mixins import AddReplyFormMixin, AddPostForm
 
 from apps.post.models import Post, Reply
@@ -20,6 +23,8 @@ from apps.post.services.like.action import LikeAction
 from apps.post.services.like.dispatcher import dispatch_like_action
 from apps.post.services.like.mixins import LikeActionListMixin
 from django.conf import settings
+
+from ...services.search_posts.search_posts import PostsSearchQuerySet
 
 lg = logging.getLogger(__name__)
 SHOWED_REPLY_COUNT = 1
@@ -127,6 +132,13 @@ def download_posts(request: WSGIRequest) -> HttpResponse:
     if owner_id := request.GET.get('owner_user_id'):
         posts = posts.filter(user_id=owner_id)
 
+    if query := request.GET.get('query'):
+        searcher: BaseSearchQuerySet = PostsSearchQuerySet(
+            queryset=Post.objects.all(),
+            query=query,
+        )
+        posts = searcher.search()
+
     downloader = PageQuerySetDownloader(
         request=request,
         page=request.GET.get('page'),
@@ -163,5 +175,63 @@ def create_post(request: WSGIRequest) -> JsonResponse:
     else:
         return JsonResponse({
             'is_errors': True,
-            'errors_list': form.errors
+            'errors_list': form.errors,
         })
+
+
+@login_required
+@require_GET
+def search_posts(request: WSGIRequest) -> HttpResponse:
+    query = request.GET.get('query')
+    searcher: BaseSearchQuerySet = PostsSearchQuerySet(
+        queryset=Post.objects.all(),
+        query=query,
+    )
+    posts = searcher.search()
+
+    mixins_context = get_posts_mixins_context(
+        posts=posts,
+        request=request,
+    )
+
+    context = {
+        **mixins_context,
+        'query': query,
+    }
+    template_name = 'post/posts/postsListGenerated/postsListGenerated.html'
+    return render(request, template_name, context)
+
+
+@login_required
+@require_GET
+def filter_users(request: WSGIRequest) -> HttpResponse:
+    posts = Post.objects.all()
+
+    # FILTERS BY TAGS | ASC/DESC
+
+    template_name = 'post/posts/postsListGenerated/postsListGenerated.html'
+    context = {
+        'posts': posts[:settings.REQUEST_POST_COUNT],
+    }
+    return render(request, template_name, context)
+
+
+def get_posts_mixins_context(posts: QuerySet[Post],
+                             request: WSGIRequest) -> dict:
+    _request = request
+
+    class Returns:
+        def get_context_data(self, **kwargs):
+            kwargs['posts'] = self.object_list[:settings.REQUEST_POST_COUNT]
+            return kwargs
+
+    class MixinsToFunc(
+        AddReplyFormMixin,
+        AddPostForm,
+        LikeActionListMixin,
+        Returns
+    ):
+        object_list = posts
+        request = _request
+
+    return MixinsToFunc().get_context_data()

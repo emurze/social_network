@@ -11,7 +11,6 @@ from django.shortcuts import get_object_or_404, render
 from django.views.decorators.http import require_POST, require_GET
 from django.views.generic import ListView
 
-from apps.account.services.follow.action import FollowAction
 from apps.account.services.follow.dispatcher import dispatch_follow_action
 from apps.account.services.follow.mixins import FollowActionListMixin
 from apps.account.services.gender_age_filter.gender_age_filter import \
@@ -52,8 +51,6 @@ class AccountListView(LoginRequiredMixin, FollowActionListMixin, ListView):
 @login_required
 @require_GET
 def download_users(request: WSGIRequest) -> HttpResponse:
-    lg.debug(request.GET)
-
     users = User.ext_objects.get_users(excluded_user=request.user)
     gender_list = request.GET.getlist('gender')
     age_list = request.GET.getlist('age')
@@ -66,16 +63,12 @@ def download_users(request: WSGIRequest) -> HttpResponse:
         )
         users = searcher.search()
 
-        lg.debug('QUERY WORKED')
-
     if gender_list or age_list:
         users = gender_age_users_filter(
             users=users,
             gender_list=gender_list,
             age_list=age_list,
         )
-
-        lg.debug('FILTERS WORKED')
 
     downloader = PageQuerySetDownloader(
         request=request,
@@ -86,7 +79,6 @@ def download_users(request: WSGIRequest) -> HttpResponse:
         template_name='account/users/userListGenerated/userListGenerated.html',
         mixins=(FollowActionListMixin,),
     )
-
     return downloader.render()
 
 
@@ -100,12 +92,10 @@ def search_users(request: WSGIRequest) -> HttpResponse:
     )
     users = searcher.search()
 
-    my_user = request.user
-    for user in users:
-        if my_user.followings.contains(user):
-            user.action = FollowAction.UNFOLLOW
-        else:
-            user.action = FollowAction.FOLLOW
+    users = FollowActionListMixin.set_follow_actions(
+        requested_user=request.user,
+        users=users,
+    )
 
     context = {
         'users': users[:DEFAULT_USER_COUNT],
@@ -124,16 +114,10 @@ def filter_users(request: WSGIRequest) -> HttpResponse:
         gender_list=request.GET.getlist('gender'),
         age_list=request.GET.getlist('age'),
     )
-
-    lg.debug(users)
-
-    my_user = request.user
-    for user in users:
-        if my_user.followings.contains(user):
-            user.action = FollowAction.UNFOLLOW
-        else:
-            user.action = FollowAction.FOLLOW
-
+    users = FollowActionListMixin.set_follow_actions(
+        requested_user=request.user,
+        users=users,
+    )
     template_name = 'account/users/userListGenerated/userListGenerated.html'
     context = {
         'users': users[:settings.DEFAULT_USER_COUNT],

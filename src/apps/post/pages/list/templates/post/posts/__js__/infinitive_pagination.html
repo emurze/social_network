@@ -1,7 +1,7 @@
 {% load static %}
 
 <script defer>
-    window.addEventListener('DOMContentLoaded', () => {
+    function infinityPaginationHandler(query_strings = '') {
         const posts_container = document.querySelector('.posts__container')
         const extraMargin = 0
 
@@ -13,8 +13,10 @@
         let isFirst = true
         let created = false
 
-        window.onscroll = () => {
-            if (!blockRequest && !emptyPage) {
+        window.onscroll = (event) => {
+            const force = event.detail ? event.detail.force : false
+
+            if (!blockRequest && !emptyPage || force) {
                 const offset = elem => elem.getBoundingClientRect().top
 
                 if (isFirst) {
@@ -31,23 +33,39 @@
                 const last_post = elem ? offset(elem) : clientHeight+1
                 const margin = last_post - extraMargin
 
-                if (clientHeight > margin) {
-                    posts_container.insertAdjacentHTML(
-                        'beforeend',
-                        `{% include 'shared/loading_icon.html' %}`
-                    )
+                if (clientHeight > margin || force) {
+                    if (force) {
+                        const header_width = getComputedStyle(document.querySelector('header')).width
+                        posts_container.innerHTML = `{% include 'shared/loading_icon.html' with center=True %}`
+                        onPossibleScroll(header_width)
+                    } else {
+                        posts_container.insertAdjacentHTML(
+                            'beforeend',
+                            `{% include 'shared/loading_icon.html' %}`
+                        )
+                    }
 
                     elem && elem.removeAttribute('hx-trigger')
                     blockRequest = true
-                    page++
+
+                    if (!force)
+                        page++
 
                     {async function _() {
-                        const isUserPage = Boolean(`{{ is_user_posts }}`)
+                        console.log('QUERY')
+
                         const url = `{% url 'post:download_posts' %}`
-                        const response = await axios.get(
-                             isUserPage ? `${url}?&page=${page}&owner_user_id={{ user.id }}`
-                                        : `${url}?&page=${page}`
-                        )
+                        let full_url = ''
+
+                        if (force) {
+                            full_url = `${url}?page=1`
+                        } else {
+                            full_url = `${url}?page=${page}&${query_strings}`
+                        }
+
+                        console.log(full_url)
+
+                        const response = await axios.get(full_url)
                         const html = response.data
 
                         if (html === '') {
@@ -89,11 +107,18 @@
                                 post_id_set: elementFinder.querySelectorAll('.like__button-post_id'),
                             })
                         }
+                        const header_width = getComputedStyle(document.querySelector('header')).width
+                        onPossibleScroll(header_width)
+
                         const loading_icon = document.querySelector('.loading_icon')
-                        loading_icon.remove()
+                        loading_icon && loading_icon.remove()
                     }_()}
                 }
             }
         }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+        infinityPaginationHandler()
     })
 </script>
