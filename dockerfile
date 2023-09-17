@@ -5,8 +5,10 @@ ENV PYTHONNUNBUFFERED 1
 
 WORKDIR /service/
 
-COPY requirements.txt .
-RUN pip3 install -r requirements.txt
+COPY poetry.lock .
+COPY pyproject.toml .
+RUN pip3 install poetry
+RUN poetry install
 
 COPY src src
 

@@ -6,9 +6,9 @@ services:
     image: 'my_social_network:1'
     command: >
       sh -c 'cd src &&
-             python3 manage.py migrate --no-input &&
-             python3 manage.py createadmin &&
-             python3 manage.py runserver 0.0.0.0:8080'
+             poetry run python3 manage.py migrate --no-input &&
+             poetry run python3 manage.py createadmin &&
+             poetry run python3 manage.py runserver 0.0.0.0:8080'
     stdin_open: true
     tty: true
     networks:
