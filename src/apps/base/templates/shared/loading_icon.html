@@ -1,9 +1,8 @@
-<div class="loading_icon" style="
+<div class="loading_icon" style="margin: 10px auto 0 auto;
         {% if center %}
-            margin: 10px auto 0 auto;
             position: absolute;
             left: calc(50% - {{ loading_icon_size|default:30 }}px / 2);
-        {% else %}margin: 0 auto;{% endif %}
+        {% endif %}
             max-width: {{ loading_icon_size }}px; text-align: center;
         {% if absolute %}position: absolute;{% endif %}">
     <div style="height: {{ loading_icon_size|default:30 }}px;

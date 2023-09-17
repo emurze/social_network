@@ -1,0 +1,13 @@
+{% load static %}
+{% load thumbnail %}
+
+<div class="profile__header-cover">
+    {% if user.cover %}
+        <div class="profile__header-cover-image">
+            <img src="{% thumbnail user.cover 1000x600 crop="smart" %}" alt=""
+                 class="profile__header-cover-image-img">
+        </div>
+    {% else %}
+        <div class="profile__header-cover-base_image"></div>
+    {% endif %}
+</div>

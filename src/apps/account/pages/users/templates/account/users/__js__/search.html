@@ -19,8 +19,7 @@
             async function _() {
                 const url = `{% url 'account:search_users' %}`
                 const response = await axios.get(`${url}?query=${query}`)
-
-                input.value = ''
+                
                 window.scrollTo(0, 0)
                 cross.hidden = false
 

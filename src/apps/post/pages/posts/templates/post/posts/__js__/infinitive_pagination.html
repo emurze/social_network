@@ -27,6 +27,11 @@
                 const margin = last_post - extraMargin
 
                 if (!blockRequest && !emptyPage && clientHeight > margin || force) {
+                    if (force) {
+                        const header_width = getComputedStyle(document.querySelector('header')).width
+                        posts_container.innerHTML = ''
+                        onPossibleScroll(header_width)
+                    }
                     posts_container.insertAdjacentHTML(
                         'beforeend',
                         `{% include 'shared/loading_icon.html' with center=True %}`
@@ -92,6 +97,7 @@
                             })
                             showScroll()
                         }
+
                         blockRequest = false
 
                         const loading_icon = document.querySelector('.loading_icon')

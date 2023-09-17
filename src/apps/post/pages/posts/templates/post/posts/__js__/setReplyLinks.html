@@ -1,0 +1,42 @@
+<script defer>
+    function setReplyLink({reply_footer_form, content_input, reply_link, post_replies}) {
+        if (reply_footer_form && content_input && reply_link && post_replies) {
+
+            let replies_footer_form_is_showed = false
+
+            reply_link.onclick = () => {
+                if (!replies_footer_form_is_showed) {
+                    post_replies.style.padding = '14px 20px 14px 18px'
+                    post_replies.style.borderTop = '1px solid rgb(208, 208, 208)'
+                    post_replies.style.marginBottom = '0'
+                    replies_footer_form_is_showed = true
+
+                    reply_link.classList.add('reply__link--active')
+                    reply_footer_form.style.display = 'flex'
+
+                    if (post_replies.dataset.type === 'show_more') {
+                        post_replies.style.padding = '14px 20px 4px 18px'
+                        reply_footer_form.style.bottom = '9px'
+                    }
+                }
+                content_input.focus()
+            }
+        }
+    }
+
+    function setReplyLinks({
+        reply_footer_form_set, content_input_set,
+        reply_link_set, post_replies_set
+    }) {
+        zip(reply_footer_form_set, content_input_set, reply_link_set, post_replies_set)
+        .forEach(([reply_footer_form, content_input, reply_link, post_replies]) => {
+            setReplyLink({reply_footer_form, content_input, reply_link, post_replies})
+        })
+    }
+    setReplyLinks({
+        reply_footer_form_set,
+        content_input_set,
+        reply_link_set,
+        post_replies_set
+    })
+</script>

@@ -18,7 +18,7 @@ from apps.account.services.follow.dispatcher import dispatch_follow_action
 from apps.account.services.follow.mixins import FollowActionDetailMixin
 from apps.account.services.page_downloader.page_downloader import \
     PageQuerySetDownloader
-from apps.post.pages.list.mixins import AddReplyFormMixin, AddPostForm
+from apps.post.pages.posts.mixins import AddReplyFormMixin, AddPostForm
 
 User = get_user_model()
 lg = logging.getLogger(__name__)
@@ -93,8 +93,10 @@ def edit_cover(request: WSGIRequest, username: str) -> HttpResponse:
         data=request.POST,
         files=request.FILES,
     )
+
     if form.is_valid():
         form.save()
     else:
         lg.warning('User edit form without data.')
-        return HttpResponse('')
+
+    return HttpResponse('')

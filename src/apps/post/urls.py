@@ -1,6 +1,6 @@
 from django.urls import path
 
-from apps.post.pages.list.views import (
+from apps.post.pages.posts.views import (
     create_post,
     like_post,
     download_replies,

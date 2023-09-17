@@ -1,10 +1,7 @@
 import logging
-import random
 
 from django.contrib.auth import get_user_model
 from django.db import models, IntegrityError
-from django.db.models.signals import pre_save
-from django.dispatch import receiver
 
 from apps.post.dal import PostDAL
 
@@ -19,7 +16,6 @@ class Post(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE,
                              related_name='posts')
-    slug = models.SlugField(max_length=128, unique=True)
     description = models.TextField()
     photo = models.ImageField(upload_to='posts/%Y/%m/%d', null=True,
                               blank=True)
@@ -48,13 +44,6 @@ class Post(models.Model):
 
     def __str__(self) -> str:
         return self.description[:30]
-
-
-@receiver(pre_save, sender=Post)
-def set_slug_by_title(sender, instance: Post, *_, **__) -> None:
-    slug = instance.slug
-    if slug is None or slug == '':
-        instance.slug = random.randint(100_000_000_000, 999_999_999_999_999)
 
 
 class LikeContract(models.Model):

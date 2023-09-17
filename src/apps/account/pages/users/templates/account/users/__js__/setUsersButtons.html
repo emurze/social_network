@@ -7,31 +7,32 @@
         )
     }
     function setUserButton({form, follow_button, username}) {
-        form.onsubmit = (e) => {
-            e.preventDefault()
-            const action = follow_button.innerText
+        if (form && follow_button && username)
+            form.onsubmit = (e) => {
+                e.preventDefault()
+                const action = follow_button.innerText
 
-            const form = new FormData()
-            form.append('username', username.innerText)
-            form.append('action', action)
+                const form = new FormData()
+                form.append('username', username.innerText)
+                form.append('action', action)
 
-            const headers = {
-                'X-CSRFToken': csrf_token,
-                'Content-Type': `multipart/form-data;
-             boundary=${form._boundary}`,
+                const headers = {
+                    'X-CSRFToken': csrf_token,
+                    'Content-Type': `multipart/form-data;
+                 boundary=${form._boundary}`,
+                }
+
+                async function _() {
+                    const url = "{% url 'account:follow_list' %}"
+                    const response = await axios.post(url, form, {headers})
+                    const new_action = response.data.action
+
+                    follow_button.innerHTML = new_action
+                    follow_button.style.backgroundColor =
+                        new_action === 'Follow' ? 'rgb(1, 135, 180)' : 'red'
+
+                }_()
             }
-
-            async function _() {
-                const url = "{% url 'account:follow_list' %}"
-                const response = await axios.post(url, form, {headers})
-                const new_action = response.data.action
-
-                follow_button.innerHTML = new_action
-                follow_button.style.backgroundColor =
-                    new_action === 'Follow' ? 'rgb(1, 135, 180)' : 'red'
-
-            }_()
-        }
     }
     setUsersButtons({
         forms: document.querySelectorAll('.follow_button__form'),

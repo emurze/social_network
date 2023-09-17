@@ -27,9 +27,16 @@
                 const margin = last_post - extraMargin
 
                 if (!blockRequest && !emptyPage && clientHeight > margin || force) {
+                    if (force) {
+                        const header_width = getComputedStyle(document.querySelector('header')).width
+                        users_container.innerHTML = ''
+                        onPossibleScroll(header_width)
+                    }
+
                     users_container.insertAdjacentHTML(
                         'beforeend',
-                        `{% include 'shared/loading_icon.html' %}`
+                        force ? `{% include 'shared/loading_icon.html' with center=True %}`
+                              : `{% include 'shared/loading_icon.html' %}`
                     )
 
                     elem && elem.removeAttribute('hx-trigger')
