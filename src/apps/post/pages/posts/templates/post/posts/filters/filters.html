@@ -19,74 +19,47 @@
         </form>
     </section>
 
-    <section class="users__filters-tags no_display">
+    <section class="posts__filters-tags no_display">
         <form method="POST" name="filters_form">
-            <div class="search_gender">
-                <div class="search_gender__title">Gender</div>
-
-                <div class="search_gender__choices">
-                    <label for="male" class="search_gender__label">
-                        <input type="checkbox" id="male" name="gender" value="ML"
-                               class="search_gender__label-input"/>
-                        Male
+            <section class="search_order">
+                <div class="search_order__title">Order</div>
+                <div>
+                    <label style="display: block;">
+                        <input type="radio" name="order">
+                        Newest
                     </label>
-
-                    <label for="female" class="search_gender__label">
-                        <input type="checkbox" id="female" name="gender" value="FL"
-                               class="search_gender__label-input"/>
-                        Female
-                    </label>
-
-                    <label for="custom" class="search_gender__label">
-                        <input type="checkbox" id="custom" name="gender" value="CM"
-                               class="search_gender__label-input"/>
-                        Custom
+                    <label style="display: block;">
+                        <input type="radio" name="order">
+                        Latest
                     </label>
                 </div>
-            </div>
+            </section>
 
-            <div class="search_age">
-                <div class="search_age__title">Age</div>
+            <section>
+                <label>
+                    Photo
+                    <input type="checkbox" name="photo">
+                </label>
+                <label>
+                    Complicated
+                    <input type="checkbox" name="complicated">
+                </label>
+                <label>
+                    Verified
+                    <input type="checkbox" name="verified">
+                </label>
+            </section>
 
-                <div class="search_age__choices">
-                    <label for="young" class="search_age__label">
-                        <input type="checkbox" id="young" name="age" value="Y"
-                               class="search_age__label-input"/>
-                        10 - 18
-                    </label>
-
-                    <label for="young-adult" class="search_age__label">
-                        <input type="checkbox" id="young-adult" name="age" value="YA"
-                               class="search_age__label-input"/>
-                        18 - 26
-                    </label>
-
-                    <label for="adult" class="search_age__label">
-                        <input type="checkbox" id="adult" name="age" value="A"
-                               class="search_age__label-input"/>
-                        26 - 34
-                    </label>
-
-                    <label for="post-adult" class="search_age__label">
-                        <input type="checkbox" id="post-adult" name="age" value="PA"
-                               class="search_age__label-input"/>
-                        34+
-                    </label>
-               </div>
-            </div>
-
-            <div class="find_button">
+            <section class="find_button">
                 <button type="submit" class="find_button-button">
                     Find
                 </button>
-            </div>
+            </section>
         </form>
     </section>
 
     <div class="filters__link_button" onclick="showFilter(this)">
-        <div>
-            Filters
-        </div>
+        <div>Filters</div>
         <div style="width: 24px; height: 24px;">
             <svg enable-background="new 0 0 24 24" height="24" viewBox="0 0 24 24" width="24" fill="currentColor" focusable="false" style="pointer-events: none; display: block; width: 100%; height: 100%;">
                 <path d="M15 17h6v1h-6v-1zm-4 0H3v1h8v2h1v-5h-1v2zm3-9h1V3h-1v2H3v1h11v2zm4-3v1h3V5h-3zM6 14h1V9H6v2H3v1h3v2zm4-2h11v-1H10v1z"></path>

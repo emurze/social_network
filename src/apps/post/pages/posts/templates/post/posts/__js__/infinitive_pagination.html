@@ -43,8 +43,6 @@
                     if (!force) page++
 
                     async function _() {
-                        console.log('QUERY')
-
                         const url = `{% url 'post:download_posts' %}`
                         let full_url = ''
 
@@ -108,7 +106,7 @@
         }
     }
 
-    window.addEventListener('DOMContentLoaded', () => {
-        infinityPaginationHandler()
-    })
+    window.addEventListener(
+        'DOMContentLoaded', () => infinityPaginationHandler()
+    )
 </script>

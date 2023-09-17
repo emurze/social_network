@@ -32,7 +32,6 @@
                         users_container.innerHTML = ''
                         onPossibleScroll(header_width)
                     }
-
                     users_container.insertAdjacentHTML(
                         'beforeend',
                         force ? `{% include 'shared/loading_icon.html' with center=True %}`
@@ -89,12 +88,6 @@
     }
 
     window.addEventListener(
-        'DOMContentLoaded', () => {
-            {#if (!BLOCK)#}
-                const l = setInterval(() => {
-                    infinityPaginationHandler()
-                    clearInterval(l)
-                }, 5)
-        }
+        'DOMContentLoaded', () => infinityPaginationHandler()
     )
 </script>
