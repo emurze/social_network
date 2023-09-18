@@ -1,10 +1,11 @@
-<div class="loading_icon" style="margin: 10px auto 0 auto;
+<div class="loading_icon" style="margin: 0 auto;
+        height: {{ loading_icon_size|default:30 }}px;
+        width: {{ loading_icon_size|default:30 }}px;
         {% if center %}
             position: absolute;
             left: calc(50% - {{ loading_icon_size|default:30 }}px / 2);
         {% endif %}
-            max-width: {{ loading_icon_size }}px; text-align: center;
-        {% if absolute %}position: absolute;{% endif %}">
+            max-width: {{ loading_icon_size }}px; text-align: center;">
     <div style="height: {{ loading_icon_size|default:30 }}px;
                 width: {{ loading_icon_size|default:30 }}px;
                 border: {{ loading_icon_weight|default:4 }}px solid;

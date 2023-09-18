@@ -1,5 +1,5 @@
 <script defer>
-    const posts_filters_tags = document.querySelector('.users__filters-tags')
+    const posts_filters_tags = document.querySelector('.posts__filters-tags')
     const find_button = document.querySelector('.find_button-button')
     const filters_form = document.forms.filters_form
     const default_find_button_html = find_button.innerHTML
@@ -9,35 +9,33 @@
 
         const header_width = getComputedStyle(document.querySelector('header')).width
 
-        {#function get_multi_query_strings(input_set, name) {#}
-        {#    return input_set.filter(checkout => checkout.checked)#}
-        {#                    .map(checkout => `${name}=${checkout.value}`)#}
-        {#                    .join('&')#}
-        {##}
-        {#const gender_input_set = Array.from(filters_form.gender)#}
-        {#const age_input_set = Array.from(filters_form.age)#}
-        {##}
-        {#const gender_set = get_multi_query_strings(gender_input_set, 'gender')#}
-        {#const age_set = get_multi_query_strings(age_input_set, 'age')#}
-        {##}
-        {#let data = ''#}
-        {#if (gender_set && age_set)#}
-        {#    data = `${gender_set}&${age_set}`#}
-        {#else if (gender_set)#}
-        {#    data = gender_set#}
-        {#else if (age_set)#}
-        {#    data = age_set#}
+        function get_multi_query_strings(input_set, name) {
+            return input_set.filter(checkout => checkout.checked)
+                .map(checkout => `${name}=${checkout.value}`)
+        }
+
+        const order_input_set = Array.from(filters_form.order)
+        const photo_input = filters_form.photo
+        const verified_input = filters_form.verified
+
+        const order_set = get_multi_query_strings(order_input_set, 'order')
+        const photo = photo_input.value ? `photo=True` : ''
+        const verified = verified_input.value ? `verified=True` : ''
+
+        let data = ''
+        Array.from([order_set, photo, verified]).forEach(elem => {
+            data += `${elem}&`
+        })
 
         {#users_container.innerHTML = `{% include 'shared/loading_icon.html' with center=True %}`#}
         {#onPossibleScroll(header_width)#}
 
         find_button.innerHTML = `{% include 'shared/loading_icon.html' with loading_icon_size=17 loading_icon_weight=3 %}`
         find_button.style.top = '4px'
-        users_filters_tags.style.paddingBottom = '8px'
-
+        posts_filters_tags.style.paddingBottom = '8px'
 
         async function _() {
-            const url = `{% url 'account:filter_users' %}`
+            const url = `{% url 'post:filter_posts' %}`
             const response = await axios.get(`${url}?${data}`)
 
             window.scrollTo(0, 0)
@@ -46,11 +44,37 @@
             const users_batch = document.createElement('div')
             users_batch.innerHTML = response.data
 
-            // SET JS
-
             const elements = Array.from(users_batch.children)
             elements.forEach(
-                elem => posts_container.insertAdjacentElement('afterbegin', elem)
+                elem => {
+                    posts_container.insertAdjacentElement('afterbegin', elem)
+                    setReplyLink({
+                        reply_footer_form: elem.querySelector('.post__replies-footer'),
+                        content_input: elem.querySelector('input[id="id_content"]'),
+                        reply_link: elem.querySelector('.reply__link'),
+                        post_replies: elem.querySelector('.post__replies'),
+                    })
+                    setLikeButton({
+                        form: elem.querySelector('.like__button-form'),
+                        like_button_container: elem.querySelector('.like__button-container'),
+                        like_action: elem.querySelector('.like__button-action'),
+                        like_counter: elem.querySelector('.like__button-like_counter'),
+                        post_id: elem.querySelector('.like__button-post_id')
+                    })
+                    setRepliesButton({
+                        form: elem.querySelector('.post__replies-footer-form'),
+                        reply_list: elem.querySelector('.post__replies-list'),
+                        post_id: elem.querySelector('.like__button-post_id'),
+                        content_input: elem.querySelector('input[id="id_content"]'),
+                        reply_link_counter: elem.querySelector('.reply__link-counter'),
+                    })
+                    setShowMoreItem({
+                        replies_set: elem.querySelector('.post__replies-list-all'),
+                        replies_first: elem.querySelector('.reply_item-info--first'),
+                        show_more: elem.querySelector('.post__replies-show_more'),
+                        post_id: elem.querySelector('.like__button-post_id'),
+                    })
+                }
             )
 
             {#infinityPaginationHandler(`${data}`)#}

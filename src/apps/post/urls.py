@@ -7,7 +7,7 @@ from apps.post.pages.posts.views import (
     create_reply,
     download_posts,
     PostListView,
-    search_posts,
+    search_posts, filter_posts,
 )
 
 app_name = 'post'
@@ -21,4 +21,5 @@ urlpatterns = [
     path('posts/download_posts/', download_posts, name='download_posts'),
     path('posts/create/', create_post, name='create'),
     path('posts/search_posts/', search_posts, name='search_posts'),
+    path('posts/filter_posts/', filter_posts, name='filter_posts'),
 ]

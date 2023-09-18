@@ -23,31 +23,30 @@
         <form method="POST" name="filters_form">
             <section class="search_order">
                 <div class="search_order__title">Order</div>
-                <div>
+                <div style="width: 65px;">
                     <label style="display: block;">
-                        <input type="radio" name="order">
+                        <input type="radio" name="order" value='ASC' style="position: relative; right: 3px;">
                         Newest
                     </label>
-                    <label style="display: block;">
-                        <input type="radio" name="order">
+                    <label style="display: block; position: relative; bottoM: 4px;">
+                        <input type="radio" name="order" value='DESC' style="position: relative; right: 3px;">
                         Latest
                     </label>
                 </div>
             </section>
 
-            <section>
-                <label>
-                    Photo
-                    <input type="checkbox" name="photo">
-                </label>
-                <label>
-                    Complicated
-                    <input type="checkbox" name="complicated">
-                </label>
-                <label>
-                    Verified
-                    <input type="checkbox" name="verified">
-                </label>
+            <section style="display: flex; justify-content: space-between;">
+                <div>Details</div>
+                <div>
+                    <label style="display: block; width: 65px;">
+                        <input type="checkbox" name="photo" style="position: relative; right: 3px;">
+                        Photo
+                    </label>
+                    <label style="display: block; width: 65px; position: relative; bottom: 4px;">
+                        <input type="checkbox" name="verified" style="position: relative; top: 2px; right: 2px;">
+                        Verified
+                    </label>
+                </div>
             </section>
 
             <section class="find_button">
