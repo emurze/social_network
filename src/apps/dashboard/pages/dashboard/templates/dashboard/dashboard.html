@@ -6,8 +6,7 @@
 
 {% block links %}
     {% include 'base/footer/css.html' %}
-    <link rel="stylesheet" href="{% static 'dashboard/css/main_image.css' %}">
-    <link rel="stylesheet" href="{% static 'dashboard/css/actions.css' %}">
+    {% include 'dashboard/css.html' %}
 {% endblock %}
 
 {% block main %}
