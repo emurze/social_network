@@ -1,13 +1,14 @@
 from django.urls import path
 
 from apps.post.pages.posts.views import (
-    create_post,
+    CreatePost,
     like_post,
     download_replies,
     create_reply,
-    download_posts,
+    DownloadPosts,
     PostListView,
-    search_posts, filter_posts,
+    FilterPosts,
+    SearchPosts,
 )
 
 app_name = 'post'
@@ -18,8 +19,8 @@ urlpatterns = [
     path('posts/create_reply/', create_reply, name='create_reply'),
     path('posts/download_replies/', download_replies,
          name='download_replies'),
-    path('posts/download_posts/', download_posts, name='download_posts'),
-    path('posts/create/', create_post, name='create'),
-    path('posts/search_posts/', search_posts, name='search_posts'),
-    path('posts/filter_posts/', filter_posts, name='filter_posts'),
+    path('posts/download/', DownloadPosts.as_view(), name='download_posts'),
+    path('posts/create/', CreatePost.as_view(), name='create'),
+    path('posts/search/', SearchPosts.as_view(), name='search_posts'),
+    path('posts/filter/', FilterPosts.as_view(), name='filter_posts'),
 ]

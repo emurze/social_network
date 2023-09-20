@@ -12,10 +12,10 @@ from django.views.generic import DetailView, UpdateView
 
 from .forms import EditCoverForm, AccountEditForm
 from .mixins import AddUserPosts, LikeActionAccountDetailMixin, \
-    AddFollowingUsersMixin, ProfileSelectedMixin, AjaxErrorsMixin
+    AddFollowingUsersMixin, ProfileSelectedMixin, AjaxErrorsMixin, \
+    FollowActionDetailMixin
 
 from apps.account.services.follow.dispatcher import dispatch_follow_action
-from apps.account.services.follow.mixins import FollowActionDetailMixin
 from apps.account.services.page_downloader.page_downloader import \
     PaginationDownloader
 from apps.post.pages.posts.mixins import AddReplyFormMixin, AddPostForm

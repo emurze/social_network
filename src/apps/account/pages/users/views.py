@@ -11,8 +11,8 @@ from django.shortcuts import get_object_or_404, render
 from django.views.decorators.http import require_POST, require_GET
 from django.views.generic import ListView
 
+from apps.account.pages.users.mixins import FollowActionListMixin
 from apps.account.services.follow.dispatcher import dispatch_follow_action
-from apps.account.services.follow.mixins import FollowActionListMixin
 from apps.account.services.gender_age_filter.gender_age_filter import \
     gender_age_users_filter
 from apps.account.services.page_downloader.page_downloader import \
@@ -58,11 +58,8 @@ def download_users(request: WSGIRequest) -> HttpResponse:
     query = request.GET.get('query')
 
     if query:
-        searcher: BaseSearchQuerySet = UsersSearchQuerySet(
-            queryset=users,
-            query=query,
-        )
-        users = searcher.search()
+        searcher = UsersSearchQuerySet()
+        users = searcher.search(queryset=users, query=query)
 
     if gender_list or age_list:
         users = gender_age_users_filter(
@@ -71,14 +68,17 @@ def download_users(request: WSGIRequest) -> HttpResponse:
             age_list=age_list,
         )
 
+    users = FollowActionListMixin.set_follow_actions(
+        requested_user=request.user,
+        users=users,
+    )
+
     downloader = PaginationDownloader(
         page=request.GET.get('page'),
         queryset=users,
         per_page_count=settings.REQUEST_USER_COUNT,
         context_object_name='users',
     )
-
-    # FollowActionListMixin
 
     context = downloader.get_context()
     template_name = 'account/users/userListGenerated/userListGenerated.html',

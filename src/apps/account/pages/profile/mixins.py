@@ -2,6 +2,7 @@ import logging
 from typing import Any
 
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.core.paginator import Paginator
 from django.http import HttpResponse, JsonResponse
 
@@ -9,8 +10,10 @@ from .forms import AccountEditForm
 
 from apps.post.models import Post
 from apps.post.services.like.action import LikeAction
+from ...services.follow.action import FollowAction
 
 lg = logging.getLogger(__name__)
+User = get_user_model()
 
 
 class AddUserPosts:
@@ -73,3 +76,22 @@ class AjaxErrorsMixin:
     def form_invalid(form: AccountEditForm) -> HttpResponse:
         form._errors['is_errors'] = True
         return JsonResponse(form._errors)
+
+
+class FollowActionDetailMixin:
+    @staticmethod
+    def _set_follow_action(requested_user: User, user: User) -> LikeAction:
+        if requested_user.followings.contains(user):
+            action = FollowAction.UNFOLLOW
+        else:
+            action = FollowAction.FOLLOW
+        return action
+
+    def get_context_data(self, *args, **kwargs):
+        action = self._set_follow_action(
+            requested_user=self.request.user,
+            user=self.object,
+        )
+
+        kwargs['action'] = action
+        return super().get_context_data(*args, **kwargs)
