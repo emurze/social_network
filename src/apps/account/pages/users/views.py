@@ -16,7 +16,8 @@ from apps.account.services.follow.mixins import FollowActionListMixin
 from apps.account.services.gender_age_filter.gender_age_filter import \
     gender_age_users_filter
 from apps.account.services.page_downloader.page_downloader import \
-    PageQuerySetDownloader
+    PaginationDownloader
+from apps.account.services.search_queryset.fabric import UsersSearchFabric
 from apps.account.services.search_queryset.search_queryset import \
     BaseSearchQuerySet, UsersSearchQuerySet
 from config.settings import DEFAULT_USER_COUNT
@@ -70,27 +71,29 @@ def download_users(request: WSGIRequest) -> HttpResponse:
             age_list=age_list,
         )
 
-    downloader = PageQuerySetDownloader(
-        request=request,
+    downloader = PaginationDownloader(
         page=request.GET.get('page'),
         queryset=users,
         per_page_count=settings.REQUEST_USER_COUNT,
         context_object_name='users',
-        template_name='account/users/userListGenerated/userListGenerated.html',
-        mixins=(FollowActionListMixin,),
     )
-    return downloader.render()
+
+    # FollowActionListMixin
+
+    context = downloader.get_context()
+    template_name = 'account/users/userListGenerated/userListGenerated.html',
+    return render(request, template_name, context)
 
 
 @login_required
 @require_GET
 def search_users(request: WSGIRequest) -> HttpResponse:
     query = request.GET.get('query')
-    searcher: BaseSearchQuerySet = UsersSearchQuerySet(
+    searcher = UsersSearchFabric.get_searcher()
+    users = searcher.search(
         queryset=User.objects.exclude(id=request.user.id),
         query=query,
     )
-    users = searcher.search()
 
     users = FollowActionListMixin.set_follow_actions(
         requested_user=request.user,

@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.handlers.wsgi import WSGIRequest
 from django.http import JsonResponse, HttpResponse
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from django.views.decorators.http import require_POST, require_GET
 from django.views.generic import DetailView, UpdateView
 
@@ -17,7 +17,7 @@ from .mixins import AddUserPosts, LikeActionAccountDetailMixin, \
 from apps.account.services.follow.dispatcher import dispatch_follow_action
 from apps.account.services.follow.mixins import FollowActionDetailMixin
 from apps.account.services.page_downloader.page_downloader import \
-    PageQuerySetDownloader
+    PaginationDownloader
 from apps.post.pages.posts.mixins import AddReplyFormMixin, AddPostForm
 
 User = get_user_model()
@@ -68,20 +68,20 @@ def follow_pagination(request: WSGIRequest, user_id: int) -> HttpResponse:
     user = get_object_or_404(User, id=user_id)
     page = request.GET.get('page')
 
-    downloader = PageQuerySetDownloader(
-        request=request,
+    downloader = PaginationDownloader(
         page=page,
         queryset=user.get_followings(),
         per_page_count=settings.REQUEST_FOLLOWINGS_COUNT,
         context_object_name='following_users',
-        template_name='account/profile/followings/followingContent/'
-                      'followingContent.html',
-        extra_context={
-            'user': user,
-            'page': int(page)
-        },
     )
-    return downloader.render()
+    context = {
+        **downloader.get_context(),
+        'user': user,
+        'page': int(page)
+    }
+    template_name = ('account/profile/followings/followingContent/'
+                     'followingContent.html')
+    return render(request, template_name, context)
 
 
 @login_required

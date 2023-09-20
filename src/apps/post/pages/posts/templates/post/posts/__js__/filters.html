@@ -19,8 +19,8 @@
         const verified_input = filters_form.verified
 
         const order_set = get_multi_query_strings(order_input_set, 'order')
-        const photo = photo_input.value ? `photo=True` : ''
-        const verified = verified_input.value ? `verified=True` : ''
+        const photo = photo_input.checked ? `photo=True` : ''
+        const verified = verified_input.checked ? `verified=True` : ''
 
         let data = ''
         Array.from([order_set, photo, verified]).forEach(elem => {
@@ -47,7 +47,7 @@
             const elements = Array.from(users_batch.children)
             elements.forEach(
                 elem => {
-                    posts_container.insertAdjacentElement('afterbegin', elem)
+                    posts_container.insertAdjacentElement('beforeend', elem)
                     setReplyLink({
                         reply_footer_form: elem.querySelector('.post__replies-footer'),
                         content_input: elem.querySelector('input[id="id_content"]'),
@@ -77,7 +77,7 @@
                 }
             )
 
-            {#infinityPaginationHandler(`${data}`)#}
+            infinityPaginationHandler(`${data}`)
             onPossibleScroll(header_width)
 
             const cross = document.querySelector('.filters__search-cross')

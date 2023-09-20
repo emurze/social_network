@@ -1,26 +1,20 @@
-from dataclasses import dataclass, field
+import abc
 
 from django.contrib.postgres.search import TrigramSimilarity
 from django.db.models import QuerySet
 
-from apps.account.services.search_queryset.search_queryset import \
-    BaseSearchQuerySet
+from apps.post.models import Post
 
 
-@dataclass
+class BaseSearchQuerySet(abc.ABC):
+    @abc.abstractmethod
+    def search(self, queryset: QuerySet, query: str) -> QuerySet: ...
+
+
 class PostsSearchQuerySet(BaseSearchQuerySet):
-    queryset: QuerySet = field(repr=False)
-    query: str
-
-    def search(self) -> QuerySet:
+    def search(self, queryset: QuerySet[Post], query: str) -> QuerySet[Post]:
         """Algorithm"""
 
-        return self.queryset.annotate(
-            similarity=TrigramSimilarity("description", self.query),
+        return queryset.annotate(
+            similarity=TrigramSimilarity("description", query),
         ).filter(similarity__gt=0.65).order_by("similarity")
-
-    def get_queryset(self) -> QuerySet:
-        return self.queryset
-
-    def get_query(self) -> str:
-        return self.query

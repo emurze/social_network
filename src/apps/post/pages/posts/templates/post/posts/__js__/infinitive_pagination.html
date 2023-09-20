@@ -1,7 +1,7 @@
 <script defer>
     function infinityPaginationHandler(query_strings = '') {
         const posts_container = document.querySelector('.posts__container')
-        const extraMargin = 10
+        const extraMargin = 1
 
         let emptyPage = false
         let page = 1
@@ -63,9 +63,7 @@
                             if (force) posts_container.innerHTML = ''
                             const elements = Array.from(elementFinder.children)
                             elements.forEach(elem => {
-                                posts_container.insertAdjacentElement(
-                                    'beforeend', elem
-                                )
+                                posts_container.insertAdjacentElement('beforeend', elem)
                                 setReplyLink({
                                     reply_footer_form: elem.querySelector('.post__replies-footer'),
                                     content_input: elem.querySelector('input[id="id_content"]'),
