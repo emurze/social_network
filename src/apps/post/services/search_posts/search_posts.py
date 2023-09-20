@@ -1,17 +1,17 @@
-import abc
-
 from django.contrib.postgres.search import TrigramSimilarity
 from django.db.models import QuerySet
 
 from apps.post.models import Post
+from services.search import BaseSearch
 
 
-class BaseSearchQuerySet(abc.ABC):
-    @abc.abstractmethod
-    def search(self, queryset: QuerySet, query: str) -> QuerySet: ...
+class PostsSearchFabric:
+    @staticmethod
+    def get_searcher() -> BaseSearch:
+        return PostsSearch()
 
 
-class PostsSearchQuerySet(BaseSearchQuerySet):
+class PostsSearch(BaseSearch):
     def search(self, queryset: QuerySet[Post], query: str) -> QuerySet[Post]:
         """Algorithm"""
 
