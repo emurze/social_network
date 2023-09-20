@@ -52,46 +52,58 @@
                             full_url = `${url}?page=${page}&${query_strings}`
                         }
 
-                        const response = await axios.get(full_url)
-                        const html = response.data
+                        try {
+                            let response;
+                            try {
+                                response = await axios.get(full_url)
+                            } catch (err) {
+                                console.log(err)
+                            }
 
-                        if (html === '') emptyPage = true
-                        else {
-                            const elementFinder  = document.createElement('div')
-                            elementFinder.innerHTML = html
+                            const html = response.data
 
-                            if (force) posts_container.innerHTML = ''
-                            const elements = Array.from(elementFinder.children)
-                            elements.forEach(elem => {
-                                posts_container.insertAdjacentElement('beforeend', elem)
-                                setReplyLink({
-                                    reply_footer_form: elem.querySelector('.post__replies-footer'),
-                                    content_input: elem.querySelector('input[id="id_content"]'),
-                                    reply_link: elem.querySelector('.reply__link'),
-                                    post_replies: elem.querySelector('.post__replies'),
+                            if (html === '') emptyPage = true
+                            else {
+                                const elementFinder  = document.createElement('div')
+                                elementFinder.innerHTML = html
+
+                                if (force) posts_container.innerHTML = ''
+                                const elements = Array.from(elementFinder.children)
+                                elements.forEach(elem => {
+                                    posts_container.insertAdjacentElement('beforeend', elem)
+                                    setReplyLink({
+                                        reply_footer_form: elem.querySelector('.post__replies-footer'),
+                                        content_input: elem.querySelector('input[id="id_content"]'),
+                                        reply_link: elem.querySelector('.reply__link'),
+                                        post_replies: elem.querySelector('.post__replies'),
+                                    })
+                                    setLikeButton({
+                                        form: elem.querySelector('.like__button-form'),
+                                        like_button_container: elem.querySelector('.like__button-container'),
+                                        like_action: elem.querySelector('.like__button-action'),
+                                        like_counter: elem.querySelector('.like__button-like_counter'),
+                                        post_id: elem.querySelector('.like__button-post_id')
+                                    })
+                                    setRepliesButton({
+                                        form: elem.querySelector('.post__replies-footer-form'),
+                                        reply_list: elem.querySelector('.post__replies-list'),
+                                        post_id: elem.querySelector('.like__button-post_id'),
+                                        content_input: elem.querySelector('input[id="id_content"]'),
+                                        reply_link_counter: elem.querySelector('.reply__link-counter'),
+                                    })
+                                    setShowMoreItem({
+                                        replies_set: elem.querySelector('.post__replies-list-all'),
+                                        replies_first: elem.querySelector('.reply_item-info--first'),
+                                        show_more: elem.querySelector('.post__replies-show_more'),
+                                        post_id: elem.querySelector('.like__button-post_id'),
+                                    })
                                 })
-                                setLikeButton({
-                                    form: elem.querySelector('.like__button-form'),
-                                    like_button_container: elem.querySelector('.like__button-container'),
-                                    like_action: elem.querySelector('.like__button-action'),
-                                    like_counter: elem.querySelector('.like__button-like_counter'),
-                                    post_id: elem.querySelector('.like__button-post_id')
-                                })
-                                setRepliesButton({
-                                    form: elem.querySelector('.post__replies-footer-form'),
-                                    reply_list: elem.querySelector('.post__replies-list'),
-                                    post_id: elem.querySelector('.like__button-post_id'),
-                                    content_input: elem.querySelector('input[id="id_content"]'),
-                                    reply_link_counter: elem.querySelector('.reply__link-counter'),
-                                })
-                                setShowMoreItem({
-                                    replies_set: elem.querySelector('.post__replies-list-all'),
-                                    replies_first: elem.querySelector('.reply_item-info--first'),
-                                    show_more: elem.querySelector('.post__replies-show_more'),
-                                    post_id: elem.querySelector('.like__button-post_id'),
-                                })
-                            })
-                            showScroll()
+                                showScroll()
+                            }
+
+                        } catch (err) {
+                            emptyPage = true
+                            console.log(err)
                         }
 
                         blockRequest = false
