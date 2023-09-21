@@ -1,6 +1,7 @@
 <script defer>
     function returnsToBasePosts(cross) {
         const _event = new CustomEvent('scroll', {detail: {force: true}});
+        infinityPaginationHandler('', `{% url 'post:reset_posts' %}`)
         window.dispatchEvent(_event)
         infinityPaginationHandler()
         cross.hidden = true

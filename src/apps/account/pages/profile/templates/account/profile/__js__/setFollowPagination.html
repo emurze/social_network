@@ -13,6 +13,9 @@
             const response = await axios.get(
                 `${url}?page=${page}`
             )
+
+            console.log(response.data)
+
             const following_elem = document.createElement('div')
             following_elem.innerHTML = response.data
 

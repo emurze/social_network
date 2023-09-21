@@ -23,7 +23,7 @@
                 }
 
                 async function _() {
-                    const url = "{% url 'account:follow_list' %}"
+                    const url = "{% url 'account:follow_user' %}"
                     const response = await axios.post(url, form, {headers})
                     const new_action = response.data.action
 

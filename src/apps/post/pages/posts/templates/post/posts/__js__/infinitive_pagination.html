@@ -1,5 +1,5 @@
 <script defer>
-    function infinityPaginationHandler(query_strings = '') {
+    function infinityPaginationHandler(query_strings = '', url = '') {
         const posts_container = document.querySelector('.posts__container')
         const extraMargin = 1
 
@@ -43,9 +43,10 @@
                     if (!force) page++
 
                     async function _() {
-                        const url = `{% url 'post:download_posts' %}`
-                        let full_url = ''
+                        if (!url)
+                            url = `{% url 'post:download_posts' %}`
 
+                        let full_url = ''
                         if (force) {
                             full_url = `${url}?page=1`
                         } else {

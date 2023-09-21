@@ -1,5 +1,12 @@
+from django.contrib.auth import get_user_model
 from django.db import models
-from django.db.models import Count
+from django.db.models import Count, Exists, OuterRef, QuerySet, Case, When, \
+    Value
+from django.db.models.functions import NullIf
+
+from apps.post.services.like.action import LikeAction
+
+User = get_user_model()
 
 
 class PostDAL(models.Manager):
@@ -9,3 +16,15 @@ class PostDAL(models.Manager):
             reply_count=Count('replies', distinct=True)
         ).select_related('user')\
             .prefetch_related('replies', 'replies__user', 'liked_users')
+
+    @staticmethod
+    def annotate_like_action(posts: QuerySet, my_user: User):
+        liked = Exists(
+            my_user.liked_posts.filter(id=OuterRef('id'))
+        )
+        return posts.annotate(
+            action=Case(
+                When(liked, then=Value(LikeAction.UNLIKE)),
+                default=Value(LikeAction.LIKE)
+            )
+        )

@@ -10,7 +10,7 @@ from django.shortcuts import get_object_or_404
 from django.views.decorators.http import require_POST
 
 from apps.account.pages.users.mixins import UsersListView
-from apps.account.services.filter_users.filter import UsersFilterFabric
+from apps.account.services.filter_users.filter import UsersFilterFactory
 from apps.account.services.follow.dispatcher import dispatch_follow_action
 from apps.account.services.search_users.search_users import UsersSearch, \
     UsersSearchFabric
@@ -43,7 +43,7 @@ class DownloadUsers(UsersListView):
             searcher = UsersSearch()
             users = searcher.search(queryset=users, query=query)
 
-        users_filter = UsersFilterFabric.get_filter()
+        users_filter = UsersFilterFactory.get_filter()
         users = users_filter.filter(
             queryset=users,
             get=self.request.GET
@@ -79,7 +79,7 @@ class FilterUsers(UsersListView):
         users = User.ext_objects.get_users(
             excluded_user=self.request.user
         )
-        users_filter = UsersFilterFabric.get_filter()
+        users_filter = UsersFilterFactory.get_filter()
         users = users_filter.filter(
             queryset=users,
             get=self.request.GET
@@ -89,7 +89,7 @@ class FilterUsers(UsersListView):
 
 @login_required
 @require_POST
-def follow_list(request: WSGIRequest) -> JsonResponse:
+def follow_user(request: WSGIRequest) -> JsonResponse:
     username = request.POST.get('username')
 
     action = dispatch_follow_action(

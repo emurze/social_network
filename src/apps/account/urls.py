@@ -1,10 +1,14 @@
 from django.urls import path
 
-from apps.account.pages.profile.views import AccountDetailView, \
-    AccountEditView, follow_detail, FollowPagination, edit_cover
+from apps.account.pages.profile.views import (
+    AccountDetailView,
+    AccountEditView,
+    FollowPagination,
+    EditCover
+)
 from apps.account.pages.users.views import (
     AccountListView,
-    follow_list,
+    follow_user,
     FilterUsers,
     SearchUsers,
     DownloadUsers,
@@ -18,7 +22,8 @@ urlpatterns = [
     path('users/filter/', FilterUsers.as_view(), name='filter_users'),
     path('users/search/', SearchUsers.as_view(), name='search_users'),
 
-    path('profile/follows/', follow_list, name='follow_list'),
+    path('users_profile/follow_user/', follow_user, name='follow_user'),
+
     path('profile/follow_pagination/',
          FollowPagination.as_view(),
          name='follow_pagination'),
@@ -27,6 +32,6 @@ urlpatterns = [
 
     path('profile/<slug:username>/', AccountDetailView.as_view(),
          name='detail'),
-    path('profile/<slug:username>/edit_cover/', edit_cover, name='edit_cover'),
-    path('profile/<slug:username>/follow/', follow_detail, name='follow'),
+    path('profile/<slug:username>/edit_cover/', EditCover.as_view(),
+         name='edit_cover'),
 ]

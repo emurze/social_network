@@ -1,7 +1,7 @@
 <script defer>
     const form = document.querySelector('.follow_button__form')
     const follow_button = document.querySelector('.follow_button__button')
-    const url = "{% url 'account:follow' user.username %}"
+    const url = "{% url 'account:follow_user' %}"
 
     form.onsubmit = (e) => {
         e.preventDefault()
@@ -9,6 +9,7 @@
 
         const form = new FormData()
         form.append('action', action)
+        form.append('username', `{{ user.username }}`)
 
         const headers = {
             'X-CSRFToken': csrf_token,

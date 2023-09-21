@@ -3,8 +3,10 @@ from typing import Any
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.core.paginator import Paginator
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.http import HttpResponse, JsonResponse
+from django.views.generic import TemplateView
 
 from .forms import AccountEditForm
 
@@ -29,8 +31,6 @@ class LikeActionAccountDetailMixin:
     def get_context_data(self, *args, **kwargs):
         posts = kwargs.get('user_posts')
         my_user = self.request.user
-
-        # QUERY OPTIMIZATION
 
         # posts = posts.annotate(action=F('liked_users'))
 
@@ -57,7 +57,35 @@ class AddFollowingUsersMixin:
         )
 
         kwargs['following_users'] = following_users
-        kwargs['page'] = settings.DEFAULT_SHOWED_FOLLOWINGS_PAGE
+
+        if hasattr(self, 'custom_page'):
+            kwargs['page'] = int(self.request.GET.get('page'))
+        else:
+            kwargs['page'] = settings.DEFAULT_SHOWED_FOLLOWINGS_PAGE
+
+        lg.debug(following_users.number)
+
+        return super().get_context_data(*args, **kwargs)
+
+
+class AddFollowingUsersPaginationMixin(LoginRequiredMixin, TemplateView):
+    def get_context_data(self, *args, **kwargs):
+        user: Account = self.request.user
+        page = int(self.request.GET.get('page'))
+
+        paginator = Paginator(
+            user.get_followings(),
+            settings.REQUEST_FOLLOWINGS_COUNT
+        )
+        try:
+            following_users = paginator.page(page)
+        except PageNotAnInteger:
+            following_users = paginator.page(1)
+        except EmptyPage:
+            following_users = paginator.page(paginator.num_pages)
+
+        kwargs['following_users'] = following_users
+        kwargs['page'] = int(self.request.GET.get('page'))
 
         return super().get_context_data(*args, **kwargs)
 

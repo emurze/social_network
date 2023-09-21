@@ -5,7 +5,7 @@ from apps.post.models import Post
 from services.search import BaseSearch
 
 
-class PostsSearchFabric:
+class PostsSearchFactory:
     @staticmethod
     def get_searcher() -> BaseSearch:
         return PostsSearch()
