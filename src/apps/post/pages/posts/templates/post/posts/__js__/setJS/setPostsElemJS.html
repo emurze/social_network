@@ -1,0 +1,43 @@
+<script defer>
+    function addPostsToContainer(response, posts_container) {
+        const users_batch = document.createElement('div')
+        users_batch.innerHTML = response.data
+
+        const elements = Array.from(users_batch.children)
+        elements.forEach(
+            elem => {
+                posts_container.insertAdjacentElement('beforeend', elem)
+                setPostsElemJS(elem)
+            }
+        )
+    }
+
+    function setPostsElemJS(elem) {
+        setReplyLink({
+            reply_footer_form: elem.querySelector('.post__replies-footer'),
+            content_input: elem.querySelector('input[id="id_content"]'),
+            reply_link: elem.querySelector('.reply__link'),
+            post_replies: elem.querySelector('.post__replies'),
+        })
+        setLikeButton({
+            form: elem.querySelector('.like__button-form'),
+            like_button_container: elem.querySelector('.like__button-container'),
+            like_action: elem.querySelector('.like__button-action'),
+            like_counter: elem.querySelector('.like__button-like_counter'),
+            post_id: elem.querySelector('.like__button-post_id')
+        })
+        setRepliesButton({
+            form: elem.querySelector('.post__replies-footer-form'),
+            reply_list: elem.querySelector('.post__replies-list'),
+            post_id: elem.querySelector('.like__button-post_id'),
+            content_input: elem.querySelector('input[id="id_content"]'),
+            reply_link_counter: elem.querySelector('.reply__link-counter'),
+        })
+        setShowMore({
+            replies_list_all_set: elem.querySelectorAll('.post__replies-list-all'),
+            replies_first_set: elem.querySelectorAll('.reply_item-info--first'),
+            replies_show_more_set: elem.querySelectorAll('.post__replies-show_more'),
+            post_id_set: elem.querySelectorAll('.like__button-post_id'),
+        })
+    }
+</script>

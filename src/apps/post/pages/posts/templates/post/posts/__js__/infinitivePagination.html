@@ -1,7 +1,6 @@
 <script defer>
-    function infinityPaginationHandler(query_strings = '') {
-        const users_container = document.querySelector('.users__container')
-        const extraMargin = -180
+    function infinityPaginationHandler(query_strings = '', url = '') {
+        const extraMargin = 1
 
         let emptyPage = false
         let page = 1
@@ -29,13 +28,12 @@
                 if (clientHeight > margin || force) {
                     if (force) {
                         const header_width = getComputedStyle(document.querySelector('header')).width
-                        users_container.innerHTML = ''
+                        posts_container.innerHTML = ''
                         onPossibleScroll(header_width)
                     }
-                    users_container.insertAdjacentHTML(
+                    posts_container.insertAdjacentHTML(
                         'beforeend',
-                        force ? `{% include 'shared/loading_icon.html' with center=True %}`
-                              : `{% include 'shared/loading_icon.html' %}`
+                        `{% include 'shared/loading_icon.html' with center=True %}`
                     )
 
                     elem && elem.removeAttribute('hx-trigger')
@@ -43,7 +41,7 @@
 
                     if (!force) page++
 
-                    const url = `{% url 'account:download_users' %}`
+                    if (!url) url = `{% url 'post:download_posts' %}`
                     const full_url = force ? `${url}?page=1`
                                            : `${url}?page=${page}&${query_strings}`
                     async function _() {
@@ -52,25 +50,12 @@
 
                         if (html === '') emptyPage = true
                         else {
-                            const elementFinder = document.createElement('div')
-                            elementFinder.innerHTML = html
+                            if (force) posts_container.innerHTML = ''
 
-                            if (force) users_container.innerHTML = ''
-                            const elements = Array.from(elementFinder.children)
-                            elements.forEach(
-                                elem => {
-                                    users_container.insertAdjacentElement(
-                                        'beforeend', elem
-                                    )
-                                    setUserButton({
-                                        form: elem.querySelector('.follow_button__form'),
-                                        follow_button: elem.querySelector('.follow_button__button'),
-                                        username: elem.querySelector('.user__info-username-link-username'),
-                                    })
-                                }
-                            )
+                            addPostsToContainer(response, posts_container)
                             showScroll()
                         }
+
                         blockRequest = false
 
                         const loading_icon = document.querySelector('.loading_icon')

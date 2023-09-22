@@ -1,9 +1,4 @@
 <script defer>
-    const posts_filters_tags = document.querySelector('.posts__filters-tags')
-    const find_button = document.querySelector('.find_button-button')
-    const filters_form = document.forms.filters_form
-    const default_find_button_html = find_button.innerHTML
-
     filters_form.onsubmit = (e) => {
         e.preventDefault()
 
@@ -27,9 +22,6 @@
             data += `${elem}&`
         })
 
-        {#users_container.innerHTML = `{% include 'shared/loading_icon.html' with center=True %}`#}
-        {#onPossibleScroll(header_width)#}
-
         find_button.innerHTML = `{% include 'shared/loading_icon.html' with loading_icon_size=17 loading_icon_weight=3 %}`
         find_button.style.top = '4px'
         posts_filters_tags.style.paddingBottom = '8px'
@@ -41,42 +33,7 @@
             window.scrollTo(0, 0)
             posts_container.innerHTML = ''
 
-            const users_batch = document.createElement('div')
-            users_batch.innerHTML = response.data
-
-            const elements = Array.from(users_batch.children)
-            elements.forEach(
-                elem => {
-                    posts_container.insertAdjacentElement('beforeend', elem)
-                    setReplyLink({
-                        reply_footer_form: elem.querySelector('.post__replies-footer'),
-                        content_input: elem.querySelector('input[id="id_content"]'),
-                        reply_link: elem.querySelector('.reply__link'),
-                        post_replies: elem.querySelector('.post__replies'),
-                    })
-                    setLikeButton({
-                        form: elem.querySelector('.like__button-form'),
-                        like_button_container: elem.querySelector('.like__button-container'),
-                        like_action: elem.querySelector('.like__button-action'),
-                        like_counter: elem.querySelector('.like__button-like_counter'),
-                        post_id: elem.querySelector('.like__button-post_id')
-                    })
-                    setRepliesButton({
-                        form: elem.querySelector('.post__replies-footer-form'),
-                        reply_list: elem.querySelector('.post__replies-list'),
-                        post_id: elem.querySelector('.like__button-post_id'),
-                        content_input: elem.querySelector('input[id="id_content"]'),
-                        reply_link_counter: elem.querySelector('.reply__link-counter'),
-                    })
-                    setShowMoreItem({
-                        replies_set: elem.querySelector('.post__replies-list-all'),
-                        replies_first: elem.querySelector('.reply_item-info--first'),
-                        show_more: elem.querySelector('.post__replies-show_more'),
-                        post_id: elem.querySelector('.like__button-post_id'),
-                    })
-                }
-            )
-
+            addPostsToContainer(response, posts_container)
             infinityPaginationHandler(`${data}`)
             onPossibleScroll(header_width)
 

@@ -4,7 +4,6 @@
 {% block title %}Posts{% endblock %}
 
 {% block links %}
-    {% include 'post/posts/__js__/onUpdateWindowTop.html' %}
     {% include 'post/posts/css.html' %}
     {% include 'post/posts/createPostForm/css.html' %}
 {% endblock %}
@@ -34,6 +33,4 @@
 
     <script src="{% static 'base/js/axios.min.js' %}"></script>
     {% include 'post/posts/js.html' %}
-    {% include 'post/posts/__js__/filters.html' %}
-    {% include 'post/posts/__js__/search.html' %}
 {% endblock %}

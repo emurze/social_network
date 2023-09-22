@@ -6,7 +6,7 @@
         <form method="POST" class="users__filters-search-form" style="display: flex; align-items: center;">
             <div class="filters__search" style="position: relative;">
                 <input type="text" placeholder="Search" maxlength="32" class="filters__search-input" />
-                <span class="filters__search-cross" onclick="returnsToBasePosts(this)" hidden>
+                <span class="filters__search-cross" onclick="returnsToDefaultPostsButton(this)" hidden>
                     <img style="width: 23px; height: 23px; padding: 5px; border-radius: 50%; cursor: pointer;"
                          src="{% static 'base/images/filters_cross.svg' %}" alt="">
                 </span>
@@ -57,7 +57,7 @@
         </form>
     </section>
 
-    <div class="filters__link_button" onclick="showFilter(this)">
+    <div class="filters__link_button" onclick="showFilterButton(this)">
         <div>Filters</div>
         <div style="width: 24px; height: 24px;">
             <svg enable-background="new 0 0 24 24" height="24" viewBox="0 0 24 24" width="24" fill="currentColor" focusable="false" style="pointer-events: none; display: block; width: 100%; height: 100%;">

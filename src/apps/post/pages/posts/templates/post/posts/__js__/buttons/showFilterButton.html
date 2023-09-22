@@ -1,9 +1,7 @@
 <script defer>
-    function showFilter(block) {
-        const block_filters = document.querySelector('.posts__filters-tags');
+    function showFilterButton(block) {
         block_filters.classList.remove('no_display');
         block.style.display = 'none';
-        const users_search_input = document.querySelector('.posts__filters-search')
         users_search_input.style.borderBottom = '1px solid rgb(222, 222, 222)'
     }
 </script>
