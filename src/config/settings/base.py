@@ -93,7 +93,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
 
-START_REQUEST_POST_COUNT = 8
+DEFAULT_POST_COUNT = 8
 REQUEST_POST_COUNT = 14
 
 REQUEST_REPLY_COUNT = 8

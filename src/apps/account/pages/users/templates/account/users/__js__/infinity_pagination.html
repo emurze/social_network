@@ -1,7 +1,7 @@
 <script defer>
     function infinityPaginationHandler(query_strings = '') {
         const users_container = document.querySelector('.users__container')
-        const extraMargin = -180  // depends on icon height
+        const extraMargin = -180
 
         let emptyPage = false
         let page = 1
@@ -43,16 +43,11 @@
 
                     if (!force) page++
 
+                    const url = `{% url 'account:download_users' %}`
+                    const full_url = force ? `${url}?page=1`
+                                           : `${url}?page=${page}&${query_strings}`
+
                     async function _() {
-                        const url = `{% url 'account:download_users' %}`
-                        let full_url = ''
-
-                        if (force) {
-                            full_url = `${url}?page=1`
-                        } else {
-                            full_url = `${url}?page=${page}&${query_strings}`
-                        }
-
                         const response = await axios.get(full_url)
                         const html = response.data
 

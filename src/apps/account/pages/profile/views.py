@@ -52,6 +52,8 @@ class FollowPagination(AddFollowingUsersPaginationMixin):
 class EditCover(UpdateView):
     model = User
     form_class = EditCoverForm
+    slug_field = 'username'
+    slug_url_kwarg = 'username'
 
     def form_valid(self, form: EditCoverForm) -> HttpResponse:
         form.save()

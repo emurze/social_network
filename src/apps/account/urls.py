@@ -24,14 +24,15 @@ urlpatterns = [
 
     path('users_profile/follow_user/', follow_user, name='follow_user'),
 
-    path('profile/follow_pagination/',
+    path('profile_features/follow_pagination/',
          FollowPagination.as_view(),
          name='follow_pagination'),
-    path('profile/edit_window/<slug:username>/', AccountEditView.as_view(),
+    path('profile_features/edit_window/<slug:username>/',
+         AccountEditView.as_view(),
          name='edit_window'),
+    path('profile_features/edit_cover/<slug:username>/', EditCover.as_view(),
+         name='edit_cover'),
 
     path('profile/<slug:username>/', AccountDetailView.as_view(),
          name='detail'),
-    path('profile/<slug:username>/edit_cover/', EditCover.as_view(),
-         name='edit_cover'),
 ]

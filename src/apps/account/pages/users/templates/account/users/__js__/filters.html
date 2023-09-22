@@ -55,7 +55,7 @@
 
             const elements = Array.from(users_batch.children)
             elements.forEach(
-                elem => users_container.insertAdjacentElement('afterbegin', elem)
+                elem => users_container.insertAdjacentElement('beforeend', elem)
             )
 
             infinityPaginationHandler(`${data}`)

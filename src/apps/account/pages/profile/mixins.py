@@ -22,7 +22,7 @@ class AddUserPosts:
     def get_context_data(self, *args, **kwargs):
         user = self.object
         posts = Post.objects.all().filter(user=user)
-        kwargs['user_posts'] = posts[:settings.START_REQUEST_POST_COUNT]
+        kwargs['user_posts'] = posts[:settings.DEFAULT_POST_COUNT]
         kwargs['is_user_posts'] = True
         return super().get_context_data(*args, **kwargs)
 
@@ -63,14 +63,12 @@ class AddFollowingUsersMixin:
         else:
             kwargs['page'] = settings.DEFAULT_SHOWED_FOLLOWINGS_PAGE
 
-        lg.debug(following_users.number)
-
         return super().get_context_data(*args, **kwargs)
 
 
 class AddFollowingUsersPaginationMixin(LoginRequiredMixin, TemplateView):
     def get_context_data(self, *args, **kwargs):
-        user: Account = self.request.user
+        user = self.request.user
         page = int(self.request.GET.get('page'))
 
         paginator = Paginator(
