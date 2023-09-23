@@ -2,7 +2,6 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from django.db.models import Count, Exists, OuterRef, QuerySet, Case, When, \
     Value
-from django.db.models.functions import NullIf
 
 from apps.post.services.like.action import LikeAction
 

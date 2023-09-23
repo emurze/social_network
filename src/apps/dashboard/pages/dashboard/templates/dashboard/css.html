@@ -63,11 +63,51 @@
         z-index: 11;
         text-align: center;
         height: 100%;
-        padding: 80px 10px 30px 10px;
         color: #ffffff;
 
+        font: 24px/32px "PTSans", "PT Sans", sans-serif;
+        line-height: 40px;
+
         width: 100%;
-        max-width: 700px;
-        margin: 0 auto;
+        max-width: 660px;
+        margin: 0 auto 0 auto;
     }
+    .main__center_text-container {
+        border-radius: 45px;
+        padding: 126px 100px 105px 100px;
+    }
+
+    .statistics {
+        text-align: start;
+        max-width: 400px;
+        margin: 0 auto 0 auto;
+        display: flex;
+        padding: 0 5px;
+        font-size: 18px;
+        color: white;
+        justify-content: space-between;
+
+        border-radius: 15px;
+    }
+    .statistics__item {
+        transition: .25s;
+        border-radius: 30px;
+        padding: 0 10px;
+        flex: 0 1 31%;
+        text-align: center;
+        margin-bottom: -7px;
+        line-height: 36px;
+        background-color: rgba(0, 0, 0, 0.11);
+    }
+
+    .statistics__item-container {
+        position: relative;
+        bottom: 2px;
+        font-weight: bold;
+    }
+    .statistics__item-label {
+        position: relative;
+        top: 7px;
+    }
+    .statistics__item-count {}
 </style>

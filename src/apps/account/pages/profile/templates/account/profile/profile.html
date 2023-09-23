@@ -4,10 +4,8 @@
 {% block title %}Profile{% endblock %}
 
 {% block links %}
-    {% include 'post/posts/__js__/onUpdateWindowTop.html' %}
     {% include 'account/profile/css.html' %}
     {% include 'post/posts/css.html' %}
-    {% include 'post/posts/createPostForm/css.html' %}
 {% endblock %}
 
 {% block main %}
@@ -50,5 +48,4 @@
     <script defer src="{% static 'base/js/axios.min.js' %}"></script>
     {% include 'account/profile/js.html' %}
     {% include 'post/posts/js.html' %}
-
 {% endblock %}

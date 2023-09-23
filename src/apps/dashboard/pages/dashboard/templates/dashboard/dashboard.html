@@ -12,13 +12,34 @@
 {% block main %}
     <section class="main__image">
         <div class="main__center_text">
-            <h1>Dashboard</h1>
-            <h3>
-                You can <a href="">edit</a>
-                your profile and <a href="{% url 'password_change' %}">change</a> your password.
-            </h3>
+            <div class="main__center_text-container">
+                <h1 style="margin-bottom: 32px;">Dashboard</h1>
+                <div class="statistics">
+                    <div class="statistics__item">
+                        <div class="statistics__item-container">
+                            <div class="statistics__item-label">posts</div>
+                            <div class="statistics__item-count">0</div>
+                        </div>
+                    </div>
+                    <div class="statistics__item">
+                        <div class="statistics__item-container">
+                            <div class="statistics__item-label">users</div>
+                            <div class="statistics__item-count">0</div>
+                        </div>
+                    </div>
+                    <div class="statistics__item">
+                        <div class="statistics__item-container">
+                            <div class="statistics__item-label">actions</div>
+                            <div class="statistics__item-count">1</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <img src="{% static 'dashboard/images/desk_6.jpg' %}" class='no_select' alt="" />
+        <div style="position: absolute; top: 0; left: 0; width: 100%;
+                    height: 500px; background-color: rgba(0, 0, 0, 0.05); z-index: 1">
+        </div>
     </section>
     <section class="actions">
         <h2 class="actions__title">Actions</h2>
