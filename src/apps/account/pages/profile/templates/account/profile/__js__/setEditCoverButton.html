@@ -8,7 +8,7 @@
         const profile_header_cover_image = document.querySelector('.profile__header-cover-base_image') ||
                                            document.querySelector('.profile__header-cover-image')
 
-        cover_file_loader.onchange = function() {
+        if (cover_file_loader) cover_file_loader.onchange = function() {
             const input = this
             const files = input.files
             const reader = []
@@ -30,9 +30,7 @@
                     }
                     async function _() {
                         const url = `{% url 'account:edit_cover' user.username %}`
-                        const response = await axios.post(url, form, {headers})
-
-                        console.log(response)
+                        await axios.post(url, form, {headers})
                     }_()
 
                     reader[i].onload = e => {

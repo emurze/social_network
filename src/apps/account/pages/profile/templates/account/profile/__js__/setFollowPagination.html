@@ -9,7 +9,7 @@
         previous_arrow,
     ) {
         async function loadPage(page) {
-            const url = `{% url 'account:follow_pagination' %}`
+            const url = `{% url 'account:follow_pagination' user.username %}`
             const response = await axios.get(
                 `${url}?page=${page}`
             )

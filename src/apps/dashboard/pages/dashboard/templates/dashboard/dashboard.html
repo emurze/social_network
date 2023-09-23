@@ -13,24 +13,30 @@
     <section class="main__image">
         <div class="main__center_text">
             <div class="main__center_text-container">
-                <h1 style="margin-bottom: 32px;">Dashboard</h1>
+                <h1 class="main__center_text-title">Dashboard</h1>
                 <div class="statistics">
                     <div class="statistics__item">
                         <div class="statistics__item-container">
-                            <div class="statistics__item-label">posts</div>
-                            <div class="statistics__item-count">0</div>
+                            <div class="statistics__item-label">Posts</div>
+                            <div class="statistics__item-count">
+                                {{ posts_count }}
+                            </div>
                         </div>
                     </div>
                     <div class="statistics__item">
                         <div class="statistics__item-container">
-                            <div class="statistics__item-label">users</div>
-                            <div class="statistics__item-count">0</div>
+                            <div class="statistics__item-label">Users</div>
+                            <div class="statistics__item-count">
+                                {{ users_count }}
+                            </div>
                         </div>
                     </div>
                     <div class="statistics__item">
                         <div class="statistics__item-container">
-                            <div class="statistics__item-label">actions</div>
-                            <div class="statistics__item-count">1</div>
+                            <div class="statistics__item-label">Actions</div>
+                            <div class="statistics__item-count">
+                                {{ actions_count }}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -38,47 +44,21 @@
         </div>
         <img src="{% static 'dashboard/images/desk_6.jpg' %}" class='no_select' alt="" />
         <div style="position: absolute; top: 0; left: 0; width: 100%;
-                    height: 500px; background-color: rgba(0, 0, 0, 0.05); z-index: 1">
+                    height: 460px; background-color: rgba(0, 0, 0, 0.05); z-index: 1">
         </div>
     </section>
     <section class="actions">
-        <h2 class="actions__title">Actions</h2>
+        <h2 class="actions__title">Recent actions</h2>
         <div class="actions__content">
-            <article class="item_actions" onclick="location.href='https://google.com'">
-                <img src="{% static 'dashboard/images/emurze.jpeg' %}" alt="">
-                <div>
-                    <p class="item_actions__name">emurze</p>
-                    <p>created new post</p>
-                </div>
-            </article>
-            <article class="item_actions" onclick="location.href='https://google.com'">
-                <img src="{% static 'dashboard/images/emurze.jpeg' %}" alt="">
-                <div>
-                    <p class="item_actions__name">emurze</p>
-                    <p>created new post</p>
-                </div>
-            </article>
-            <article class="item_actions" onclick="location.href='https://google.com'">
-                <img src="{% static 'dashboard/images/emurze.jpeg' %}" alt="">
-                <div>
-                    <p class="item_actions__name">emurze</p>
-                    <p>created new post</p>
-                </div>
-            </article>
-            <article class="item_actions" onclick="location.href='https://google.com'">
-                <img src="{% static 'dashboard/images/emurze.jpeg' %}" alt="">
-                <div>
-                    <p class="item_actions__name">emurze</p>
-                    <p>created new post</p>
-                </div>
-            </article>
-            <article class="item_actions" onclick="location.href='https://google.com'">
-                <img src="{% static 'dashboard/images/emurze.jpeg' %}" alt="">
-                <div>
-                    <p class="item_actions__name">emurze</p>
-                    <p>created new post</p>
-                </div>
-            </article>
+            {% for action in actions %}
+                <article class="item_action" onclick="location.href='{{ action.user.get_absolute_url }}'">
+                    <img src="{% thumbnail action.user.photo 100x100 crop="smart" %}" alt="">
+                    <div>
+                        <p class="item_action__name">{{ action.user.username }}</p>
+                        <p>{{ action.verb }} {{ action.content_object }}</p>
+                    </div>
+                </article>
+            {% endfor %}
         </div>
     </section>
 {% endblock %}

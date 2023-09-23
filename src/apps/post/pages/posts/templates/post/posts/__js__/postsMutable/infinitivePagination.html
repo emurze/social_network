@@ -42,8 +42,13 @@
                     if (!force) page++
 
                     if (!url) url = `{% url 'post:download_posts' %}`
-                    const full_url = force ? `${url}?page=1`
-                                           : `${url}?page=${page}&${query_strings}`
+                    let full_url = force ? `${url}?page=1`
+                                         : `${url}?page=${page}&${query_strings}`
+
+                    const owner_id = `{{ user.id }}`
+                    console.log(owner_id)
+                    if (owner_id) full_url += `&owner_id=${owner_id}`
+
                     async function _() {
                         const response = await axios.get(full_url)
                         const html = response.data

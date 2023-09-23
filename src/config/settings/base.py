@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'apps.base.apps.BaseConfig',
     'apps.account.apps.AccountConfig',
     'apps.post.apps.PostConfig',
+    'apps.dashboard.apps.DashboardConfig',
 ]
 
 MIDDLEWARE = [
@@ -104,6 +105,8 @@ REQUEST_USER_COUNT = 30
 DEFAULT_SHOWED_FOLLOWINGS_PAGE = 1
 DEFAULT_FOLLOWINGS_COUNT = 8
 REQUEST_FOLLOWINGS_COUNT = 8
+
+DEFAULT_ACTION_COUNT = 10
 
 OLDEST_HUMAN = 122
 CURRENT_YEAR = datetime.date.today().year

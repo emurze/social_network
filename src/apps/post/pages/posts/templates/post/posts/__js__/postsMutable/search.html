@@ -1,30 +1,32 @@
 <script defer>
-    search_form.onsubmit = (e) => {
-        e.preventDefault()
+    const search_form = document.querySelector('.users__filters-search-form')
+    if (search_form)
+        search_form.onsubmit = (e) => {
+            e.preventDefault()
 
-        const header_width = getComputedStyle(document.querySelector('header')).width
-        const query = search_input.value
+            const header_width = getComputedStyle(document.querySelector('header')).width
+            const query = search_input.value
 
-        if (query) {
-            posts_container.innerHTML = `{% include 'shared/loading_icon.html' with center=True %}`
-            onPossibleScroll(header_width)
+            if (query) {
+                posts_container.innerHTML = `{% include 'shared/loading_icon.html' with center=True %}`
+                onPossibleScroll(header_width)
 
-            async function _() {
-                const url = `{% url 'post:search_posts' %}`
-                const response = await axios.get(`${url}?query=${query}`)
+                async function _() {
+                    const url = `{% url 'post:search_posts' %}`
+                    const response = await axios.get(`${url}?query=${query}`)
 
-                window.scrollTo(0, 0)
-                cross.hidden = false
-                search_input.style.paddingRight = '14px'
+                    window.scrollTo(0, 0)
+                    cross.hidden = false
+                    search_input.style.paddingRight = '14px'
 
-                posts_container.innerHTML = ''
+                    posts_container.innerHTML = ''
 
-                addPostsToContainer(response, posts_container)
-                infinityPaginationHandler(`query=${query}`)
+                    addPostsToContainer(response, posts_container)
+                    infinityPaginationHandler(`query=${query}`)
 
-                const new_header_width = getComputedStyle(document.querySelector('header')).width
-                onPossibleScroll(new_header_width)
-            }_()
-        } else {search_input.focus()}
+                    const new_header_width = getComputedStyle(document.querySelector('header')).width
+                    onPossibleScroll(new_header_width)
+                }_()
+            } else {search_input.focus()}
     }
 </script>

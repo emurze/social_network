@@ -24,7 +24,7 @@ urlpatterns = [
 
     path('users_profile/follow_user/', follow_user, name='follow_user'),
 
-    path('profile_features/follow_pagination/',
+    path('profile_features/<slug:username>/follow_pagination/',
          FollowPagination.as_view(),
          name='follow_pagination'),
     path('profile_features/edit_window/<slug:username>/',

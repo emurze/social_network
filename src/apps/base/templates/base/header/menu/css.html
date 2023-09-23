@@ -5,10 +5,13 @@
         z-index: 100000;
     }
     .menu__item-link {
-        transition: .1s;
-        padding: 5px;
+        padding: 5px 5px;
     }
-    .menu__item-link:hover {
-        color: #697275;
+    .menu__item-link-content {transition: .1s; display: inline-block; height: 30px;}
+    .menu__item-link-content:hover {color: #697275;}
+    .menu__item-link-content--selected {
+        cursor: inherit;
+        border-bottom: 1px solid #353A3D;
     }
+    .menu__item-link-content--selected:hover {color: #353A3D;}
 </style>

@@ -10,8 +10,9 @@ from django.views.decorators.http import require_POST
 
 from apps.account.pages.users.mixins import UsersListView, DefaultLimitMixin, \
     FollowActionListMixin, SearchUsersMixin, FilterUsersMixin, \
-    RequestLimitMixin
+    RequestLimitMixin, UsersMenuSelectedMixin
 from apps.account.services.follow.dispatcher import dispatch_follow_action
+from apps.dashboard.services.create_action import create_action
 from services.pagination.pagination import PaginationMixin
 
 User = get_user_model()
@@ -21,6 +22,7 @@ lg = logging.getLogger(__name__)
 class AccountListView(
     DefaultLimitMixin,
     FollowActionListMixin,
+    UsersMenuSelectedMixin,
     UsersListView,
 ):
     template_name = 'account/users/users.html'
@@ -58,11 +60,15 @@ class FilterUsers(
 @login_required
 @require_POST
 def follow_user(request: WSGIRequest) -> JsonResponse:
+    other_user = get_object_or_404(
+        User, username=request.POST.get('username')
+    )
+
+    create_action(request.user, 'follows user', other_user)
+
     action = dispatch_follow_action(
         action=request.POST.get('action'),
         my_user=request.user,
-        other_user=get_object_or_404(
-            User, username=request.POST.get('username')
-        )
+        other_user=other_user
     )
     return JsonResponse({'action': action})

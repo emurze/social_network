@@ -2,7 +2,11 @@
 
     {% if user.followings.exists %}
         {% include 'account/profile/followings/generatedFollowingList/generatedFollowingList.html' %}
-        {% include 'account/profile/followings/followingContent/pagination/pagination.html' %}
+
+        {% if following_users.paginator.num_pages > 1 %}
+            {% include 'account/profile/followings/followingContent/pagination/pagination.html' %}
+        {% endif %}
+
     {% endif %}
 
 </div>

@@ -7,6 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.http import HttpResponse, JsonResponse
 from django.views.generic import TemplateView
+from rest_framework.generics import get_object_or_404
 
 from .forms import AccountEditForm
 
@@ -68,7 +69,8 @@ class AddFollowingUsersMixin:
 
 class AddFollowingUsersPaginationMixin(LoginRequiredMixin, TemplateView):
     def get_context_data(self, *args, **kwargs):
-        user = self.request.user
+        username = self.kwargs.get('username')
+        user = get_object_or_404(User, username=username)
         page = int(self.request.GET.get('page'))
 
         paginator = Paginator(

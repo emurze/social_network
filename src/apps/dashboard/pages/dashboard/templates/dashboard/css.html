@@ -14,10 +14,11 @@
         display: flex;
         justify-content: center;
         flex-direction: column;
-        border: 1px solid rgb(238, 243, 244)
+        border: 1px solid rgb(238, 243, 244);
+        border-radius: 15px;
     }
 
-    .item_actions {
+    .item_action {
         display: inline-flex;
         width: 520px;
         line-height: 1.4em;
@@ -25,20 +26,22 @@
         padding: 10px;
         transition: 0.2s;
     }
-    .item_actions:hover {
+    .item_action:first-child {border-radius: 15px 15px 0 0;}
+    .item_action:last-child {border-radius: 0 0 15px 15px}
+    .item_action:hover {
         cursor: pointer;
         background-color: rgb(246, 246, 247)
     }
-    .item_actions img {
+    .item_action img {
         width: 52px;
         height: 52px;
         border-radius: 50%;
         margin-right: 10px;
     }
-    .item_actions a {
+    .item_action a {
         color: #021dc9;
     }
-    .item_actions__name {
+    .item_action__name {
         color: #0f1419;
         font-weight: bold;
     }
@@ -47,8 +50,8 @@
         padding: 0 0 10% 0;
         position: relative;
         text-align: center;
-        height: 500px;
-        margin-bottom: 35px;
+        height: 460px;
+        margin-bottom: 40px;
     }
     .main__image img {
         position: absolute;
@@ -56,7 +59,7 @@
         width: 100%;
         top: 0;
         left: 0;
-        height: 500px;
+        height: 460px;
     }
     .main__center_text {
         position: relative;
@@ -76,10 +79,11 @@
         border-radius: 45px;
         padding: 126px 100px 105px 100px;
     }
+    .main__center_text-title {margin-bottom: 22px;}
 
     .statistics {
         text-align: start;
-        max-width: 400px;
+        max-width: 410px;
         margin: 0 auto 0 auto;
         display: flex;
         padding: 0 5px;
@@ -92,12 +96,11 @@
     .statistics__item {
         transition: .25s;
         border-radius: 30px;
-        padding: 0 10px;
+        padding: 5px 10px;
         flex: 0 1 31%;
         text-align: center;
         margin-bottom: -7px;
         line-height: 36px;
-        background-color: rgba(0, 0, 0, 0.11);
     }
 
     .statistics__item-container {

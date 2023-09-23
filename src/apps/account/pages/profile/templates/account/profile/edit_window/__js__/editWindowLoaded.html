@@ -3,6 +3,8 @@
 
 <script defer>
     function editWindowLoaded() {
+        const info_username = document.querySelector('.info__username')
+
         const csrf_token_input = document.querySelector("input[name='csrfmiddlewaretoken']")
         const csrf_token = csrf_token_input ? csrf_token_input.value : null
         const edit_window = document.querySelector('.edit_window')
@@ -26,6 +28,7 @@
 
         const header_avatar = document.querySelector('.profile__header-avatar')
         const user_icon = document.querySelector('.user__icon')
+        const posts_user_icon = document.querySelector('.posts__user_icon')
 
         const gender_view = new Map([
             ['ML', 'Male'], ['FL', 'Female'], ['CM', 'Custom']
@@ -95,6 +98,7 @@
                         const file = current_photo
                         const name = 'file' + file
                         const name_2 = 'file_2' + file
+                        const name_3 = 'file_3' + file
 
                         const reader = new FileReader()
                         reader.readAsDataURL(file)
@@ -103,11 +107,69 @@
                             '<img id="'+ name +'" src="" alt="" class="profile__header-avatar-img" />'
                         user_icon.innerHTML =
                             '<img id="'+ name_2 +'" src="" alt="" class="photo_widget__image" />'
+                        posts_user_icon.innerHTML =
+                            '<img id="'+ name_3 +'" src="" alt="" class="posts__user_icon-img" />'
+
+
+                        const username = info_username.innerText
+                        const reply_item_set = document.querySelectorAll('.reply_item')
+
+                        const the_same_user_replies = []
+                        for (let reply_item of Array.from(reply_item_set)) {
+                            const reply_username = reply_item.querySelector('.reply_item-info-username a').innerText
+
+                            if (username === reply_username) {
+                                const reply_icon = reply_item.querySelector('.reply_item-user_icon')
+                                the_same_user_replies.push(reply_icon)
+                            }
+                        }
+
+                        const base_name_count_const = 4
+                        let base_name_count = 4
+                        const posts_user_icon_set = document.querySelectorAll('.post__header-user-icon')
+                        Array.from(posts_user_icon_set).forEach(
+                            elem => {
+                                elem.innerHTML = `<img id="name_${base_name_count}" src="" alt="" class="posts__user_icon-img" />`
+                                base_name_count++
+                            }
+                        )
+
+                        const reply_name_count_const = 4
+                        let reply_name_count = 4
+                        const post_replies_user_icon_set = document.querySelectorAll('.post__replies-footer-user_icon')
+                        Array.from(post_replies_user_icon_set).forEach(
+                            elem => {
+                                elem.innerHTML = `<img id="reply_name_${reply_name_count}" src="" alt="" class="post__replies-footer-user_icon-img no_select" />`
+                                reply_name_count++
+                            }
+                        )
+
+                        const same_name_reply_count_const = 4
+                        let same_name_reply_count = 4
+                        the_same_user_replies.forEach(
+                            elem => {
+                                elem.innerHTML = `<img id="same_reply_${same_name_reply_count}" src="" alt="" class="reply_item-user_icon-img" />`
+                                same_name_reply_count++
+                            }
+                        )
 
                         reader.onload = e => {
                             const result = e.target.result
                             document.getElementById(name).src = result
                             document.getElementById(name_2).src = result
+                            document.getElementById(name_3).src = result
+
+                            for (let i = base_name_count_const; i < base_name_count; i++) {
+                                document.getElementById(`name_${i}`).src = result
+                            }
+
+                            for (let i = reply_name_count_const; i < reply_name_count; i++) {
+                                document.getElementById(`reply_name_${i}`).src = result
+                            }
+
+                            for (let i = same_name_reply_count_const; i < same_name_reply_count; i++) {
+                                document.getElementById(`same_reply_${i}`).src = result
+                            }
                         }
 
                         default_photo = current_photo
