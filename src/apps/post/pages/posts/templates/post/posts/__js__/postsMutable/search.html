@@ -22,7 +22,17 @@
                     window.scrollTo(0, 0)
                     cross.hidden = false
                     search_input.style.paddingRight = '14px'
+                    if (filters_form) {
+                        const photo_input = filters_form.photo
+                        const verified_input = filters_form.verified
 
+                        photo_input.checked = false
+                        verified_input.checked = false
+
+                        const order_radio_set = filters_form.order
+                        order_radio_set[0].checked = true
+                        order_radio_set[1].checked = false
+                    }
                     posts_container.innerHTML = ''
 
                     addPostsToContainer(response, posts_container)

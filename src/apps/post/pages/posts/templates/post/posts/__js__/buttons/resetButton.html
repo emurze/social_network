@@ -1,13 +1,20 @@
 <script defer>
-    function returnsToDefaultPostsButton(cross) {
-        stable_block_list = []
+    let resetBlockRequest = false
 
-        const _event = new CustomEvent('scroll', {detail: {force: true}});
-        infinityPaginationHandler('', `{% url 'post:reset_posts' %}`)
-        window.dispatchEvent(_event)
-        infinityPaginationHandler()
-        if (cross) cross.hidden = true
-        search_input.value = ''
-        search_input.style.paddingRight = '0'
+    function returnsToDefaultPostsButton(cross) {
+        if (!resetBlockRequest) {
+            resetBlockRequest = true
+
+            stable_block_list = []
+            const _event = new CustomEvent('scroll', {detail: {force: true}});
+            infinityPaginationHandler('', `{% url 'post:reset_posts' %}`)
+            window.dispatchEvent(_event)
+            infinityPaginationHandler()
+            if (cross) cross.hidden = true
+            search_input.value = ''
+            search_input.style.paddingRight = '0'
+
+            resetBlockRequest = false
+        }
     }
 </script>

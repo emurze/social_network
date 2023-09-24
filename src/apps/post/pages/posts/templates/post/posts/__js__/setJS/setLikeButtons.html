@@ -1,4 +1,6 @@
 <script defer>
+    let likeBlockRequest = false
+
     function setLikeButton({form, like_button_container, like_action, like_counter, post_id}) {
         if (form && like_button_container && like_action && like_counter && post_id)
             form.onsubmit = (e) => {
@@ -13,35 +15,39 @@
                     'Content-Type': `multipart/form-data;
                      boundary=${form._boundary}`,
                 }
+                if (!likeBlockRequest) {
+                    async function executeLikeAction() {
+                        likeBlockRequest = true
 
-                async function executeLikeAction() {
-                    const url = `{% url 'post:like_post' %}`
-                    const response = await axios.post(url, form, {headers})
-                    const new_like_action = response.data.action
+                        const url = `{% url 'post:like_post' %}`
+                        const response = await axios.post(url, form, {headers})
+                        const new_like_action = response.data.action
 
-                    like_action.innerHTML = new_like_action
+                        like_action.innerHTML = new_like_action
 
-                    if (new_like_action === 'like') {
-                        like_button_container.innerHTML =
-                            `{% include 'post/posts/post/buttons/likeButton/baseButton/baseButton.html' %}`
+                        if (new_like_action === 'like') {
+                            like_button_container.innerHTML =
+                                `{% include 'post/posts/post/buttons/likeButton/baseButton/baseButton.html' %}`
 
-                        like_counter.classList.remove('like__button-like_counter--liked')
+                            like_counter.classList.remove('like__button-like_counter--liked')
 
-                        if (like_counter.innerText === '1') {
-                            like_counter.innerHTML = ''
-                        } else {
-                            like_counter.innerHTML--
+                            if (like_counter.innerText === '1') {
+                                like_counter.innerHTML = ''
+                            } else {
+                                like_counter.innerHTML--
+                            }
                         }
-                    }
-                    else if (new_like_action === 'unlike') {
-                        like_button_container.innerHTML =
-                            `{% include 'post/posts/post/buttons/likeButton/likedButton/likedButton.html' %}`
+                        else if (new_like_action === 'unlike') {
+                            like_button_container.innerHTML =
+                                `{% include 'post/posts/post/buttons/likeButton/likedButton/likedButton.html' %}`
 
-                        like_counter.classList.add('like__button-like_counter--liked')
-                        like_counter.innerHTML++
+                            like_counter.classList.add('like__button-like_counter--liked')
+                            like_counter.innerHTML++
+                        }
+                        likeBlockRequest = false
                     }
+                    executeLikeAction()
                 }
-                executeLikeAction()
             }
     }
 

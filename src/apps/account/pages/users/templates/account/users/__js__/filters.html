@@ -41,6 +41,8 @@
             const url = `{% url 'account:filter_users' %}`
             const response = await axios.get(`${url}?${data}`)
 
+            stable_block_list = structuredClone(block_list)
+
             window.scrollTo(0, 0)
             users_container.innerHTML = ''
 
@@ -61,6 +63,8 @@
             infinityPaginationHandler(`${data}`)
             onPossibleScroll(header_width)
 
+            search_input.value = ''
+            search_input.style.paddingRight = '0'
             const cross = document.querySelector('.filters__search-cross')
             cross.hidden = true
 

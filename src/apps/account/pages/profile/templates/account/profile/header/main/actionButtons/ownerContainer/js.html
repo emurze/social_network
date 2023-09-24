@@ -1,6 +1,8 @@
 <script defer>
     const edit_link_button = document.querySelector('.edit_link_button')
 
+    let editWindowBlockRequest = false
+
     function openEditWindow() {
         const edit_window = document.querySelector('.edit_window')
 
@@ -10,17 +12,21 @@
                 hideScroll(edit_window)
             }
         } else {
-            async function send_post() {
-                const edit_url = `{% url 'account:edit_window' user.username %}`
-                const response = await axios.get(edit_url)
-                document.body.insertAdjacentHTML('afterbegin', response.data)
+            async function _() {
+                if (!editWindowBlockRequest) {
+                    editWindowBlockRequest = true
 
-                const edit_window = document.querySelector('.edit_window')
-                hideScroll(edit_window)
+                    const edit_url = `{% url 'account:edit_window' user.username %}`
+                    const response = await axios.get(edit_url)
+                    document.body.insertAdjacentHTML('afterbegin', response.data)
 
-                editWindowLoaded()
-            }
-            send_post()
+                    const edit_window = document.querySelector('.edit_window')
+                    hideScroll(edit_window)
+                    editWindowLoaded()
+
+                    editWindowBlockRequest = false
+                }
+            }_()
         }
 
         edit_link_button.classList.add('edit_link_button--active')

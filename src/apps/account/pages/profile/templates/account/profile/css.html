@@ -1,15 +1,21 @@
 <style>
     .profile {
         margin: 16px auto;
-        max-width: 1080px;
+        max-width: 1046px;
     }
     .profile__container {margin: 0 4%;}
     .profile-posts__container {
         transition: .2s;
-        max-width: 670px;
+        max-width: 600px;
         padding: 0;
         margin: 16px 0;  !important;
     }
+    .profile__create_post_form {
+       max-width: 600px;
+       margin: 16px 0;
+       transition: .2s;
+    }
+
     .post__replies-footer {
         display: flex;
         align-items: center;
@@ -56,14 +62,8 @@
        top: 5px;
    }
 
-   .profile__create_post_form {
-       max-width: 670px;
-       margin: 16px 0;
-       transition: .2s;
-   }
-
    .profile__main_content {display: flex; height: 100%;}
-   .profile_all_posts {flex: 1 0 65%;}
+   .profile_all_posts {flex: 1 0 62%;}
    .no_exists__post_container {
        padding: 4px 20px !important;
    }
@@ -72,6 +72,9 @@
         .profile__create_post_form {max-width: 635px;}
         .profile-posts__container {max-width: 635px;}
          .profile__container {margin: 0 15px;}
+    }
+    @media (max-width: 900px) {
+        .profile__followings {flex-basis: 32% !important;}
     }
 </style>
 

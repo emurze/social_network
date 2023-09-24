@@ -1,18 +1,21 @@
 <style>
     .posts__create_post {
         transition: .2s;
-        display: flex;
         position: relative;
         width: 100%;
         margin-bottom: 16px;
         padding: 12px 20px;
         border: 1px solid rgb(208, 208, 208);
-        border-radius: 15px;
+        border-radius: 12px;
         box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, .01);
         background-color: #ffffff;
     }
     .posts__create_form {flex: 1 1 500px; overflow: hidden}
-    .posts__user_icon {margin-right: 10px;}
+    .posts__user_icon {
+        margin-right: 10px;
+        position: relative;
+        top: 1px;
+    }
     .posts__user_icon-img {
         flex: 0 0 50px;
         object-fit: cover;
@@ -22,7 +25,6 @@
     }
 
     .posts__create_post-description {
-        transition: .2s;
         margin-bottom: 35px;
     }
     .posts__create_post-description textarea {

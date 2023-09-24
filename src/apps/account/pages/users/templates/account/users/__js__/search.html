@@ -19,7 +19,9 @@
             async function _() {
                 const url = `{% url 'account:search_users' %}`
                 const response = await axios.get(`${url}?query=${query}`)
-                
+
+                stable_block_list = structuredClone(block_list)
+
                 window.scrollTo(0, 0)
                 cross.hidden = false
                 input.style.paddingRight = '14px'

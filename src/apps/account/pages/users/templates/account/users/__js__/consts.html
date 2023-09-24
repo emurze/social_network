@@ -2,4 +2,13 @@
     const csrf_token_input = document.querySelector("input[name='csrfmiddlewaretoken']")
     const csrf_token = csrf_token_input ? csrf_token_input.value : null
     const zip = (...rows) => [...rows[0]].map((_, c) => rows.map(row => row[c]))
+    const search_input = document.querySelector('.filters__search-input')
+
+    let stable_block_list = []
+    const block_list = []
+
+    setInterval(() => {
+        const header_width = getComputedStyle(document.querySelector('header')).width
+        onPossibleScroll(header_width)
+    }, 30)
 </script>

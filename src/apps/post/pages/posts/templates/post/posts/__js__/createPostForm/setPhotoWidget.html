@@ -1,5 +1,6 @@
 <script defer>
-    const description_wrapper = document.querySelector('.posts__create_post-description')
+    const posts_create_post_description = document.querySelector('.posts__create_post-description')
+    const wrapper = document.querySelector('.create_post_photo_wrapper')
 
     function ShowCreatedImage(input) {
         const files = input.files
@@ -15,8 +16,10 @@
                 const last_image = document.querySelector('.posts__create_post-description-new_photo')
                 last_image && last_image.remove()
 
+                posts_create_post_description.style.marginBottom = '15px'
+
                 reader[i].onload = e => {
-                    description_wrapper.insertAdjacentHTML(
+                    wrapper.insertAdjacentHTML(
                         'beforeend',
                         '<div class="posts__create_post-description-new_photo">' +
                         '<img id="'+ name +'" src="" alt="" class="posts__create_post-description-new_photo-img" />' +

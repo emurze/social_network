@@ -2,30 +2,31 @@
 {% load thumbnail %}
 
 <div class="posts__create_post">
+    <div style="display: flex;">
+        <div class="posts__user_icon">
+            {% if request.user.photo %}
+                <img src="{% thumbnail request.user.photo 150x150 crop="smart" %}"
+                     alt="" class="posts__user_icon-img">
+            {% else %}
+                <img src="{% static 'base/images/profile.png' %}" alt=""
+                     class="posts__user_icon-img">
+            {% endif %}
+        </div>
 
-    <div class="posts__user_icon">
-        {% if request.user.photo %}
-            <img src="{% thumbnail request.user.photo 150x150 crop="smart" %}"
-                 alt="" class="posts__user_icon-img">
-        {% else %}
-            <img src="{% static 'base/images/profile.png' %}" alt=""
-                 class="posts__user_icon-img">
-        {% endif %}
+        <form method="POST" class="posts__create_form" name="post_create_form">
+            {% csrf_token %}
+            <div class="posts__create_post-description">
+                {{ post_form.description }}
+            </div>
+            <div class="posts__create_post-photo">
+                {{ post_form.photo }}
+            </div>
+            <div class="posts__create_post-save">
+                <button type="submit" class="posts__create_post-save-button">
+                    Post
+                </button>
+            </div>
+        </form>
     </div>
-
-    <form method="POST" class="posts__create_form" name="post_create_form">
-        {% csrf_token %}
-        <div class="posts__create_post-description">
-            {{ post_form.description }}
-        </div>
-        <div class="posts__create_post-photo">
-            {{ post_form.photo }}
-        </div>
-        <div class="posts__create_post-save">
-            <button type="submit" class="posts__create_post-save-button">
-                Post
-            </button>
-        </div>
-    </form>
-
+    <div class="create_post_photo_wrapper"></div>
 </div>

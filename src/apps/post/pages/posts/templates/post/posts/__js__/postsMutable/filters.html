@@ -45,6 +45,8 @@
                 infinityPaginationHandler(`${data}`)
                 onPossibleScroll(header_width)
 
+                search_input.value = ''
+                search_input.style.paddingRight = '0'
                 const cross = document.querySelector('.filters__search-cross')
                 cross.hidden = true
 

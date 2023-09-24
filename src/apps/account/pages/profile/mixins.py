@@ -22,7 +22,7 @@ User = get_user_model()
 class AddUserPosts:
     def get_context_data(self, *args, **kwargs):
         user = self.object
-        posts = Post.objects.all().filter(user=user)
+        posts = Post.ext_objects.all().filter(user=user)
         kwargs['user_posts'] = posts[:settings.DEFAULT_POST_COUNT]
         kwargs['is_user_posts'] = True
         return super().get_context_data(*args, **kwargs)
@@ -33,13 +33,7 @@ class LikeActionAccountDetailMixin:
         posts = kwargs.get('user_posts')
         my_user = self.request.user
 
-        # posts = posts.annotate(action=F('liked_users'))
-
-        for post in posts:
-            if post.liked_users.contains(my_user):
-                post.action = LikeAction.UNLIKE
-            else:
-                post.action = LikeAction.LIKE
+        posts = Post.ext_objects.annotate_like_action(posts, my_user)
 
         kwargs['user_posts'] = posts
         return super().get_context_data(*args, **kwargs)

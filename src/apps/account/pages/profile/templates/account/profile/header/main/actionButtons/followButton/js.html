@@ -3,6 +3,8 @@
     const follow_button = document.querySelector('.follow_button__button')
     const url = "{% url 'account:follow_user' %}"
 
+    let followBlockRequest = false
+
     form.onsubmit = (e) => {
         e.preventDefault()
         const action = follow_button.innerText
@@ -16,14 +18,20 @@
             'Content-Type': `multipart/form-data;
              boundary=${form._boundary}`,
         }
-        async function send_post() {
-            const response = await axios.post(url, form, {headers})
-            const new_action = response.data.action
+        async function _() {
+            console.log(followBlockRequest)
+            if (!followBlockRequest) {
+                followBlockRequest = true
 
-            follow_button.innerHTML = new_action
-            follow_button.style.backgroundColor =
-                new_action === 'Follow' ? 'rgb(1, 135, 180)' : 'red'
-        }
-        send_post()
+                const response = await axios.post(url, form, {headers})
+                const new_action = response.data.action
+
+                follow_button.innerHTML = new_action
+                follow_button.style.backgroundColor =
+                    new_action === 'Follow' ? 'rgb(1, 135, 180)' : 'red'
+
+                followBlockRequest = false
+            }
+        }_()
     }
 </script>

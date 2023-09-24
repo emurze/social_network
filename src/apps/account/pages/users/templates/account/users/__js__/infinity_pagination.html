@@ -34,8 +34,8 @@
                     }
                     users_container.insertAdjacentHTML(
                         'beforeend',
-                        force ? `{% include 'shared/loading_icon.html' with center=True %}`
-                              : `{% include 'shared/loading_icon.html' %}`
+                        force ? `{% include 'shared/loading_icon.html' with center=True loading_icon_margin=True %}`
+                              : `{% include 'shared/loading_icon.html' with loading_icon_margin=True %}`
                     )
 
                     elem && elem.removeAttribute('hx-trigger')
@@ -47,30 +47,33 @@
                     const full_url = force ? `${url}?page=1`
                                            : `${url}?page=${page}&${query_strings}`
                     async function _() {
+                        block_list.push(full_url)
                         const response = await axios.get(full_url)
                         const html = response.data
 
-                        if (html === '') emptyPage = true
-                        else {
-                            const elementFinder = document.createElement('div')
-                            elementFinder.innerHTML = html
+                        if (!stable_block_list.includes(full_url)) {
+                            if (html === '') emptyPage = true
+                            else {
+                                const elementFinder = document.createElement('div')
+                                elementFinder.innerHTML = html
 
-                            if (force) users_container.innerHTML = ''
-                            const elements = Array.from(elementFinder.children)
-                            elements.forEach(
-                                elem => {
-                                    users_container.insertAdjacentElement(
-                                        'beforeend', elem
-                                    )
-                                    setUserButton({
-                                        form: elem.querySelector('.follow_button__form'),
-                                        follow_button: elem.querySelector('.follow_button__button'),
-                                        username: elem.querySelector('.user__info-username-link-username'),
-                                    })
-                                }
-                            )
-                            showScroll()
-                        }
+                                if (force) users_container.innerHTML = ''
+                                const elements = Array.from(elementFinder.children)
+                                elements.forEach(
+                                    elem => {
+                                        users_container.insertAdjacentElement(
+                                            'beforeend', elem
+                                        )
+                                        setUserButton({
+                                            form: elem.querySelector('.follow_button__form'),
+                                            follow_button: elem.querySelector('.follow_button__button'),
+                                            username: elem.querySelector('.user__info-username-link-username'),
+                                        })
+                                    }
+                                )
+                                showScroll()
+                            }
+                        } else {console.log('blocked')}
                         blockRequest = false
 
                         const loading_icon = document.querySelector('.loading_icon')

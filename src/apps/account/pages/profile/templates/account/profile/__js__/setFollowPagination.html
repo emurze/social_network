@@ -1,5 +1,6 @@
 <script defer>
     const following_content = document.querySelector('.following__content')
+    let FollowingPaginationBlockRequest = false
 
     function setFollowPagination(
         pagination_items,
@@ -13,8 +14,6 @@
             const response = await axios.get(
                 `${url}?page=${page}`
             )
-
-            console.log(response.data)
 
             const following_elem = document.createElement('div')
             following_elem.innerHTML = response.data
@@ -31,27 +30,31 @@
             following_content.append(following_elem)
         }
 
-        for (let item of pagination_items) {
-            item.onclick = function() {
-                const page = this.innerHTML
+        if (!FollowingPaginationBlockRequest) {
+            for (let item of pagination_items) {
+                item.onclick = function () {
+                    const page = this.innerHTML
+                    loadPage(page)
+                }
+            }
+            if (ellipsis_left) ellipsis_left.onclick = () => {
+                const page = 1
+                FollowingPaginationBlockRequest = true
+                loadPage(page)
+                FollowingPaginationBlockRequest = false
+            }
+            if (ellipsis_right) ellipsis_right.onclick = () => {
+                const page = Number({{ following_users.paginator.num_pages }})
                 loadPage(page)
             }
-        }
-        if (ellipsis_left) ellipsis_left.onclick = () => {
-            const page = 1
-            loadPage(page)
-        }
-        if (ellipsis_right) ellipsis_right.onclick = () => {
-            const page = Number({{ following_users.paginator.num_pages }})
-            loadPage(page)
-        }
-        if (next_arrow) next_arrow.onclick = () => {
-            const page = next_arrow.dataset.next
-            loadPage(page)
-        }
-        if (previous_arrow) previous_arrow.onclick = () => {
-            const page = previous_arrow.dataset.previous
-            loadPage(page)
+            if (next_arrow) next_arrow.onclick = () => {
+                const page = next_arrow.dataset.next
+                loadPage(page)
+            }
+            if (previous_arrow) previous_arrow.onclick = () => {
+                const page = previous_arrow.dataset.previous
+                loadPage(page)
+            }
         }
     }
     setFollowPagination(

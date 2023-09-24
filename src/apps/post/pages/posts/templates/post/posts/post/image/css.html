@@ -2,16 +2,18 @@
     .post__image {
         position: relative;
         z-index: 10;
-        margin-bottom: 2px;
+        margin-bottom: 12px;
+        max-width: 540px;
+        padding: 50%;
     }
     .post__image-img {
         object-fit: cover;
-        max-width: 525px;
-        max-height: 525px;
         width: 100%;
-
-        border-radius: 10px;
-        margin-bottom: 15px;
+        height: 100%;
+        border-radius: 12px;
+        position: absolute;
+        top: 0;
+        left: 0;
     }
 
     @media (max-width: 1050px) {

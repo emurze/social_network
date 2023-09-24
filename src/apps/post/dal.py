@@ -1,3 +1,5 @@
+import logging
+
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.db.models import Count, Exists, OuterRef, QuerySet, Case, When, \
@@ -6,6 +8,7 @@ from django.db.models import Count, Exists, OuterRef, QuerySet, Case, When, \
 from apps.post.services.like.action import LikeAction
 
 User = get_user_model()
+lg = logging.getLogger(__name__)
 
 
 class PostDAL(models.Manager):
@@ -21,9 +24,11 @@ class PostDAL(models.Manager):
         liked = Exists(
             my_user.liked_posts.filter(id=OuterRef('id'))
         )
-        return posts.annotate(
+        posts = posts.annotate(
             action=Case(
                 When(liked, then=Value(LikeAction.UNLIKE)),
                 default=Value(LikeAction.LIKE)
             )
         )
+        lg.debug([f'{post.action} {post.likes_count}' for post in posts])
+        return posts
