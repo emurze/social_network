@@ -1,7 +1,6 @@
 <nav class="menu">
     <span class="menu__item">
-        <a class="menu__item-link"
-           {% if not menu_selected == 'dashboard' %}href="{% url 'dashboard' %}"{% endif %}>
+        <a class="menu__item-link" href="{% url 'dashboard' %}">
             <span class="menu__item-link-content
                         {% if menu_selected == 'dashboard' %}menu__item-link-content--selected{% endif %}">
                 Dashboard
@@ -9,8 +8,7 @@
         </a>
     </span>
     <span class="menu__item">
-        <a class="menu__item-link"
-           {% if not menu_selected == 'posts' %}href="{% url 'post:list' %}"{% endif %}>
+        <a class="menu__item-link" href="{% url 'post:list' %}">
             <span class="menu__item-link-content
                          {% if menu_selected == 'posts' %}menu__item-link-content--selected{% endif %}">
                 Posts
@@ -18,8 +16,7 @@
         </a>
     </span>
     <span class="menu__item">
-        <a class="menu__item-link"
-           {% if not menu_selected == 'users' %}href="{% url 'account:users' %}"{% endif %}>
+        <a class="menu__item-link" href="{% url 'account:users' %}">
             <span class="menu__item-link-content
                          {% if menu_selected == 'users' %}menu__item-link-content--selected{% endif %}">
                 Users

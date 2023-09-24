@@ -52,7 +52,11 @@
         <div class="actions__content">
             {% for action in actions %}
                 <article class="item_action" onclick="location.href='{{ action.user.get_absolute_url }}'">
-                    <img src="{% thumbnail action.user.photo 100x100 crop="smart" %}" alt="">
+                    {% if action.user.photo %}
+                        <img src="{% thumbnail action.user.photo 100x100 crop="smart" %}" alt="">
+                    {% else %}
+                        <img src="{% static 'base/images/profile.png' %}" alt="">
+                    {% endif %}
                     <div>
                         <p class="item_action__name">{{ action.user.username }}</p>
                         <p>{{ action.verb }} {{ action.content_object }}</p>

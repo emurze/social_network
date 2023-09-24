@@ -27,31 +27,21 @@
                 const post_wrapper = document.createElement('div')
                 post_wrapper.innerHTML = response.data.post
 
-                setReplyLinks({
-                    reply_footer_form_set: post_wrapper.querySelectorAll('.post__replies-footer'),
-                    content_input_set: post_wrapper.querySelectorAll('input[id="id_content"]'),
-                    reply_link_set: post_wrapper.querySelectorAll('.reply__link'),
-                    post_replies_set: post_wrapper.querySelectorAll('.post__replies'),
-                })
-                setLikeButtons({
-                    like_forms: post_wrapper.querySelectorAll('.like__button-form'),
-                    like_button_container_set: post_wrapper.querySelectorAll('.like__button-container'),
-                    like_action_set: post_wrapper.querySelectorAll('.like__button-action'),
-                    like_counter_set: post_wrapper.querySelectorAll('.like__button-like_counter'),
-                    post_id_set: post_wrapper.querySelectorAll('.like__button-post_id'),
-                })
-                setRepliesButtons({
-                    reply_forms: post_wrapper.querySelectorAll('.post__replies-footer-form'),
-                    reply_list_set: post_wrapper.querySelectorAll('.post__replies-list'),
-                    post_id_set: post_wrapper.querySelectorAll('.like__button-post_id'),
-                    content_input_set: post_wrapper.querySelectorAll('input[id="id_content"]'),
-                    reply_link_counter_set: post_wrapper.querySelectorAll('.reply__link-counter'),
-                })
+                const error_messages = posts_container.querySelector('.users_error_message')
+                error_messages && error_messages.remove()
 
-                posts_container.insertAdjacentElement(
-                    'afterbegin',
-                    post_wrapper,
+                const header_width = getComputedStyle(document.querySelector('header')).width
+                Array.from(post_wrapper.children).forEach(
+                    elem => {
+                        posts_container.insertAdjacentElement(
+                            'afterbegin',
+                            elem,
+                        )
+                        setPostsElemJS(elem)
+                    }
                 )
+                onPossibleScroll(header_width)
+
                 description_input.value = ''
                 photo_input.value = ''
                 textarea.style.height = textarea_default_height

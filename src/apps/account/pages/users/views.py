@@ -11,6 +11,7 @@ from django.views.decorators.http import require_POST
 from apps.account.pages.users.mixins import UsersListView, DefaultLimitMixin, \
     FollowActionListMixin, SearchUsersMixin, FilterUsersMixin, \
     RequestLimitMixin, UsersMenuSelectedMixin
+from apps.account.services.follow.action import FollowAction
 from apps.account.services.follow.dispatcher import dispatch_follow_action
 from apps.dashboard.services.create_action import create_action
 from services.pagination.pagination import PaginationMixin
@@ -64,11 +65,10 @@ def follow_user(request: WSGIRequest) -> JsonResponse:
         User, username=request.POST.get('username')
     )
 
-    create_action(request.user, 'follows user', other_user)
-
     action = dispatch_follow_action(
         action=request.POST.get('action'),
         my_user=request.user,
         other_user=other_user
     )
+
     return JsonResponse({'action': action})

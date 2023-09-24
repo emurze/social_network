@@ -18,6 +18,7 @@
                     const url = `{% url 'post:create_reply' %}`
                     const response = await axios.post(url, form, {headers})
 
+                    const header_width = getComputedStyle(document.querySelector('header')).width
                     const generated_reply_item = response.data
                     if (!response.data.is_errors) {
                         reply_list.insertAdjacentHTML(
@@ -31,6 +32,7 @@
                             reply_link_counter.innerHTML++
                         }
                     }
+                    onPossibleScroll(header_width)
 
                     content_input.value = ''
                 }

@@ -26,7 +26,8 @@ class Post(models.Model):
     liked_users = models.ManyToManyField(User, through='LikeContract',
                                          related_name='liked_posts')
 
-    objects = PostDAL()
+    objects = models.Manager()
+    ext_objects = PostDAL()
 
     class Meta:
         ordering = ('-created',)

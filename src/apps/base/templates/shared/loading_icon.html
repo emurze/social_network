@@ -1,6 +1,7 @@
-<div class="loading_icon" style="margin: 0 auto;
+<div class="loading_icon" style="
         height: {{ loading_icon_size|default:30 }}px;
         width: {{ loading_icon_size|default:30 }}px;
+        margin: 0 auto;
         {% if center %}
             position: absolute;
             left: calc(50% - {{ loading_icon_size|default:30 }}px / 2);
@@ -11,5 +12,14 @@
                 border: {{ loading_icon_weight|default:4 }}px solid;
                 border-radius: 50%;
                 border-color: #ddd #ddd #ddd transparent;
-                animation: spin 1s linear infinite;"></div>
+                animation: spin 1s linear infinite;
+                position: relative;
+                {% if loading_icon_margin %}
+                    top: 5px;
+                {% endif %}">
+
+    </div>
+    {% if loading_icon_margin %}
+        <div class="loading_icon__blank" style="padding-bottom: 30px;"></div>
+    {% endif %}
 </div>
