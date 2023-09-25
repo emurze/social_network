@@ -1,3 +1,5 @@
+import reprlib
+
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
@@ -26,4 +28,4 @@ class Action(models.Model):
         )
 
     def __str__(self):
-        return f'{self.user} {self.verb} {self.content_object}'
+        return f'{self.user} {self.verb} {reprlib.repr(self.content_object)}'

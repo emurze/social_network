@@ -15,16 +15,6 @@
                 async function _() {
                     searchRequestBlock = true
 
-                    const url = `{% url 'post:search_posts' %}`
-                    const response = await axios.get(`${url}?query=${query}`)
-
-                    stable_block_list = structuredClone(block_list)
-
-                    infinityPaginationHandler(`query=${query}`)
-
-                    window.scrollTo(0, 0)
-                    cross.hidden = false
-                    search_input.style.paddingRight = '14px'
                     if (filters_form) {
                         const photo_input = filters_form.photo
                         const verified_input = filters_form.verified
@@ -36,6 +26,17 @@
                         order_radio_set[0].checked = true
                         order_radio_set[1].checked = false
                     }
+
+                    const url = `{% url 'post:search_posts' %}`
+                    const response = await axios.get(`${url}?query=${query}`)
+
+                    stable_block_list = structuredClone(block_list)
+
+                    infinityPaginationHandler(`query=${query}`)
+
+                    window.scrollTo(0, 0)
+                    cross.hidden = false
+                    search_input.style.paddingRight = '14px'
                     posts_container.innerHTML = ''
 
                     addPostsToContainer(response, posts_container)

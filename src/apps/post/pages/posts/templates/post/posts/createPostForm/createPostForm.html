@@ -6,10 +6,10 @@
         <div class="posts__user_icon">
             {% if request.user.photo %}
                 <img src="{% thumbnail request.user.photo 150x150 crop="smart" %}"
-                     alt="" class="posts__user_icon-img">
+                     alt="" class="posts__user_icon-img" loading="lazy">
             {% else %}
                 <img src="{% static 'base/images/profile.png' %}" alt=""
-                     class="posts__user_icon-img">
+                     class="posts__user_icon-img" loading="lazy">
             {% endif %}
         </div>
 

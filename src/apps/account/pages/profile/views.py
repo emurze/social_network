@@ -8,7 +8,8 @@ from django.views.generic import DetailView, UpdateView
 from .forms import EditCoverForm, AccountEditForm
 from .mixins import AddUserPosts, LikeActionAccountDetailMixin, \
     AddFollowingUsersMixin, ProfileSelectedMixin, AjaxErrorsMixin, \
-    FollowActionDetailMixin, AddFollowingUsersPaginationMixin
+    FollowActionDetailMixin, AddFollowingUsersPaginationMixin, \
+    AddFollowingUsersExistsMixin
 
 from apps.post.pages.posts.mixins import AddReplyFormMixin, AddPostForm
 
@@ -21,6 +22,7 @@ class AccountDetailView(
     ProfileSelectedMixin,
     FollowActionDetailMixin,
     AddFollowingUsersMixin,
+    AddFollowingUsersExistsMixin,
     AddUserPosts,
     AddPostForm,
     AddReplyFormMixin,

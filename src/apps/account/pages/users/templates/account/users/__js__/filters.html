@@ -4,73 +4,80 @@
     const find_button = document.querySelector('.find_button-button')
     const filters_form = document.forms.filters_form
     const default_find_button_html = find_button.innerHTML
+    let filtersBlockRequest = false
 
     filters_form.onsubmit = (e) => {
         e.preventDefault()
 
-        const header_width = getComputedStyle(document.querySelector('header')).width
+        if (!filtersBlockRequest) {
+            const header_width = getComputedStyle(document.querySelector('header')).width
 
-        function get_multi_query_strings(input_set, name) {
-            return input_set.filter(checkout => checkout.checked)
-                            .map(checkout => `${name}=${checkout.value}`)
-                            .join('&')
-        }
+            function get_multi_query_strings(input_set, name) {
+                return input_set.filter(checkout => checkout.checked)
+                                .map(checkout => `${name}=${checkout.value}`)
+                                .join('&')
+            }
 
-        const gender_input_set = Array.from(filters_form.gender)
-        const age_input_set = Array.from(filters_form.age)
+            const gender_input_set = Array.from(filters_form.gender)
+            const age_input_set = Array.from(filters_form.age)
 
-        const gender_set = get_multi_query_strings(gender_input_set, 'gender')
-        const age_set = get_multi_query_strings(age_input_set, 'age')
+            const gender_set = get_multi_query_strings(gender_input_set, 'gender')
+            const age_set = get_multi_query_strings(age_input_set, 'age')
 
-        let data = ''
-        if (gender_set && age_set)
-            data = `${gender_set}&${age_set}`
-        else if (gender_set)
-            data = gender_set
-        else if (age_set)
-            data = age_set
+            let data = ''
+            if (gender_set && age_set)
+                data = `${gender_set}&${age_set}`
+            else if (gender_set)
+                data = gender_set
+            else if (age_set)
+                data = age_set
 
-        users_container.innerHTML = `{% include 'shared/loading_icon.html' with center=True %}`
-        onPossibleScroll(header_width)
-
-        find_button.innerHTML = `{% include 'shared/loading_icon.html'  with loading_icon_size=17 loading_icon_weight=3 %}`
-        find_button.style.top = '4px'
-        users_filters_tags.style.paddingBottom = '8px'
-
-        async function _() {
-            const url = `{% url 'account:filter_users' %}`
-            const response = await axios.get(`${url}?${data}`)
-
-            stable_block_list = structuredClone(block_list)
-
-            window.scrollTo(0, 0)
-            users_container.innerHTML = ''
-
-            const users_batch = document.createElement('div')
-            users_batch.innerHTML = response.data
-
-            setUsersButtons({
-                forms: users_batch.querySelectorAll('.follow_button__form'),
-                follow_buttons: users_batch.querySelectorAll('.follow_button__button'),
-                usernames: users_batch.querySelectorAll('.user__info-username-link-username'),
-            })
-
-            const elements = Array.from(users_batch.children)
-            elements.forEach(
-                elem => users_container.insertAdjacentElement('beforeend', elem)
-            )
-
-            infinityPaginationHandler(`${data}`)
+            users_container.innerHTML = `{% include 'shared/loading_icon.html' with center=True %}`
             onPossibleScroll(header_width)
 
-            search_input.value = ''
-            search_input.style.paddingRight = '0'
-            const cross = document.querySelector('.filters__search-cross')
-            cross.hidden = true
+            find_button.innerHTML = `{% include 'shared/loading_icon.html'  with loading_icon_size=17 loading_icon_weight=3 %}`
+            find_button.style.top = '4px'
+            users_filters_tags.style.paddingBottom = '8px'
 
-            find_button.innerHTML =  default_find_button_html
-            find_button.style.top = '3px'
-            users_filters_tags.style.paddingBottom = '10px'
-        }_()
+            async function _() {
+                filtersBlockRequest = true
+
+                search_input.value = ''
+                search_input.style.paddingRight = '0'
+                const cross = document.querySelector('.filters__search-cross')
+                cross.hidden = true
+
+                const url = `{% url 'account:filter_users' %}`
+                const response = await axios.get(`${url}?${data}`)
+
+                stable_block_list = structuredClone(block_list)
+
+                window.scrollTo(0, 0)
+                users_container.innerHTML = ''
+
+                const users_batch = document.createElement('div')
+                users_batch.innerHTML = response.data
+
+                setUsersButtons({
+                    forms: users_batch.querySelectorAll('.follow_button__form'),
+                    follow_buttons: users_batch.querySelectorAll('.follow_button__button'),
+                    usernames: users_batch.querySelectorAll('.user__info-username-link-username'),
+                })
+
+                const elements = Array.from(users_batch.children)
+                elements.forEach(
+                    elem => users_container.insertAdjacentElement('beforeend', elem)
+                )
+
+                infinityPaginationHandler(`${data}`)
+                onPossibleScroll(header_width)
+
+                find_button.innerHTML =  default_find_button_html
+                find_button.style.top = '3px'
+                users_filters_tags.style.paddingBottom = '10px'
+
+                filtersBlockRequest = false
+            }_()
+        }
     }
 </script>

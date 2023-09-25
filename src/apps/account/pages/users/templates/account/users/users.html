@@ -20,6 +20,8 @@
 {% endblock %}
 
 {% block scripts %}
+    {% include 'shared/js/goToTop.html' %}
+
     <script defer src="{% static 'base/js/axios.min.js' %}"></script>
     {% include 'account/users/js.html' %}
 {% endblock %}

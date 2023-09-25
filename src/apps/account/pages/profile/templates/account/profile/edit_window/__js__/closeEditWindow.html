@@ -1,7 +1,15 @@
 <script defer>
+    let edit_link_button_close = null
+    let isCloseEditWindowFirst = true
+
     function closeEditWindow() {
-        const edit_link_button = document.querySelector('.edit_link_button')
-        edit_link_button.classList.remove('edit_link_button--active')
+        if (isCloseEditWindowFirst) {
+            edit_link_button_close = document.querySelector('.edit_link_button')
+            edit_link_button_close.classList.remove('edit_link_button--active')
+            isCloseEditWindowFirst = false
+        } else {
+            edit_link_button_close.classList.remove('edit_link_button--active')
+        }
 
         const edit_window = document.querySelector('.edit_window')
         remove_elem(edit_window)

@@ -6,17 +6,24 @@
     const input = document.querySelector('.filters__search-input')
     const cross = document.querySelector('.filters__search-cross')
 
+    let searchBlockRequest = false
+
     search_form.onsubmit = (e) => {
         e.preventDefault()
 
         const header_width = getComputedStyle(document.querySelector('header')).width
         const query = input.value
 
-        if (query) {
+        if (query && !searchBlockRequest) {
             users_container.innerHTML = `{% include 'shared/loading_icon.html' with center=True %}`
             onPossibleScroll(header_width)
 
             async function _() {
+                searchBlockRequest = true
+
+                gender_input.forEach(elem => elem.checked = false)
+                age_input.forEach(elem => elem.checked = false)
+
                 const url = `{% url 'account:search_users' %}`
                 const response = await axios.get(`${url}?query=${query}`)
 
@@ -42,13 +49,12 @@
                     elem => users_container.insertAdjacentElement('beforeend', elem)
                 )
 
-                gender_input.forEach(elem => elem.checked = false)
-                age_input.forEach(elem => elem.checked = false)
-
                 infinityPaginationHandler(`query=${query}`)
 
                 const new_header_width = getComputedStyle(document.querySelector('header')).width
                 onPossibleScroll(new_header_width)
+
+                searchBlockRequest = false
             }_()
         } else {
             input.focus()

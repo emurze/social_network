@@ -29,6 +29,8 @@
 {% endblock %}
 
 {% block scripts %}
+    {% include 'shared/js/goToTop.html' %}
+
     <script src="{% static 'base/js/axios.min.js' %}"></script>
     {% include 'post/posts/js.html' %}
 {% endblock %}

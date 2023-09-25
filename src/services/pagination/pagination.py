@@ -1,11 +1,17 @@
+import logging
+
 from django.core.handlers.wsgi import WSGIRequest
-from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage, Page
 from django.db.models import QuerySet
 from django.http import HttpResponse
+
+lg = logging.getLogger(__name__)
 
 
 class PaginationMixin:
     object_list: QuerySet | None = None
+    c_paginator: Paginator | None = None
+    c_page: Page | None = None
 
     def get(self, request: WSGIRequest, *args, **kwargs) -> HttpResponse:
         self.object_list = self.get_queryset()
@@ -22,9 +28,10 @@ class PaginationMixin:
                 return HttpResponse('')
 
         page = request.GET.get('page')
-        paginator = Paginator(self.object_list, self.paginate_by)
+        self.c_paginator = Paginator(self.object_list, self.paginate_by)
         try:
-            paginator.page(page)
+            self.c_page = self.c_paginator.page(page)
+            lg.debug(f'page {self.c_page}')
         except PageNotAnInteger:
             pass
         except EmptyPage:
@@ -33,3 +40,10 @@ class PaginationMixin:
         context = self.get_context_data()
         return self.render_to_response(context)
 
+    def paginate_queryset(self, queryset, page_size):
+        return (
+            self.c_paginator,
+            self.c_page,
+            self.c_page.object_list,
+            self.c_page.has_other_pages()
+        )

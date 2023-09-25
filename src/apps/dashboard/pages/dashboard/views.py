@@ -11,7 +11,9 @@ class ActionList(LoginRequiredMixin, ListView):
     context_object_name = 'actions'
 
     def get_queryset(self):
-        actions = Action.objects.all()
+        actions = Action.objects.select_related('user')\
+                                .prefetch_related('content_object')
+
         return actions[:settings.DEFAULT_ACTION_COUNT]
 
     def get_context_data(self, *, object_list=None, **kwargs):

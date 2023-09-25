@@ -1,13 +1,21 @@
 <script defer>
-    function returnsToBaseUsers(cross) {
-        stable_block_list = []
+    let returnsToBaseUsersBlockRequest = false
 
-        const _event = new CustomEvent('scroll', {detail: {force: true}});
-        window.dispatchEvent(_event)
-        infinityPaginationHandler()
-        cross.hidden = true
-        const input = document.querySelector('.filters__search-input')
-        input.value = ''
-        input.style.paddingRight = '0'
+    function returnsToBaseUsers(cross) {
+        if (!returnsToBaseUsersBlockRequest) {
+            returnsToBaseUsersBlockRequest = true
+
+            stable_block_list = []
+
+            const _event = new CustomEvent('scroll', {detail: {force: true}});
+            window.dispatchEvent(_event)
+            infinityPaginationHandler()
+            cross.hidden = true
+            const input = document.querySelector('.filters__search-input')
+            input.value = ''
+            input.style.paddingRight = '0'
+
+            returnsToBaseUsersBlockRequest = false
+        }
     }
 </script>

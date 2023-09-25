@@ -19,6 +19,13 @@ lg = logging.getLogger(__name__)
 User = get_user_model()
 
 
+class AddFollowingUsersExistsMixin:
+    def get_context_data(self, *args, **kwargs):
+        user = self.object
+        kwargs['exists_followings_users'] = user.followings.exists()
+        return super().get_context_data(*args, **kwargs)
+
+
 class AddUserPosts:
     def get_context_data(self, *args, **kwargs):
         user = self.object

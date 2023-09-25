@@ -1,6 +1,6 @@
 <div class="following__content">
 
-    {% if user.followings.exists %}
+    {% if exists_followings_users %}
         {% include 'account/profile/followings/generatedFollowingList/generatedFollowingList.html' %}
 
         {% if following_users.paginator.num_pages > 1 %}
