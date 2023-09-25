@@ -1,4 +1,5 @@
 <script defer>
+    let searchRequestBlock = false
     const search_form = document.querySelector('.users__filters-search-form')
     if (search_form)
         search_form.onsubmit = (e) => {
@@ -7,11 +8,13 @@
             const header_width = getComputedStyle(document.querySelector('header')).width
             const query = search_input.value
 
-            if (query) {
+            if (query && !searchRequestBlock) {
                 posts_container.innerHTML = `{% include 'shared/loading_icon.html' with center=True loading_icon_margin=True %}`
                 onPossibleScroll(header_width)
 
                 async function _() {
+                    searchRequestBlock = true
+
                     const url = `{% url 'post:search_posts' %}`
                     const response = await axios.get(`${url}?query=${query}`)
 
@@ -39,6 +42,8 @@
 
                     const new_header_width = getComputedStyle(document.querySelector('header')).width
                     onPossibleScroll(new_header_width)
+
+                    searchRequestBlock = false
                 }_()
             } else {search_input.focus()}
     }

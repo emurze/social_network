@@ -1,5 +1,6 @@
 <script defer>
     const post_create_form = document.forms.post_create_form
+    let createPostFormRequestBlock = false
 
     if (post_create_form) {
         const description_input = post_create_form.elements.description
@@ -20,35 +21,41 @@
                  boundary=${form._boundary}`
             }
 
-            async function _() {
-                const url = `{% url 'post:create' %}`
-                const response = await axios.post(url, form, {headers})
+            if (!createPostFormRequestBlock) {
+                async function _() {
+                    createPostFormRequestBlock = true
 
-                const post_wrapper = document.createElement('div')
-                post_wrapper.innerHTML = response.data.post
+                    const url = `{% url 'post:create' %}`
+                    const response = await axios.post(url, form, {headers})
 
-                const error_messages = posts_container.querySelector('.users_error_message')
-                error_messages && error_messages.remove()
+                    const post_wrapper = document.createElement('div')
+                    post_wrapper.innerHTML = response.data.post
 
-                const header_width = getComputedStyle(document.querySelector('header')).width
-                Array.from(post_wrapper.children).forEach(
-                    elem => {
-                        posts_container.insertAdjacentElement(
-                            'afterbegin',
-                            elem,
-                        )
-                        setPostsElemJS(elem)
-                    }
-                )
-                onPossibleScroll(header_width)
+                    const error_messages = posts_container.querySelector('.users_error_message')
+                    error_messages && error_messages.remove()
 
-                description_input.value = ''
-                photo_input.value = ''
-                textarea.style.height = textarea_default_height
+                    const header_width = getComputedStyle(document.querySelector('header')).width
+                    Array.from(post_wrapper.children).forEach(
+                        elem => {
+                            posts_container.insertAdjacentElement(
+                                'afterbegin',
+                                elem,
+                            )
+                            setPostsElemJS(elem)
+                        }
+                    )
+                    onPossibleScroll(header_width)
 
-                const last_photo = document.querySelector('.posts__create_post-description-new_photo')
-                last_photo && last_photo.remove()
-            }_()
+                    description_input.value = ''
+                    photo_input.value = ''
+                    textarea.style.height = textarea_default_height
+
+                    const last_photo = document.querySelector('.posts__create_post-description-new_photo')
+                    last_photo && last_photo.remove()
+
+                    createPostFormRequestBlock = false
+                }_()
+            }
         }
         textarea.addEventListener("input", () => {
             textarea.style.height = '5px'

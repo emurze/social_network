@@ -1,4 +1,6 @@
 <script defer>
+    let createReplyRequestBlock = false
+
     function setRepliesButton({form, reply_list, post_id, content_input, reply_link_counter}) {
         if (form && reply_list && post_id && content_input && reply_link_counter)
             form.onsubmit = (e) => {
@@ -14,29 +16,35 @@
                      boundary=${form._boundary}`,
                 }
 
-                async function generate_reply_item() {
-                    const url = `{% url 'post:create_reply' %}`
-                    const response = await axios.post(url, form, {headers})
+                if (!createReplyRequestBlock) {
+                    async function generate_reply_item() {
+                        createReplyRequestBlock = true
 
-                    const header_width = getComputedStyle(document.querySelector('header')).width
-                    const generated_reply_item = response.data
-                    if (!response.data.is_errors) {
-                        reply_list.insertAdjacentHTML(
-                            'afterbegin',
-                            generated_reply_item,
-                        )
+                        const url = `{% url 'post:create_reply' %}`
+                        const response = await axios.post(url, form, {headers})
 
-                        if (reply_link_counter.innerHTML === '') {
-                            reply_link_counter.innerHTML = 1
-                        } else {
-                            reply_link_counter.innerHTML++
+                        const header_width = getComputedStyle(document.querySelector('header')).width
+                        const generated_reply_item = response.data
+                        if (!response.data.is_errors) {
+                            reply_list.insertAdjacentHTML(
+                                'afterbegin',
+                                generated_reply_item,
+                            )
+
+                            if (reply_link_counter.innerHTML === '') {
+                                reply_link_counter.innerHTML = 1
+                            } else {
+                                reply_link_counter.innerHTML++
+                            }
                         }
-                    }
-                    onPossibleScroll(header_width)
+                        onPossibleScroll(header_width)
 
-                    content_input.value = ''
+                        content_input.value = ''
+
+                        createReplyRequestBlock = false
+                    }
+                    generate_reply_item()
                 }
-                generate_reply_item()
             }
     }
 

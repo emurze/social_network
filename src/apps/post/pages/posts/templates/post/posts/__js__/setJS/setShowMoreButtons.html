@@ -1,4 +1,6 @@
 <script defer>
+    let showMoreRequestBlock = false
+
     function setShowMoreItem({replies_set, reply_first, show_more, post_id}) {
         if (replies_set && reply_first && show_more && post_id) {
             let page = 0
@@ -17,31 +19,37 @@
                 }
 
                 if (!stop_request) {
-                    async function _() {
-                        const url = `{% url 'post:download_replies' %}`
-                        const response = await axios.post(url, form, {headers})
+                    if (!showMoreRequestBlock) {
+                        async function _() {
+                            showMoreRequestBlock = true
 
-                        if (!response.data.completion) {
-                            replies_set.insertAdjacentHTML(
-                                'beforeend',
-                                response.data
-                            )
-                        } else {
-                            if (!response.data.no_data) {
+                            const url = `{% url 'post:download_replies' %}`
+                            const response = await axios.post(url, form, {headers})
+
+                            if (!response.data.completion) {
                                 replies_set.insertAdjacentHTML(
                                     'beforeend',
-                                    response.data.replies,
+                                    response.data
                                 )
-                            }
-                            stop_request = true
-                            show_more.remove()
+                            } else {
+                                if (!response.data.no_data) {
+                                    replies_set.insertAdjacentHTML(
+                                        'beforeend',
+                                        response.data.replies,
+                                    )
+                                }
+                                stop_request = true
+                                show_more.remove()
 
-                            const replies = replies_set.children
-                            const last_elem = replies[replies.length-1]
-                            last_elem.style.marginBottom = '8px'
-                        }
-                        reply_first.classList.remove('reply_item-info--first')
-                    }_()
+                                const replies = replies_set.children
+                                const last_elem = replies[replies.length-1]
+                                last_elem.style.marginBottom = '8px'
+                            }
+                            reply_first.classList.remove('reply_item-info--first')
+
+                            showMoreRequestBlock = false
+                        }_()
+                    }
                 }
             }
         }

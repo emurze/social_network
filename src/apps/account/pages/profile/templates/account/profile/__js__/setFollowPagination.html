@@ -10,51 +10,53 @@
         previous_arrow,
     ) {
         async function loadPage(page) {
-            const url = `{% url 'account:follow_pagination' user.username %}`
-            const response = await axios.get(
-                `${url}?page=${page}`
-            )
-
-            const following_elem = document.createElement('div')
-            following_elem.innerHTML = response.data
-
-            setFollowPagination(
-                following_elem.querySelectorAll('.followings__pagination-item'),
-                following_elem.querySelector('.full_left'),
-                following_elem.querySelector('.full_right'),
-                following_elem.querySelector('.next_arrow'),
-                following_elem.querySelector('.previous_arrow'),
-            )
-
-            following_content.innerHTML = ''
-            following_content.append(following_elem)
-        }
-
-        if (!FollowingPaginationBlockRequest) {
-            for (let item of pagination_items) {
-                item.onclick = function () {
-                    const page = this.innerHTML
-                    loadPage(page)
-                }
-            }
-            if (ellipsis_left) ellipsis_left.onclick = () => {
-                const page = 1
+            if (!FollowingPaginationBlockRequest) {
                 FollowingPaginationBlockRequest = true
-                loadPage(page)
+
+                const url = `{% url 'account:follow_pagination' user.username %}`
+                const response = await axios.get(
+                    `${url}?page=${page}`
+                )
+
+                const following_elem = document.createElement('div')
+                following_elem.innerHTML = response.data
+
+                setFollowPagination(
+                    following_elem.querySelectorAll('.followings__pagination-item'),
+                    following_elem.querySelector('.full_left'),
+                    following_elem.querySelector('.full_right'),
+                    following_elem.querySelector('.next_arrow'),
+                    following_elem.querySelector('.previous_arrow'),
+                )
+
+                following_content.innerHTML = ''
+                following_content.append(following_elem)
+
                 FollowingPaginationBlockRequest = false
             }
-            if (ellipsis_right) ellipsis_right.onclick = () => {
-                const page = Number({{ following_users.paginator.num_pages }})
+        }
+
+        for (let item of pagination_items) {
+            item.onclick = function () {
+                const page = this.innerHTML
                 loadPage(page)
             }
-            if (next_arrow) next_arrow.onclick = () => {
-                const page = next_arrow.dataset.next
-                loadPage(page)
-            }
-            if (previous_arrow) previous_arrow.onclick = () => {
-                const page = previous_arrow.dataset.previous
-                loadPage(page)
-            }
+        }
+        if (ellipsis_left) ellipsis_left.onclick = () => {
+            const page = 1
+            loadPage(page)
+        }
+        if (ellipsis_right) ellipsis_right.onclick = () => {
+            const page = Number({{ following_users.paginator.num_pages }})
+            loadPage(page)
+        }
+        if (next_arrow) next_arrow.onclick = () => {
+            const page = next_arrow.dataset.next
+            loadPage(page)
+        }
+        if (previous_arrow) previous_arrow.onclick = () => {
+            const page = previous_arrow.dataset.previous
+            loadPage(page)
         }
     }
     setFollowPagination(
