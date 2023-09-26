@@ -30,6 +30,19 @@
                 follow_button.style.backgroundColor =
                     new_action === 'Follow' ? 'rgb(1, 135, 180)' : 'red'
 
+                follow_button.style.transition = 'width .06s, background-color .003s'
+                if (new_action === 'Follow') {
+                    follow_button.classList.remove('follow_button--red')
+                    follow_button.classList.add('follow_button--blue')
+                } else {
+                    follow_button.classList.remove('follow_button--blue')
+                    follow_button.classList.add('follow_button--red')
+                }
+                setTimeout(() => {
+                    follow_button.innerHTML = new_action
+                    follow_button.style.transition = 'width .06s, background-color .2s'
+                }, 12)
+
                 followBlockRequest = false
             }
         }_()

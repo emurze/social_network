@@ -32,7 +32,7 @@
             else if (age_set)
                 data = age_set
 
-            users_container.innerHTML = `{% include 'shared/loading_icon.html' with center=True %}`
+            users_container.innerHTML = `{% include 'shared/loading_icon.html' with center=True loading_icon_margin=True %}`
             onPossibleScroll(header_width)
 
             find_button.innerHTML = `{% include 'shared/loading_icon.html'  with loading_icon_size=17 loading_icon_weight=3 %}`
@@ -71,6 +71,8 @@
 
                 infinityPaginationHandler(`${data}`)
                 onPossibleScroll(header_width)
+
+                setLazyImages()
 
                 find_button.innerHTML =  default_find_button_html
                 find_button.style.top = '3px'

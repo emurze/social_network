@@ -109,7 +109,7 @@ class AjaxErrorsMixin:
 
 class FollowActionDetailMixin:
     @staticmethod
-    def _set_follow_action(requested_user: User, user: User) -> LikeAction:
+    def _set_follow_action(requested_user: User, user: User) -> FollowAction:
         if requested_user.followings.contains(user):
             action = FollowAction.UNFOLLOW
         else:
@@ -121,6 +121,5 @@ class FollowActionDetailMixin:
             requested_user=self.request.user,
             user=self.object,
         )
-
         kwargs['action'] = action
         return super().get_context_data(*args, **kwargs)

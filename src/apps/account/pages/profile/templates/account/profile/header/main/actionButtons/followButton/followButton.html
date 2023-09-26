@@ -1,7 +1,7 @@
 <div class="follow_button">
     <form method="POST" class="follow_button__form">
         {% csrf_token %}
-        <button class="follow_button__button {% if action == 'Unfollow' %}follow_button__button--active{% endif %}"
+        <button class="follow_button__button {% if action == 'Unfollow' %}follow_button--red follow_button--red-event{% else %}follow_button--blue follow_button--blue-event{% endif %}"
                 type="submit">
             {{ action }}
         </button>

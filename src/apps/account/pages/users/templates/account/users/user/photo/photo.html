@@ -1,10 +1,16 @@
 {% load static %}
 {% load thumbnail %}
 
-<div class="user__photo">
-    {% if user.photo %}
-        <img src="{% thumbnail user.photo 450x450 crop="smart" quality=100 %}" alt="">
-    {% else %}
-        <img src="{% static 'base/images/profile.png' %}" alt="">
-    {% endif %}
+<div class="user__photo-wrapper">
+    <div class="user__photo">
+        <a href="{% url 'account:detail' user.username %}" class="user__photo-link">
+            {% if user.photo %}
+                <img src='' data-src="{% thumbnail user.photo 450x450 crop="smart" quality=100 %}"
+                     class="lazy no_select" loading="lazy" alt="">
+            {% else %}
+                <img src='' data-src="{% static 'base/images/profile.png' %}"
+                     class="lazy no_select" loading="lazy" alt="">
+            {% endif %}
+        </a>
+    </div>
 </div>

@@ -5,11 +5,11 @@
     <div style="display: flex;">
         <div class="posts__user_icon">
             {% if request.user.photo %}
-                <img src="{% thumbnail request.user.photo 150x150 crop="smart" %}"
-                     alt="" class="posts__user_icon-img" loading="lazy">
+                <img src='' data-src="{% thumbnail request.user.photo 150x150 crop="smart" %}"
+                     alt="" class="lazy posts__user_icon-img" loading="lazy">
             {% else %}
-                <img src="{% static 'base/images/profile.png' %}" alt=""
-                     class="posts__user_icon-img" loading="lazy">
+                <img src='' data-src="{% static 'base/images/profile.png' %}" alt=""
+                     class="lazy posts__user_icon-img" loading="lazy">
             {% endif %}
         </div>
 

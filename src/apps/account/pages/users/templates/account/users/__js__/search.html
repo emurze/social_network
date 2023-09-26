@@ -32,6 +32,7 @@
                 window.scrollTo(0, 0)
                 cross.hidden = false
                 input.style.paddingRight = '14px'
+                users_container.innerHTML = ''
 
                 const users_batch = document.createElement('div')
                 users_batch.innerHTML = response.data
@@ -42,14 +43,13 @@
                     usernames: users_batch.querySelectorAll('.user__info-username-link-username'),
                 })
 
-                users_container.innerHTML = ''
-
                 const elements = Array.from(users_batch.children)
                 elements.forEach(
                     elem => users_container.insertAdjacentElement('beforeend', elem)
                 )
 
                 infinityPaginationHandler(`query=${query}`)
+                setLazyImages()
 
                 const new_header_width = getComputedStyle(document.querySelector('header')).width
                 onPossibleScroll(new_header_width)

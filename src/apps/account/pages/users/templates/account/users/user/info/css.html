@@ -19,22 +19,27 @@
     }
 
     .follow_button__button {
-        {#transition: .2s;#}
+        display: inline-block;
+        transition: width 0.06s, background-color .2s;
         font-size: 14px;
         font-weight: bold;
         border-radius: 15px;
         padding: 8px 13px;
         position: absolute;
-        bottom: 7px;
+        bottom: 8px;
         right: 7px;
-        background-color: rgb(1, 135, 180);
         color: #ffffff;
     }
-    .follow_button--red {background-color: red;}
-    {#.follow_button--red:hover {#}
-    {#    background-color: rgb(208, 5, 5) !important;#}
-    {#}#}
-    {#.follow_button--blue:hover {#}
-    {#    background-color: rgb(16, 123, 199) !important;#}
-    {#}#}
+
+    .follow_button--red {
+        width: 85px;
+        background-color: red;
+    }
+    .follow_button--red:hover {background-color: rgb(208, 5, 5) !important;}
+
+    .follow_button--blue {
+        width: 70px;
+        background-color: rgb(1, 135, 180);
+    }
+    .follow_button--blue:hover {background-color: rgb(16, 123, 199)!important;}
 </style>

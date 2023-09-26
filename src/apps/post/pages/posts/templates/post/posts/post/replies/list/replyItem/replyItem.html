@@ -6,11 +6,11 @@
 
     <div class="reply_item-user_icon">
         {% if reply.user.photo %}
-            <img src="{% thumbnail reply.user.photo 126x126 %}" alt=""
-                 class="reply_item-user_icon-img no_select">
+            <img src='' data-src="{% thumbnail reply.user.photo 126x126 %}" alt=""
+                 class="lazy reply_item-user_icon-img no_select">
         {% else %}
-            <img src="{% static 'base/images/profile.png' %}" alt=""
-                 class="reply_item-user_icon-img no_select">
+            <img src='' data-src="{% static 'base/images/profile.png' %}" alt=""
+                 class="lazy reply_item-user_icon-img no_select">
         {% endif %}
     </div>
 
