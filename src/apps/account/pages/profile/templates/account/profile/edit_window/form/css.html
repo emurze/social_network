@@ -3,6 +3,12 @@
         margin: 0 auto;
         max-width: 310px;
     }
+    #id_username {
+        font-size: 16px !important;
+        width: 300px;
+        transition: .2s;
+    }
+    #id_username:focus {border: 1.5px solid #77888f;}
 
     .edit_window input, .edit_window textarea {
         padding: 12px 15px;
@@ -12,31 +18,48 @@
     .edit_window textarea {
         resize: none;
         margin-bottom: 0;
+        height: 100px;
     }
     .edit_window input,
     .edit_form__save_button,
     .edit_window textarea {
-        width: 300px;
         border-radius: 6px;
     }
     .edit_form__save_button {
-        transition: .2s;
         display: block;
+        width: 300px;
+        transition: .2s;
         padding: 10px 15px 12px 15px;
         background-color: rgb(1, 135, 180);
         color: #ffffff;
-        font-size: 15px;
+        font-size: 15.5px;
         font-weight: bold;
+        margin-top: 8px !important;
     }
-    .edit_form__save_button:hover {background-color: rgb(16, 123, 199);}
-
-
+    .edit_form__save_button:hover {
+        background-color: rgb(16, 123, 199);
+    }
     .edit_form__username-label,
     .edit_form__description-label {font-size: 15px;}
 
     .edit_form__description-content {
-        margin-bottom: 0;
-        height: calc(100% - 10px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 13px;
+        height: 86px;
+        border: 1px solid #d0cccc;
+        border-radius: 6px;
+    }
+    .edit_form__description-content textarea {
+        height: 56px;
+        max-width: 270px;
+        padding: 0;
+        border: 0;
+        font-size: 16px !important;
+    }
+    .edit_form__description-content:focus {
+        outline: 1px solid blue;
     }
 
     .edit_form__birthday {margin-bottom: 9.5px;}
@@ -47,6 +70,7 @@
         max-width: 300px;
         height: 42px;
     }
+
     .edit_form__birthday-content select {
         font-size: 14px;
         padding: 10px;
@@ -70,7 +94,12 @@
         padding-left: 5px;
         line-height: 22px;
     }
-    .errorlist li {line-height: 22px;}
+    .errorlist li {
+        position: relative;
+        bottom: 6px;
+        right: 4px;
+        line-height: 28px;
+    }
 
     .edit_form__gender-label {
         text-align: start;
@@ -121,7 +150,9 @@
         margin: 0 auto;
         max-width: 300px;
     }
-
+    .edit_form__photo {
+        margin: 5px 0;
+    }
     .edit_form__photo-label {
         height: 30.5px;
         display: flex;

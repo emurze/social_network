@@ -16,7 +16,14 @@ class EditCoverForm(forms.ModelForm):
 
 class AccountEditForm(forms.ModelForm):
     photo = forms.ImageField(label='Avatar', widget=MyPhoto, required=False)
-    username = forms.CharField(required=True, label='Username')
+    username = forms.CharField(
+        required=True,
+        label='Username',
+        widget=forms.TextInput(attrs={
+            'maxlength': 26,
+            'autocomplete': 'off',
+        })
+    )
     birthday = forms.DateField(required=True, widget=BirthdayDateWidget)
     gender = forms.ChoiceField(label='Gender',
                                widget=forms.RadioSelect,
@@ -39,3 +46,12 @@ class AccountEditForm(forms.ModelForm):
             raise forms.ValidationError('Username should be less then 26')
 
         return username
+
+    def clean_description(self) -> str:
+        cd = self.cleaned_data
+
+        description = cd.get('description')
+        if len(description) > 120:
+            raise forms.ValidationError('Description should be less then 120')
+
+        return description

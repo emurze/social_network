@@ -12,7 +12,6 @@ from rest_framework.generics import get_object_or_404
 from .forms import AccountEditForm
 
 from apps.post.models import Post
-from apps.post.services.like.action import LikeAction
 from ...services.follow.action import FollowAction
 
 lg = logging.getLogger(__name__)

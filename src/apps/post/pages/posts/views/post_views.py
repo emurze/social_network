@@ -12,7 +12,6 @@ from django.views.generic import CreateView
 from rest_framework.generics import get_object_or_404
 
 from apps.dashboard.services.create_action import create_action
-from services.pagination.pagination import PaginationMixin
 from ..mixins import PostListViewMixin, LikeActionListMixin, \
     FilterPostsMixin, SearchPostsMixin, FilterOwnerMixin, \
     DefaultLimitPostsMixin, PostsMenuSelectedMixin
@@ -43,19 +42,6 @@ class ResetPosts(
     template_name = 'post/posts/postsListGenerated/postsListGenerated.html'
 
 
-class DownloadPosts(
-    LikeActionListMixin,
-    FilterOwnerMixin,
-    FilterPostsMixin,
-    SearchPostsMixin,
-    PaginationMixin,
-    PostListViewMixin,
-):
-    template_name = 'post/posts/postsListGenerated/postsListGenerated.html'
-    paginate_by = settings.REQUEST_POST_COUNT
-    queryset = Post.ext_objects.all()
-
-
 def download_posts(request: WSGIRequest) -> HttpResponse:
     template_name = 'post/posts/postsListGenerated/postsListGenerated.html'
     paginate_by = settings.REQUEST_POST_COUNT
@@ -68,7 +54,7 @@ def download_posts(request: WSGIRequest) -> HttpResponse:
         queryset = SearchPostsMixin.search(queryset, query)
 
     if owner_id := request.GET.get('owner_id'):
-        FilterOwnerMixin.filter_by_owner(queryset, owner_id)
+        queryset = FilterOwnerMixin.filter_by_owner(queryset, owner_id)
 
     queryset = Post.ext_objects.annotate_like_action(queryset, my_user)
 
