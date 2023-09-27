@@ -2,7 +2,7 @@
 {% load thumbnail %}
 
 <article class="following_user"
-         onclick="location.href='{{ following_user.get_absolute_url }}'">
+         onclick="setBlockTopMove(); location.href='{{ following_user.get_absolute_url }}'">
 
     <div class="following_user__image">
         {% if following_user.photo %}

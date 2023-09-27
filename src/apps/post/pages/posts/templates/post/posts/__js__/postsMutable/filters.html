@@ -31,36 +31,41 @@
                     data += `${elem}&`
                 })
 
+                posts_container.innerHTML = `{% include 'shared/loading_icon.html' with center=True loading_icon_margin=True %}`
+                onPossibleScroll(header_width)
+
                 find_button.innerHTML = `{% include 'shared/loading_icon.html' with loading_icon_size=17 loading_icon_weight=3 %}`
                 find_button.style.top = '4px'
                 posts_filters_tags.style.paddingBottom = '8px'
 
-                async function _() {
-                    filtersRequestBlock = true
+                setTimeout(() => {
+                    async function _() {
+                        filtersRequestBlock = true
 
-                    search_input.value = ''
-                    search_input.style.paddingRight = '0'
-                    const cross = document.querySelector('.filters__search-cross')
-                    cross.hidden = true
+                        search_input.value = ''
+                        search_input.style.paddingRight = '0'
+                        const cross = document.querySelector('.filters__search-cross')
+                        cross.hidden = true
 
-                    const url = `{% url 'post:filter_posts' %}`
-                    const response = await axios.get(`${url}?${data}`)
+                        const url = `{% url 'post:filter_posts' %}`
+                        const response = await axios.get(`${url}?${data}`)
 
-                    stable_block_list = structuredClone(block_list)
+                        stable_block_list = structuredClone(block_list)
 
-                    window.scrollTo(0, 0)
-                    posts_container.innerHTML = ''
+                        window.scrollTo(0, 0)
+                        posts_container.innerHTML = ''
 
-                    addPostsToContainer(response, posts_container)
-                    infinityPaginationHandler(`${data}`)
-                    onPossibleScroll(header_width)
+                        addPostsToContainer(response, posts_container)
+                        infinityPaginationHandler(`${data}`)
+                        onPossibleScroll(header_width)
 
-                    find_button.innerHTML =  default_find_button_html
-                    find_button.style.top = '3px'
-                    posts_filters_tags.style.paddingBottom = '10px'
+                        find_button.innerHTML =  default_find_button_html
+                        find_button.style.top = '3px'
+                        posts_filters_tags.style.paddingBottom = '10px'
 
-                    filtersRequestBlock = false
-                }_()
+                        filtersRequestBlock = false
+                    }_()
+                }, LOADING_DELAY)
             }
         }
 </script>

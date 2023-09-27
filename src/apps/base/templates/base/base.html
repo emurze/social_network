@@ -24,11 +24,30 @@
         {% endblock %}
     </div>
 
+    {% include 'shared/SETUP.html' %}
     {% include 'base/js.html' %}
 
     {% include 'shared/js/loadLazyImages.html' %}
 
     {% block scripts %}
     {% endblock %}
+
+    <script defer>
+        let blockTopMove = false
+
+        function setBlockTopMove() {
+            blockTopMove = true
+        }
+
+        function set_a_tags() {
+            const a_tags = Array.from(document.querySelectorAll('a'))
+
+            console.log(a_tags)
+
+            a_tags.forEach(a => {
+                a.addEventListener('click', setBlockTopMove)
+            })
+        }
+    </script>
 </body>
 </html>

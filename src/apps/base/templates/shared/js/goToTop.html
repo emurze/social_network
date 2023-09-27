@@ -1,5 +1,9 @@
 <script>
     window.onbeforeunload = function () {
-        window.scrollTo(0, 0);
+        if (!blockTopMove) {
+            setTimeout(() => {
+                window.scrollTo(0, 0)
+            }, LOAD_PROFILE_DELAY)
+        }
     }
 </script>

@@ -4,31 +4,37 @@
 
 <article class="reply_item">
 
-    <div class="reply_item-user_icon">
-        {% if reply.user.photo %}
-            <img src='' data-src="{% thumbnail reply.user.photo 126x126 %}" alt=""
-                 class="lazy reply_item-user_icon-img no_select">
-        {% else %}
-            <img src='' data-src="{% static 'base/images/profile.png' %}" alt=""
-                 class="lazy reply_item-user_icon-img no_select">
-        {% endif %}
-    </div>
+    {% with reply.user.get_absolute_url as user_absolute_url %}
 
-    <div class="reply_item-info {% if first %}reply_item-info--first{% endif %}">
-        <div class="reply_item-info-username">
-            <a href="{{ reply.user.get_absolute_url }}">
-                {{ reply.user.username }}
-                {% if reply.user.is_staff %}
-                    <span style="position: relative; right: 4px;">
-                        {% include 'shared/icon_verified.html' with width=17 height=17 %}
-                    </span>
-                {% endif %}
+        <div class="reply_item-user_icon">
+            <a href="{{ user_absolute_url }}">
+            {% if reply.user.photo %}
+                <img src="{% thumbnail reply.user.photo 126x126 %}" alt=""
+                     class="reply_item-user_icon-img no_select">
+            {% else %}
+                <img src="{% static 'base/images/profile.png' %}" alt=""
+                     class="reply_item-user_icon-img no_select">
+            {% endif %}
             </a>
         </div>
-        <div class="reply_item-info-content">{{ reply.content }}</div>
-        <div class="reply_item-info-created">
-            {{ reply.created | naturaltime }}
+
+        <div class="reply_item-info {% if first %}reply_item-info--first{% endif %}">
+            <div class="reply_item-info-username">
+                <a href="{{ user_absolute_url }}">
+                    {{ reply.user.username }}
+                    {% if reply.user.is_staff %}
+                        <span style="position: relative; right: 4px;">
+                            {% include 'shared/icon_verified.html' with width=17 height=17 %}
+                        </span>
+                    {% endif %}
+                </a>
+            </div>
+            <div class="reply_item-info-content">{{ reply.content }}</div>
+            <div class="reply_item-info-created">
+                {{ reply.created | naturaltime }}
+            </div>
         </div>
-    </div>
+
+    {% endwith %}
 
 </article>

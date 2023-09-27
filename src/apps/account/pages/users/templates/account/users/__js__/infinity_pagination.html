@@ -46,40 +46,44 @@
                     const url = `{% url 'account:download_users' %}`
                     const full_url = force ? `${url}?page=1`
                                            : `${url}?page=${page}&${query_strings}`
-                    async function _() {
-                        block_list.push(full_url)
-                        const response = await axios.get(full_url)
-                        const html = response.data
 
-                        if (!stable_block_list.includes(full_url)) {
-                            if (html === '') emptyPage = true
-                            else {
-                                const elementFinder = document.createElement('div')
-                                elementFinder.innerHTML = html
+                    setTimeout(() => {
+                        async function _() {
+                            block_list.push(full_url)
+                            const response = await axios.get(full_url)
+                            const html = response.data
 
-                                if (force) users_container.innerHTML = ''
-                                const elements = Array.from(elementFinder.children)
-                                elements.forEach(
-                                    elem => {
-                                        users_container.insertAdjacentElement(
-                                            'beforeend', elem
-                                        )
-                                        setUserButton({
-                                            form: elem.querySelector('.follow_button__form'),
-                                            follow_button: elem.querySelector('.follow_button__button'),
-                                            username: elem.querySelector('.user__info-username-link-username'),
-                                        })
-                                    }
-                                )
-                                showScroll()
-                                setLazyImages()
+                            if (!stable_block_list.includes(full_url)) {
+                                if (html === '') emptyPage = true
+                                else {
+                                    const elementFinder = document.createElement('div')
+                                    elementFinder.innerHTML = html
+
+                                    if (force) users_container.innerHTML = ''
+                                    const elements = Array.from(elementFinder.children)
+                                    elements.forEach(
+                                        elem => {
+                                            users_container.insertAdjacentElement(
+                                                'beforeend', elem
+                                            )
+                                            setUserButton({
+                                                form: elem.querySelector('.follow_button__form'),
+                                                follow_button: elem.querySelector('.follow_button__button'),
+                                                username: elem.querySelector('.user__info-username-link-username'),
+                                            })
+                                        }
+                                    )
+                                    showScroll()
+                                    setLazyImages()
+                                }
                             }
-                        }
-                        blockRequest = false
 
-                        const loading_icon = document.querySelector('.loading_icon')
-                        loading_icon && loading_icon.remove()
-                    }_()
+                            blockRequest = false
+
+                            const loading_icon = document.querySelector('.loading_icon')
+                            loading_icon && loading_icon.remove()
+                        }_()
+                    }, LOADING_DELAY)
                 }
             }
         }

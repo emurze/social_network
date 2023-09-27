@@ -30,5 +30,4 @@ class PostDAL(models.Manager):
                 default=Value(LikeAction.LIKE)
             )
         )
-        lg.debug([f'{post.action} {post.likes_count}' for post in posts])
         return posts

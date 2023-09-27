@@ -59,36 +59,41 @@ class AddFollowingUsersMixin:
         )
 
         kwargs['following_users'] = following_users
-
-        if hasattr(self, 'custom_page'):
-            kwargs['page'] = int(self.request.GET.get('page'))
-        else:
-            kwargs['page'] = settings.DEFAULT_SHOWED_FOLLOWINGS_PAGE
+        kwargs['page'] = settings.DEFAULT_SHOWED_FOLLOWINGS_PAGE
 
         return super().get_context_data(*args, **kwargs)
 
 
 class AddFollowingUsersPaginationMixin(LoginRequiredMixin, TemplateView):
-    def get_context_data(self, *args, **kwargs):
+    def get_context_data(self, **kwargs):
         username = self.kwargs.get('username')
         user = get_object_or_404(User, username=username)
         page = int(self.request.GET.get('page'))
 
-        paginator = Paginator(
-            user.get_followings(),
-            settings.REQUEST_FOLLOWINGS_COUNT
-        )
-        try:
-            following_users = paginator.page(page)
-        except PageNotAnInteger:
-            following_users = paginator.page(1)
-        except EmptyPage:
-            following_users = paginator.page(paginator.num_pages)
+        followings_queryset = user.get_followings()
+        followings_queryset_exists = followings_queryset.exists()
 
-        kwargs['following_users'] = following_users
-        kwargs['page'] = int(self.request.GET.get('page'))
+        kwargs['exists_followings_users'] = followings_queryset_exists
 
-        return super().get_context_data(*args, **kwargs)
+        if followings_queryset_exists:
+            paginator = Paginator(
+                followings_queryset,
+                settings.REQUEST_FOLLOWINGS_COUNT
+            )
+
+            try:
+                following_users = paginator.page(page)
+            except PageNotAnInteger:
+                following_users = paginator.page(1)
+                page = 1
+            except EmptyPage:
+                following_users = paginator.page(paginator.num_pages)
+                page = paginator.num_pages
+
+            kwargs['following_users'] = following_users
+
+        kwargs['page'] = page
+        return super().get_context_data(**kwargs)
 
 
 class ProfileSelectedMixin:

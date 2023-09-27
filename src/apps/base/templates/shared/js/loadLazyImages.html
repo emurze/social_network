@@ -1,23 +1,23 @@
 <script defer>
     function setLazyImages() {
-        const lazy_images = Array.from(document.querySelectorAll('.lazy'))
+        // const lazy_images = Array.from(document.querySelectorAll('.lazy'))
 
-        if ("IntersectionObserver" in window) {
-            const lazyImageObserver = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        let lazy_image = entry.target;
-                        lazy_image.src = lazy_image.dataset.src;
-                        lazy_image.classList.remove("lazy");
-                        lazyImageObserver.unobserve(lazy_image);
-                    }
-                })
-            })
+        // if ("IntersectionObserver" in window) {
+        //    const lazyImageObserver = new IntersectionObserver((entries, observer) => {
+        //        entries.forEach(entry => {
+        //            if (entry.isIntersecting) {
+        //                let lazy_image = entry.target
+        //                lazy_image.src = lazy_image.dataset.src
+        //                lazy_image.classList.remove("lazy")
+        //                lazyImageObserver.unobserve(lazy_image)
+        //            }
+        //        })
+        //    })
 
-            lazy_images.forEach(lazy_image => {
-                lazyImageObserver.observe(lazy_image)
-            })
-        }
+        //    lazy_images.forEach(lazy_image => {
+        //        lazyImageObserver.observe(lazy_image)
+        //    })
+        //}
     }
     window.addEventListener('DOMContentLoaded', () => setLazyImages())
 </script>

@@ -4,13 +4,15 @@
 <div class="post__replies-footer" style="display: none">
 
     <div class="post__replies-footer-user_icon">
-        {% if request.user.photo %}
-            <img src='' data-src="{% thumbnail request.user.photo 126x126 %}" alt=""
-                 class="lazy post__replies-footer-user_icon-img no_select">
-        {% else %}
-            <img src='' data-src="{% static 'base/images/profile.png' %}" alt=""
-                 class="lazy post__replies-footer-user_icon-img no_select">
-        {% endif %}
+        <a href="{{ post.user.get_absolute_url }}">
+            {% if request.user.photo %}
+                <img src="{% thumbnail request.user.photo 126x126 %}" alt=""
+                     class="post__replies-footer-user_icon-img no_select">
+            {% else %}
+                <img src="{% static 'base/images/profile.png' %}" alt=""
+                    class="post__replies-footer-user_icon-img no_select">
+            {% endif %}
+        </a>
     </div>
 
     <form method="POST" class="post__replies-footer-form" >

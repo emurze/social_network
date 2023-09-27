@@ -4,13 +4,15 @@
 <div class="posts__create_post">
     <div style="display: flex;">
         <div class="posts__user_icon">
-            {% if request.user.photo %}
-                <img src='' data-src="{% thumbnail request.user.photo 150x150 crop="smart" %}"
-                     alt="" class="lazy posts__user_icon-img" loading="lazy">
-            {% else %}
-                <img src='' data-src="{% static 'base/images/profile.png' %}" alt=""
-                     class="lazy posts__user_icon-img" loading="lazy">
-            {% endif %}
+            <a href="{{ post.user.get_absolute_url }}">
+                {% if request.user.photo %}
+                    <img src="{% thumbnail request.user.photo 150x150 crop="smart" %}"
+                         alt="" class="posts__user_icon-img" loading="lazy">
+                {% else %}
+                    <img src="{% static 'base/images/profile.png' %}" alt=""
+                         class="posts__user_icon-img" loading="lazy">
+                {% endif %}
+            </a>
         </div>
 
         <form method="POST" class="posts__create_form" name="post_create_form">

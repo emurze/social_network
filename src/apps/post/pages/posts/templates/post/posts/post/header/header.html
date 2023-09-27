@@ -6,17 +6,15 @@
     <div class="post__header-user">
 
         <div class="post__header-user-icon">
-            {% if post.user.photo %}
-
-                <img src='' data-src="{% thumbnail post.user.photo 120x120 crop="smart" %}" alt=""
-                     class="lazy post__header-user-icon-img">
-
-            {% else %}
-
-                <img src='' data-src="{% static 'base/images/profile.png' %}" alt=""
-                     class="lazy post__header-user-icon-img">
-
-            {% endif %}
+            <a href="{{ post.user.get_absolute_url }}">
+                {% if post.user.photo %}
+                    <img src="{% thumbnail post.user.photo 120x120 crop="smart" %}" alt=""
+                         class="post__header-user-icon-img no_select">
+                {% else %}
+                    <img src="{% static 'base/images/profile.png' %}" alt=""
+                         class="post__header-user-icon-img no_select">
+                {% endif %}
+            </a>
         </div>
 
         <div class="post__header-user-info">

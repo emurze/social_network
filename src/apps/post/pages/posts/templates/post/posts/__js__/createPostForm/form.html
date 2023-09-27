@@ -42,6 +42,7 @@
                                 elem,
                             )
                             setPostsElemJS(elem)
+                            setLazyImages()
                         }
                     )
                     onPossibleScroll(header_width)
@@ -49,6 +50,7 @@
                     description_input.value = ''
                     photo_input.value = ''
                     textarea.style.height = textarea_default_height
+                    posts_create_post_description.style.marginBottom = '35px'
 
                     const last_photo = document.querySelector('.posts__create_post-description-new_photo')
                     last_photo && last_photo.remove()

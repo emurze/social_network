@@ -48,26 +48,28 @@
                     const owner_id = `{{ user.id }}`
                     if (owner_id) full_url += `&owner_id=${owner_id}`
 
-                    async function _() {
-                        block_list.push(full_url)
-                        const response = await axios.get(full_url)
+                    setTimeout(() => {
+                        async function _() {
+                            block_list.push(full_url)
+                            const response = await axios.get(full_url)
 
-                        if (!stable_block_list.includes(full_url)) {
-                            const html = response.data
+                            if (!stable_block_list.includes(full_url)) {
+                                const html = response.data
 
-                            if (html === '') emptyPage = true
-                            else {
-                                if (force) posts_container.innerHTML = ''
+                                if (html === '') emptyPage = true
+                                else {
+                                    if (force) posts_container.innerHTML = ''
 
-                                addPostsToContainer(response, posts_container)
-                                showScroll()
+                                    addPostsToContainer(response, posts_container)
+                                    showScroll()
+                                }
                             }
-                        }
 
-                        blockRequest = false
-                        const loading_icon = document.querySelector('.loading_icon')
-                        loading_icon && loading_icon.remove()
-                    }_()
+                            blockRequest = false
+                            const loading_icon = document.querySelector('.loading_icon')
+                            loading_icon && loading_icon.remove()
+                        }_()
+                    }, LOADING_DELAY)
                 }
             }
         }

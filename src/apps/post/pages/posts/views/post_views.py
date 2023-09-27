@@ -3,7 +3,9 @@ import logging
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.handlers.wsgi import WSGIRequest
-from django.http import JsonResponse
+from django.core.paginator import PageNotAnInteger, EmptyPage, Paginator
+from django.http import JsonResponse, HttpResponse
+from django.shortcuts import render
 from django.template.loader import render_to_string
 from django.views.decorators.http import require_POST
 from django.views.generic import CreateView
@@ -52,6 +54,40 @@ class DownloadPosts(
     template_name = 'post/posts/postsListGenerated/postsListGenerated.html'
     paginate_by = settings.REQUEST_POST_COUNT
     queryset = Post.ext_objects.all()
+
+
+def download_posts(request: WSGIRequest) -> HttpResponse:
+    template_name = 'post/posts/postsListGenerated/postsListGenerated.html'
+    paginate_by = settings.REQUEST_POST_COUNT
+    queryset = Post.ext_objects.all()
+    my_user = request.user
+
+    queryset = FilterPostsMixin.filter(queryset, request.GET)
+
+    if query := request.GET.get('query'):
+        queryset = SearchPostsMixin.search(queryset, query)
+
+    if owner_id := request.GET.get('owner_id'):
+        FilterOwnerMixin.filter_by_owner(queryset, owner_id)
+
+    queryset = Post.ext_objects.annotate_like_action(queryset, my_user)
+
+    page = request.GET.get('page')
+    paginator = Paginator(queryset, paginate_by)
+    try:
+        queryset = paginator.page(page)
+    except PageNotAnInteger:
+        pass
+    except EmptyPage:
+        return HttpResponse('')
+
+    context = {
+        'page': int(page),
+        'paginator': paginator,
+        'posts': queryset,
+        'reply_form': ReplyForm(),
+    }
+    return render(request, template_name, context)
 
 
 class SearchPosts(
