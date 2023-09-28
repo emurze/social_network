@@ -12,13 +12,19 @@ lg = logging.getLogger(__name__)
 class RegistrationForm(forms.ModelForm):
     email = forms.EmailField(
         required=True,
-        widget=forms.EmailInput(attrs={'placeholder': 'Email'})
+        widget=forms.EmailInput(attrs={
+            'placeholder': 'Email',
+        })
     )
     password = forms.CharField(
-        widget=forms.PasswordInput(attrs={'placeholder': 'Password'})
+        widget=forms.PasswordInput(attrs={
+            'placeholder': 'Password',
+        })
     )
     password2 = forms.CharField(
-        widget=forms.PasswordInput(attrs={'placeholder': 'Repeat password'})
+        widget=forms.PasswordInput(attrs={
+            'placeholder': 'Repeat password',
+        })
     )
     birthday = forms.DateField(required=True, widget=BirthdayDateWidget)
     gender = forms.ChoiceField(label='Gender',
@@ -30,7 +36,10 @@ class RegistrationForm(forms.ModelForm):
         fields = ('username', 'email', 'password',
                   'password2', 'birthday', 'gender')
         widgets = {
-            'username': forms.TextInput(attrs={'placeholder': 'Username'}),
+            'username': forms.TextInput(attrs={
+                "autofocus": True,
+                'placeholder': 'Username'
+            }),
         }
 
     def clean_username(self) -> str:

@@ -8,7 +8,6 @@ from django.views.generic import ListView
 
 from apps.account.services.filter_users.filter import UsersFilterFactory
 from apps.account.services.search_users.search_users import UsersSearch
-from apps.post.pages.posts.mixins import LikeActionListMixin
 
 User = get_user_model()
 lg = logging.getLogger(__name__)

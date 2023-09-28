@@ -5,12 +5,13 @@
 
 {% block links %}
     {% include 'registration/register/css.html' %}
+    {% include 'shared/dark_input_page_css.html' %}
 {% endblock %}
 
 {% block main %}
     <div class="registration">
         <p class="registration__title">Sign up</p>
-        <form method="POST" class="registration_form">
+        <form method="POST" class="registration_form" autocomplete="off">
             {% csrf_token %}
             <p>{{ form.username }}{{ form.username.errors }}</p>
             <p>{{ form.email }}{{ form.email.errors }}</p>

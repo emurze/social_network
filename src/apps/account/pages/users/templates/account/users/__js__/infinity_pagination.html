@@ -32,11 +32,14 @@
                         users_container.innerHTML = ''
                         onPossibleScroll(header_width)
                     }
-                    users_container.insertAdjacentHTML(
-                        'beforeend',
-                        force ? `{% include 'shared/loading_icon.html' with center=True loading_icon_margin=True %}`
-                              : `{% include 'shared/loading_icon.html' with loading_icon_margin=True %}`
-                    )
+
+                    if (!stable_block_list.includes(full_url)) {
+                        users_container.insertAdjacentHTML(
+                            'beforeend',
+                            force ? `{% include 'shared/loading_icon.html' with center=True loading_icon_margin=True %}`
+                                  : `{% include 'shared/loading_icon.html' with loading_icon_margin=True %}`
+                        )
+                    } else {users_container.innerHTML = ''}
 
                     elem && elem.removeAttribute('hx-trigger')
                     blockRequest = true

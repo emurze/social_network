@@ -5,47 +5,86 @@
 
 {% block links %}
     {% include 'registration/login/css.html' %}
+    {% include 'shared/dark_input_page_css.html' %}
+    <style>
+        .error_box {
+            display: flex;
+            justify-content: space-between;
+
+            margin: 0 auto;
+            max-width: 345px;
+            padding: 2px 20px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1);
+            border-radius: 10px;
+
+            background-color: rgb(176, 2, 49);
+            color: rgb(201, 184, 186);
+        }
+
+        .cross {
+            transition: .2s;
+            width: 23px;
+            height: 23px;
+            padding: 5px;
+            border-radius: 50%;
+            cursor: pointer;
+            color: white;
+            position: relative;
+            top: 6px;
+        }
+        .cross:hover {background-color: rgb(164, 163, 163, 0.35);}
+    </style>
 {% endblock %}
 
 {% block main %}
-    <div class="login">
-        <p class="login__title">
-            {% if form.errors %}
-                <span style="display: block; margin-bottom: 8px;">Sign in to Mine</span>
-                <span class="errorlist">
+    <div style="position: relative; top: 10%; transition: .2s">
+
+        {% if form.errors %}
+            <div class="error_box">
+                <span class="errorlist" style="font-size: 16px; display: inline-block;
+                     width: unset; color: rgb(239,221,221)">
                     Incorrect username or password
                 </span>
-            {% else %}
+                <img class="cross" onclick="this.parentElement.remove()"
+                     src="{% static 'base/images/gray_cross.svg' %}" alt="">
+            </div>
+        {% endif %}
+
+        <div class="login">
+            <p class="login__title">
                 Sign in to Mine
-            {% endif %}
-        </p>
-        <form method="POST" class="login_form">
-            {% csrf_token %}
-            {% for field in form %}
-                {% if forloop.last %}
-                    <div class="last_login__label_wrapper">
-                        <span class="last_login__label">{{ field.label }}</span>
-                        <span class="login__forgot_password">
-                            <a href="">Forgot password?</a>
-                        </span>
-                    </div>
-                {% else %}
-                    <span class="login__label">{{ field.label }}</span>
-                {% endif %}
-                <p>{{ field }}{{ field.errors }}</p>
-            {% endfor %}
-            <p><button type="submit">Sing in</button></p>
-        </form>
-        <div class="login__or">or</div>
-        <div class="login__oauth oauth">
-            <div class="oauth__item oauth__google">Google</div>
-            <div class="oauth__item oauth__google">Yandex</div>
-            <div class="oauth__item oauth__google">Facebook</div>
-            <div class="oauth__item oauth__google">Apple</div>
+            </p>
+            <form method="POST" class="login_form" autocomplete="off">
+                {% csrf_token %}
+                {% for field in form %}
+                    {% if forloop.last %}
+                        <div class="last_login__label_wrapper">
+                            <span class="last_login__label">{{ field.label }}</span>
+                            <span class="login__forgot_password">
+                                <a href="{% url 'password_reset' %}">
+                                    Forgot password?
+                                </a>
+                            </span>
+                        </div>
+                    {% else %}
+                        <span class="login__label">{{ field.label }}</span>
+                    {% endif %}
+                    <p>{{ field }}{{ field.errors }}</p>
+                {% endfor %}
+                <p><button type="submit">Sing in</button></p>
+            </form>
+            <div class="login__or">or</div>
+            <div class="login__oauth oauth">
+                <div class="oauth__item oauth__google">Google</div>
+                <div class="oauth__item oauth__google">Yandex</div>
+                <div class="oauth__item oauth__google">Facebook</div>
+                <div class="oauth__item oauth__google">Apple</div>
+            </div>
         </div>
-    </div>
-    <div class="login__caption">
-        New to Mine?
-        <span class="sign_up_link"><a href="{% url 'registration' %}">Create an account</a>.</span>
+        <div class="login__caption">
+            New to Mine?
+            <span class="sign_up_link"><a href="{% url 'registration' %}">Create an account</a>.</span>
+        </div>
+
     </div>
 {% endblock %}

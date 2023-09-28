@@ -1,5 +1,10 @@
 AUTH_USER_MODEL = 'account.Account'
 
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'apps.registration.pages.login.authentication.EmailAuthBackend',
+]
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
