@@ -8,11 +8,10 @@
     }
     input[id="id_password"] {margin-bottom: 9px;}
     input, button {
-        transition: .2s;
+        transition: .15s;
         font-size: 15px;
         width: 310px;
         border-radius: 6px;
-        font-size: 15px;
     }
     button {
         padding: 12px 15px;
@@ -22,8 +21,13 @@
     }
     button:hover {background-color: rgb(16, 123, 199);}
 
-    input:hover {}
+    input[type="username"]:focus,
+    input[type="email"]:focus,
+    input[type="password"]:focus,
+    input[type="text"]:focus {
+        border: 1px ridge #1b74e4;
+    }
 
-    a {transition: .2s}
-    a:hover {color: #2390ee;}
+    main a {transition: .2s}
+    main a:hover {color: #2390ee;}
 </style>

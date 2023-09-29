@@ -19,5 +19,9 @@ class RegistrationView(CreateView):
         user.gender = cd['gender']
         user.set_password(cd['password'])
         user.save()
-        login(self.request, user)
+        login(
+            self.request,
+            user,
+            backend='django.contrib.auth.backends.ModelBackend'
+        )
         return redirect(self.success_url)

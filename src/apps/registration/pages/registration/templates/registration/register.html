@@ -4,8 +4,8 @@
 {% block title %}Registration{% endblock %}
 
 {% block links %}
-    {% include 'registration/register/css.html' %}
     {% include 'shared/dark_input_page_css.html' %}
+    {% include 'registration/register/css.html' %}
 {% endblock %}
 
 {% block main %}
@@ -13,13 +13,19 @@
         <p class="registration__title">Sign up</p>
         <form method="POST" class="registration_form" autocomplete="off">
             {% csrf_token %}
-            <p>{{ form.username }}{{ form.username.errors }}</p>
-            <p>{{ form.email }}{{ form.email.errors }}</p>
-            <p class="registration__passwords">
-                {{ form.password }}{{ form.password2 }}
-                {{ form.password.errors }}
-                {{ form.password2.errors }}
-            </p>
+            <div class="username">
+                {{ form.username }}
+                {{ form.username.errors }}
+            </div>
+            <div>{{ form.email }}{{ form.email.errors }}</div>
+            <div class="registration__passwords">
+                <div style="display: flex; justify-content: space-between;">
+                    {{ form.password }}{{ form.password2 }}
+                </div>
+                <div>
+                    {{ form.password2.errors }}
+                </div>
+            </div>
             <div class="birthday">
                 <p class="birthday__label">{{ form.birthday.label }}</p>
                 <p class="birthday__content">
@@ -41,7 +47,7 @@
                     {% endfor %}
                 </div>
             </div>
-            <p><button type="submit">Sign up</button></p>
+            <div><button type="submit">Sign up</button></div>
         </form>
     </div>
 {% endblock %}

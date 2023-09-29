@@ -33,14 +33,6 @@
                         onPossibleScroll(header_width)
                     }
 
-                    if (!stable_block_list.includes(full_url)) {
-                        users_container.insertAdjacentHTML(
-                            'beforeend',
-                            force ? `{% include 'shared/loading_icon.html' with center=True loading_icon_margin=True %}`
-                                  : `{% include 'shared/loading_icon.html' with loading_icon_margin=True %}`
-                        )
-                    } else {users_container.innerHTML = ''}
-
                     elem && elem.removeAttribute('hx-trigger')
                     blockRequest = true
 
@@ -49,6 +41,14 @@
                     const url = `{% url 'account:download_users' %}`
                     const full_url = force ? `${url}?page=1`
                                            : `${url}?page=${page}&${query_strings}`
+
+                    if (!stable_block_list.includes(full_url)) {
+                        users_container.insertAdjacentHTML(
+                            'beforeend',
+                            force ? `{% include 'shared/loading_icon.html' with center=True loading_icon_margin=True %}`
+                                  : `{% include 'shared/loading_icon.html' with loading_icon_margin=True %}`
+                        )
+                    } else {users_container.innerHTML = ''}
 
                     setTimeout(() => {
                         async function _() {

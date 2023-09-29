@@ -51,24 +51,13 @@ class RegistrationForm(forms.ModelForm):
 
         return username
 
-    def clean_password(self):
-        cd = self.cleaned_data
-
-        if len(self.errors):
-            return cd.get('password2')
-
-        if len(cd.get('password')) < 8:
-            raise forms.ValidationError("Passwords length less than 8")
-
-        return cd.get('password')
-
     def clean_password2(self):
         cd = self.cleaned_data
 
-        if len(self.errors):
-            return cd.get('password2')
-
         if cd.get('password2') != cd.get('password'):
             raise forms.ValidationError("Passwords didn't match.")
+
+        if len(cd.get('password2')) < 8:
+            raise forms.ValidationError("Passwords length less than 8")
 
         return cd.get('password2')

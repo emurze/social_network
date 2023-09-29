@@ -5,9 +5,12 @@
     let saveButtonBlockRequest = false
 
     function editWindowLoaded() {
+        load_description()
+
         const csrf_token_input = document.querySelector("input[name='csrfmiddlewaretoken']")
         const csrf_token = csrf_token_input ? csrf_token_input.value : null
         const edit_window = document.querySelector('.edit_window')
+        const my_window = document.querySelector('.edit_window__container0-container')
         const edit_form = document.querySelector('.edit_form')
         const save_button = document.querySelector('.edit_form__save_button')
         const info_username = document.querySelector('.info__username')
@@ -99,6 +102,10 @@
                                      </ul>`,
                                 )
                             }
+                            my_window.scrollBy({
+                                top: -1000,
+                                behavior: 'smooth'
+                            });
                         } else {
                             const current_photo = form.get('photo')
                             if (default_photo !== current_photo &&

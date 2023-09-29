@@ -1,0 +1,14 @@
+<script defer>
+    function load_description() {
+        const edit_form_description = document.querySelector('.edit_form__description-content')
+        const description_textarea = document.querySelector('[name="description"]')
+        const description_textarea_default_border = getComputedStyle(edit_form_description).border
+
+        description_textarea.addEventListener('focus', () => {
+            edit_form_description.style.border = '1px ridge #1b74e4'
+        })
+        description_textarea.addEventListener('blur', () => {
+            edit_form_description.style.border = description_textarea_default_border
+        })
+    }
+</script>

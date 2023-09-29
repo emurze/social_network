@@ -8,7 +8,8 @@ class MyPasswordResetForm(PasswordResetForm):
         widget=forms.EmailInput(
             attrs={
                 "autocomplete": "Email",
-                "placeholder": "Email"
+                "placeholder": "Email",
+                "autofocus": True,
             }
         ),
     )

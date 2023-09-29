@@ -20,7 +20,6 @@ class AccountEditForm(forms.ModelForm):
         required=True,
         label='Username',
         widget=forms.TextInput(attrs={
-            'maxlength': 26,
             'autocomplete': 'off',
         })
     )

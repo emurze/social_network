@@ -18,7 +18,9 @@
     </div>
 
     <div class="user__info-description">
-        {{ user.description|default:""|linebreaks|truncatechars:40}}
+        <div class="user__info-description-container">
+            {{ user.description|default:"No info yet"|linebreaks|truncatechars:40 }}
+        </div>
         <div class="follow_button">
             <form method="POST" class="follow_button__form">
                 {% csrf_token %}

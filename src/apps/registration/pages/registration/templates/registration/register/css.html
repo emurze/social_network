@@ -39,6 +39,7 @@
         font-family: SFProText-Medium, Helvetica, Arial, sans-serif;
     }
     .gender__item {
+        transition: .2s;
         padding: 0 10px;
         border: 1px solid #d0cccc;
         border-radius: 6px;
@@ -71,21 +72,26 @@
         margin: 0 auto;
     }
     .birthday__label {
-
         text-align: start;
     }
 
-    input[id="id_password"], input[id="id_password2"] {display: inline-block;}
+    input[id="id_password"], input[id="id_password2"] {display: inline-block; margin-bottom: 1px;}
     input[id="id_password"] {width: 135px;}
     input[id="id_password2"] {width: 163px;}
 
-    .registration__passwords {
-        margin: 0 auto;
-        text-align: center;
-        width: 310px;
-        display: flex;
-        justify-content: space-between;
-    }
+    {% if form.password2.errors %}
+        .registration__passwords {
+            margin: 0 auto -8px auto;
+            text-align: center;
+            width: 310px;
+        }
+    {% else %}
+        .registration__passwords {
+            margin: 0 auto -1px auto;
+            text-align: center;
+            width: 310px;
+        }
+    {% endif %}
 
     .birthday__content {
         display: flex;
@@ -110,17 +116,27 @@
         justify-content: space-between;
         width: 310px;
     }
-    select[id="id_birthday_month"] {width: 34%;}
+    select[id="id_birthday_month"] {width: 36%;}
     select[id="id_birthday_day"] {width: 25%;}
-    select[id="id_birthday_year"] {width: 33%;}
+    select[id="id_birthday_year"] {width: 31.05%;}
 
     .errorlist {
         width: 310px;
         font-size: 13px;
-        height: 0;
         color: #f80101;
         text-align: start;
+        padding-left: 1px;
+    }
+    .username .errorlist {
         padding-left: 5px;
     }
-    .errorlist li {height: 26px;}
+
+    {% if form.username.errors %}
+        .username {margin-bottom: 3px;}
+        input[id="id_username"] {margin-bottom: 1px;}
+    {% else %}
+        .username {margin-bottom: -3px;}
+        input[id="id_username"] {margin-bottom: 12px;}
+    {% endif %}
+
 </style>

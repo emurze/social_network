@@ -4,51 +4,12 @@
 {% block title %}Login{% endblock %}
 
 {% block links %}
-    {% include 'registration/login/css.html' %}
     {% include 'shared/dark_input_page_css.html' %}
-    <style>
-        .error_box {
-            display: flex;
-            justify-content: space-between;
-
-            margin: 0 auto;
-            max-width: 345px;
-            padding: 2px 20px;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1);
-            border-radius: 10px;
-
-            background-color: rgb(176, 2, 49);
-            color: rgb(201, 184, 186);
-        }
-
-        .cross {
-            transition: .2s;
-            width: 23px;
-            height: 23px;
-            padding: 5px;
-            border-radius: 50%;
-            cursor: pointer;
-            color: white;
-            position: relative;
-            top: 6px;
-        }
-        .cross:hover {background-color: rgb(164, 163, 163, 0.35);}
-    </style>
+    {% include 'registration/login/css.html' %}
 {% endblock %}
 
 {% block main %}
     <div style="position: relative; top: 10%; transition: .2s">
-
-        {% if form.errors %}
-            <div class="error_box">
-                <span class="errorlist" style="font-size: 16px; display: inline-block;
-                     width: unset; color: rgb(239,221,221)">
-                    Incorrect username or password
-                </span>
-                <img class="cross" onclick="this.parentElement.remove()"
-                     src="{% static 'base/images/gray_cross.svg' %}" alt="">
-            </div>
-        {% endif %}
 
         <div class="login">
             <p class="login__title">
@@ -69,7 +30,20 @@
                     {% else %}
                         <span class="login__label">{{ field.label }}</span>
                     {% endif %}
-                    <p>{{ field }}{{ field.errors }}</p>
+
+                    {% if forloop.last %}
+                        <div class="password_wrapper">
+                            {{ field }}
+                            {% if form.errors %}
+                                <div class="errorlist">
+                                    Incorrect username or password
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% else %}
+                        {{ field }}
+                    {% endif %}
+
                 {% endfor %}
                 <p><button type="submit">Sing in</button></p>
             </form>
