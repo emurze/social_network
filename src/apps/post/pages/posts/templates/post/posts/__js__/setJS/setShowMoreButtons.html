@@ -20,37 +20,50 @@
 
                 if (!stop_request) {
                     if (!showMoreRequestBlock) {
-                        async function _() {
-                            showMoreRequestBlock = true
+                        const loading_icon = document.createElement('div')
+                        loading_icon.innerHTML = `{% include 'shared/loading_icon.html' %}`
 
-                            const url = `{% url 'post:download_replies' %}`
-                            const response = await axios.post(url, form, {headers})
+                        loading_icon.style.height = '54px'
 
-                            if (!response.data.completion) {
-                                replies_set.insertAdjacentHTML(
-                                    'beforeend',
-                                    response.data
-                                )
-                            } else {
-                                if (!response.data.no_data) {
+                        replies_set.insertAdjacentElement('beforeend', loading_icon)
+                        show_more.hidden = true
+
+                        setTimeout(() => {
+                            async function _() {
+                                showMoreRequestBlock = true
+
+                                const url = `{% url 'post:download_replies' %}`
+                                const response = await axios.post(url, form, {headers})
+
+                                if (!response.data.completion) {
                                     replies_set.insertAdjacentHTML(
                                         'beforeend',
-                                        response.data.replies,
+                                        response.data
                                     )
+                                } else {
+                                    if (!response.data.no_data) {
+                                        replies_set.insertAdjacentHTML(
+                                            'beforeend',
+                                            response.data.replies,
+                                        )
+                                    }
+                                    stop_request = true
+                                    show_more.remove()
+
+                                    const replies = replies_set.children
+                                    const last_elem = replies[replies.length-1]
+                                    last_elem.style.marginBottom = '8px'
                                 }
-                                stop_request = true
-                                show_more.remove()
+                                set_a_tags()
 
-                                const replies = replies_set.children
-                                const last_elem = replies[replies.length-1]
-                                last_elem.style.marginBottom = '8px'
-                            }
-                            set_a_tags()
+                                reply_first.classList.remove('reply_item-info--first')
+                                loading_icon.remove()
 
-                            reply_first.classList.remove('reply_item-info--first')
+                                if (show_more) show_more.hidden = false
 
-                            showMoreRequestBlock = false
-                        }_()
+                                showMoreRequestBlock = false
+                            }_()
+                        }, LOADING_DELAY)
                     }
                 }
             }

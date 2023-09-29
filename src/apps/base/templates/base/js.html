@@ -17,6 +17,7 @@
     }
 
     const header = document.querySelector('header')
+    const background_helper = document.querySelector('.background_helper')
 
     function hideScroll(modal_window) {
         const widthScroll = window.innerWidth - modal_window.offsetWidth
@@ -24,12 +25,15 @@
         document.body.style.marginRight = widthScroll + 'px'
         header.style.setProperty('width', `calc(100% - ${widthScroll}px)`)
         removeMenu()
+        background_helper.style.width = widthScroll + 'px'
+        background_helper.hidden = false
     }
 
     function showScroll() {
         document.body.style.overflow = 'auto'
         header.style.setProperty('width', '100%')
         document.body.style.marginRight = '0'
+        background_helper.hidden = true
     }
 </script>
 

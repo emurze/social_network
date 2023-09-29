@@ -13,7 +13,14 @@
 
             const form = new FormData()
             form.append('description', description_input.value)
-            form.append('photo', photo_input.files[0])
+
+            if (photo_input.files) {
+                const extension = photo_input.files[0].name.split('.').at(-1)
+
+                if (ALLOWED_EXTENSIONS.includes(extension)) {
+                    form.append('photo', photo_input.files[0])
+                }
+            }
 
             const headers = {
                 'X-CSRFToken': csrf_token,
@@ -31,11 +38,6 @@
                     const post_wrapper = document.createElement('div')
                     post_wrapper.innerHTML = response.data.post
 
-                    if (response.data.is_errors) {console.log(1)}
-
-                    const error_messages = posts_container.querySelector('.users_error_message')
-                    error_messages && error_messages.remove()
-
                     const header_width = getComputedStyle(document.querySelector('header')).width
                     Array.from(post_wrapper.children).forEach(
                         elem => {
@@ -44,7 +46,6 @@
                                 elem,
                             )
                             setPostsElemJS(elem)
-                            setLazyImages()
                         }
                     )
                     onPossibleScroll(header_width)

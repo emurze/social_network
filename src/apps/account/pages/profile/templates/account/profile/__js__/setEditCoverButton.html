@@ -13,31 +13,35 @@
             const files = input.files
             const reader = []
 
-            for (let i in files) {
-                if (files.hasOwnProperty(i)) {
-                    const name = 'file' + i
+            const extension = files[0].name.split('.').at(-1)
 
-                    reader[i] = new FileReader()
-                    reader[i].readAsDataURL(input.files[i])
+            if (extension in ALLOWED_EXTENSIONS) {
+                for (let i in files) {
+                    if (files.hasOwnProperty(i)) {
+                        const name = 'file' + i
 
-                    const form = new FormData()
-                    form.append('cover', input.files[0])
+                        reader[i] = new FileReader()
+                        reader[i].readAsDataURL(input.files[i])
 
-                    const headers = {
-                        'X-CSRFToken': csrf_token,
-                        'Content-Type': `multipart/form-data;
-                         boundary=${form._boundary}`
-                    }
-                    async function _() {
-                        const url = `{% url 'account:edit_cover' user.username %}`
-                        await axios.post(url, form, {headers})
-                    }_()
+                        const form = new FormData()
+                        form.append('cover', input.files[0])
 
-                    reader[i].onload = e => {
-                        profile_header_cover_image.innerHTML =
-                            '<img id="'+ name +'" src="" alt="" ' +
-                            'class="profile__header-cover-image-img" />'
-                        document.getElementById(name).src = e.target.result
+                        const headers = {
+                            'X-CSRFToken': csrf_token,
+                            'Content-Type': `multipart/form-data;
+                             boundary=${form._boundary}`
+                        }
+                        async function _() {
+                            const url = `{% url 'account:edit_cover' user.username %}`
+                            await axios.post(url, form, {headers})
+                        }_()
+
+                        reader[i].onload = e => {
+                            profile_header_cover_image.innerHTML =
+                                '<img id="'+ name +'" src="" alt="" ' +
+                                'class="profile__header-cover-image-img" />'
+                            document.getElementById(name).src = e.target.result
+                        }
                     }
                 }
             }

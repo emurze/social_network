@@ -19,7 +19,16 @@
                         reply_footer_form.style.bottom = '9px'
                     }
                 }
-                content_input.focus()
+
+                const input_position = content_input.getBoundingClientRect().top
+
+                window.scrollBy({
+                    top: input_position - 400,
+                    behavior: 'smooth'
+                })
+                setTimeout(() => {
+                    content_input.focus()
+                }, 250)
             }
         }
     }
