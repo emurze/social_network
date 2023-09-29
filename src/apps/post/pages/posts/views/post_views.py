@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.handlers.wsgi import WSGIRequest
 from django.core.paginator import PageNotAnInteger, EmptyPage, Paginator
+from django.db.models import Prefetch
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render
 from django.template.loader import render_to_string
@@ -15,7 +16,7 @@ from apps.dashboard.services.create_action import create_action
 from ..mixins import PostListViewMixin, LikeActionListMixin, \
     FilterPostsMixin, SearchPostsMixin, FilterOwnerMixin, \
     DefaultLimitPostsMixin, PostsMenuSelectedMixin
-from apps.post.models import Post
+from apps.post.models import Post, Reply
 from ..forms import PostForm, ReplyForm
 from apps.post.services.like.action import LikeAction
 from apps.post.services.like.dispatcher import dispatch_like_action
@@ -32,6 +33,34 @@ class PostListView(
     PostListViewMixin
 ):
     template_name = 'post/posts/posts.html'
+    queryset = (
+        Post.ext_objects
+            .select_related('user')
+            .prefetch_related(
+                Prefetch(
+                    'replies',
+                    Reply.objects
+                         .select_related('user')
+                         .only(
+                             'id',
+                             'post_id',
+                             'content',
+                             'created',
+                             'user__username',
+                             'user__is_staff',
+                             'user__photo'
+                         )
+                ),
+            ).only(
+                'user_id',
+                'user__is_staff',
+                'user__username',
+                'user__photo',
+                'photo',
+                'updated',
+                'description',
+            )
+    )
 
 
 class ResetPosts(
@@ -92,6 +121,11 @@ class FilterPosts(
     PostListViewMixin,
 ):
     template_name = 'post/posts/postsListGenerated/postsListGenerated.html'
+    queryset = Post.ext_objects\
+                   .select_related('user')\
+                   .prefetch_related(
+                       'replies', 'replies__user', 'liked_users'
+                   )
 
 
 class CreatePost(LoginRequiredMixin, CreateView):
@@ -115,7 +149,6 @@ class CreatePost(LoginRequiredMixin, CreateView):
         return JsonResponse({'post': post_html})
 
     def form_invalid(self, form: PostForm) -> JsonResponse:
-        lg.warning(f'Create post errors {form.errors}')
         return JsonResponse({'is_errors': True})
 
 

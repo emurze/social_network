@@ -3,7 +3,7 @@ import logging
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.db.models import Count, Exists, OuterRef, QuerySet, Case, When, \
-    Value
+    Value, Prefetch
 
 from apps.post.services.like.action import LikeAction
 
@@ -16,8 +16,7 @@ class PostDAL(models.Manager):
         return super().get_queryset().order_by('-created').annotate(
             likes_count=Count('liked_users', distinct=True),
             reply_count=Count('replies', distinct=True)
-        ).select_related('user')\
-            .prefetch_related('replies', 'replies__user', 'liked_users')
+        )
 
     @staticmethod
     def annotate_like_action(posts: QuerySet, my_user: User):

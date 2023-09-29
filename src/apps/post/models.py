@@ -35,14 +35,6 @@ class Post(models.Model):
             models.Index(fields=('-created',)),
         )
 
-    def save(self, *args, **kwargs):
-        try:
-            return super().save(*args, **kwargs)
-        except IntegrityError:
-            lg.warning('Post slug integrity error!')
-            self.slug = None
-            self.save(*args, **kwargs)
-
     def __str__(self) -> str:
         return self.description[:30]
 

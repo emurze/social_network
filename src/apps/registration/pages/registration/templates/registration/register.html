@@ -12,6 +12,8 @@
     <div class="registration">
         <p class="registration__title">Sign up</p>
         <form method="POST" class="registration_form" autocomplete="off">
+            <input type="password" style="display:none">
+
             {% csrf_token %}
             <div class="username">
                 {{ form.username }}
@@ -50,4 +52,17 @@
             <div><button type="submit">Sign up</button></div>
         </form>
     </div>
+{% endblock %}
+
+{% block scripts %}
+    <script defer>
+        const input_set = document.querySelectorAll('input')
+        input_set.forEach(input => {
+            console.log(input)
+
+            input.addEventListener('focus', () => {
+                input.removeAttribute('readonly')
+            })
+        })
+    </script>
 {% endblock %}

@@ -33,10 +33,7 @@
                         onPossibleScroll(header_width)
                     }
 
-                    elem && elem.removeAttribute('hx-trigger')
                     blockRequest = true
-
-                    if (!force) page++
 
                     const url = `{% url 'account:download_users' %}`
                     const full_url = force ? `${url}?page=1`
@@ -48,7 +45,9 @@
                             force ? `{% include 'shared/loading_icon.html' with center=True loading_icon_margin=True %}`
                                   : `{% include 'shared/loading_icon.html' with loading_icon_margin=True %}`
                         )
-                    } else {users_container.innerHTML = ''}
+                    }
+
+                    console.log('works')
 
                     setTimeout(() => {
                         async function _() {
@@ -56,7 +55,13 @@
                             const response = await axios.get(full_url)
                             const html = response.data
 
+                            console.log(response)
+
+                            console.log(!stable_block_list.includes(full_url), stable_block_list, full_url)
+
                             if (!stable_block_list.includes(full_url)) {
+                                if (!force) page++
+
                                 if (html === '') emptyPage = true
                                 else {
                                     const elementFinder = document.createElement('div')
@@ -77,8 +82,9 @@
                                         }
                                     )
                                     showScroll()
-                                    setLazyImages()
+                                    set_a_tags()
                                 }
+                                elem && elem.removeAttribute('hx-trigger')
                             }
 
                             blockRequest = false

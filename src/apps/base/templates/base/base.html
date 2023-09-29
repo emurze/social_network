@@ -41,13 +41,14 @@
 
         function set_a_tags() {
             const a_tags = Array.from(document.querySelectorAll('a'))
-
-            console.log(a_tags)
+                                .filter(a => !a.classList.contains('blocker'))
 
             a_tags.forEach(a => {
                 a.addEventListener('click', setBlockTopMove)
+                a.classList.add('blocker')
             })
         }
+        set_a_tags()
     </script>
 </body>
 </html>

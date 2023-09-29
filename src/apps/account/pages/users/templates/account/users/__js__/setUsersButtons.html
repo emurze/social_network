@@ -40,7 +40,7 @@
                             setTimeout(() => {
                                 follow_button.innerHTML = 'Follow'
                                 follow_button.style.transition = 'width .05s, background-color .2s'
-                            }, 1)
+                            }, 0.5)
                         } else {
                             follow_button.classList.remove('follow_button--blue')
                             follow_button.classList.add('follow_button--red')
@@ -48,7 +48,7 @@
                             setTimeout(() => {
                                 follow_button.innerHTML = 'Unfollow'
                                 follow_button.style.transition = 'width .05s, background-color .2s'
-                            }, 1)
+                            }, 20)
                         }
 
                         followBlockRequest = false

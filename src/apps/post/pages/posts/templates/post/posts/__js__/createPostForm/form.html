@@ -31,6 +31,8 @@
                     const post_wrapper = document.createElement('div')
                     post_wrapper.innerHTML = response.data.post
 
+                    if (response.data.is_errors) {console.log(1)}
+
                     const error_messages = posts_container.querySelector('.users_error_message')
                     error_messages && error_messages.remove()
 
@@ -46,6 +48,7 @@
                         }
                     )
                     onPossibleScroll(header_width)
+                    set_a_tags()
 
                     description_input.value = ''
                     photo_input.value = ''
