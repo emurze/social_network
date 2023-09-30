@@ -1,7 +1,10 @@
 <script defer>
-    const logout_window = document.querySelector('.logout_window')
-
     function openLogoutWindow() {
+        const logout_window = document.querySelector('.logout_window')
+
+        if (typeof logout_window_block !== undefined)
+            logout_window_block = true
+
         if (logout_window) {
             show_elem(logout_window)
             hideScroll(logout_window)

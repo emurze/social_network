@@ -2,8 +2,11 @@
     window.onbeforeunload = function () {
         if (!blockTopMove) {
             setTimeout(() => {
-                window.scrollTo(0, 0)
-            }, LOAD_PROFILE_DELAY)
+                window.scrollIntoView({
+                    top: 0,
+                    behavior: "smooth"
+                })
+            }, 10)
         }
     }
 </script>

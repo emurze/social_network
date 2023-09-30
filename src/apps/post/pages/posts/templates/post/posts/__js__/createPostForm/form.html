@@ -1,4 +1,14 @@
 <script defer>
+    let blockErrorRemoving = false
+
+    function remove_extension_error() {
+        if (!blockErrorRemoving) {
+            const error = document.querySelector('.create_post_extension_error')
+            if (error)
+                error.classList.add('no_opacity')
+        }
+    }
+
     const post_create_form = document.forms.post_create_form
     let createPostFormRequestBlock = false
 
@@ -14,7 +24,7 @@
             const form = new FormData()
             form.append('description', description_input.value)
 
-            if (photo_input.files) {
+            if (photo_input.files[0]) {
                 const extension = photo_input.files[0].name.split('.').at(-1)
 
                 if (ALLOWED_EXTENSIONS.includes(extension)) {
@@ -31,6 +41,8 @@
             if (!createPostFormRequestBlock) {
                 async function _() {
                     createPostFormRequestBlock = true
+
+                    remove_extension_error()
 
                     const url = `{% url 'post:create' %}`
                     const response = await axios.post(url, form, {headers})
@@ -66,6 +78,8 @@
         textarea.addEventListener("input", () => {
             textarea.style.height = '5px'
             textarea.style.height = textarea.scrollHeight + "px"
+
+            remove_extension_error()
         })
     }
 </script>

@@ -6,13 +6,11 @@
         const files = input.files
         const reader = []
 
+        remove_extension_error()
+
         const extension = files[0].name.split('.').at(-1)
 
-        console.log(extension)
-
         if (ALLOWED_EXTENSIONS.includes(extension)) {
-            console.log('good')
-
             for (let i in files) {
                 if (files.hasOwnProperty(i)) {
                     const name = 'file' + i
@@ -39,12 +37,25 @@
                 }
             }
         } else {
-            wrapper.insertAdjacentHTML(
-                'beforeend',
-                `<div style="color: red; position: absolute; bottom: 8px; font-size: 15px; right: 162px;">
-                    Format ${extension} is invalid
-                </div>`
-            )
+            {% load static %}
+            const error = document.querySelector('.create_post_extension_error')
+            if (error) {
+                error.classList.remove('no_opacity')
+            } else {
+                wrapper.insertAdjacentHTML(
+                    'beforeend',
+                    `<div class="create_post_extension_error">
+                        <div style="height: 14px; overflow: hidden; position: relative; top: 25px; right: 21px;">
+                            <img style="height: 50px;" class="no_select" src="{% static 'base/images/strong.png' %}">
+                        </div>
+                        Format ${extension} is invalid
+                    </div>`
+                )
+            }
+            blockErrorRemoving = true
+            setTimeout(() => {
+                blockErrorRemoving = false
+            }, 5)
         }
     }
 </script>

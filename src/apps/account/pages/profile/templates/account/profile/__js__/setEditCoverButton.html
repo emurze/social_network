@@ -13,9 +13,12 @@
             const files = input.files
             const reader = []
 
+            const cover_extension_error = document.querySelector('.cover_extension_error')
+            cover_extension_error && cover_extension_error.remove()
+
             const extension = files[0].name.split('.').at(-1)
 
-            if (extension in ALLOWED_EXTENSIONS) {
+            if (ALLOWED_EXTENSIONS.includes(extension)) {
                 for (let i in files) {
                     if (files.hasOwnProperty(i)) {
                         const name = 'file' + i
@@ -44,6 +47,16 @@
                         }
                     }
                 }
+            } else {
+                {% load static %}
+                profile_header_cover_image.insertAdjacentHTML(
+                    'beforeend',
+                    `<div class="cover_extension_error"
+                          style="height: 17px; overflow: hidden; opacity: 0.85;
+                                 position: absolute; right: 136px; top: 30px;">
+                        <img style="height: 58px;" src="{% static 'base/images/strong.png' %}" alt="">
+                    </div>`
+                )
             }
         }
     })

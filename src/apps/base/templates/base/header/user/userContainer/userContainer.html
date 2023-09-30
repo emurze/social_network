@@ -5,16 +5,16 @@
     <div style="max-width: 75px; cursor: pointer;" onclick="toggleMenu()">
         <a class="user__icon">
             {% if request.user.photo %}
-                <img src="{% thumbnail request.user.photo 96x96 crop="smart" quality=100 %}" alt="">
+                <img src="{% thumbnail request.user.photo 96x96 crop="smart" quality=100 %}" class="no_select" alt="">
             {% else %}
-                <img src="{% static 'base/images/profile.png' %}" alt="">
+                <img src="{% static 'base/images/profile.png' %}" class="no_select" alt="">
             {% endif %}
         </a>
         <span class="user__down_arrow">
-            <img src="{% static 'base/images/arrow_down.svg' %}" alt="">
+            <img src="{% static 'base/images/arrow_down.svg' %}" class="no_select" alt="">
         </span>
         <span class="user__up_arrow no_display">
-            <img src="{% static 'base/images/arrow_up.svg' %}" alt="">
+            <img src="{% static 'base/images/arrow_up.svg' %}" class="no_select" alt="">
         </span>
         </div>
 </div>

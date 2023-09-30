@@ -12,9 +12,10 @@ class ActionList(
     template_name = 'dashboard/dashboard.html'
     queryset = (
         Action.objects
-              .select_related('user')
-              .prefetch_related('content_object')
-              .only(
+              .select_related('user', 'content_type')
+              .prefetch_related(
+                  'content_object',
+              ).only(
                   'created',
                   'verb',
                   'user__username',

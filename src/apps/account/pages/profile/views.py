@@ -2,14 +2,14 @@ import logging
 
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
+from django.shortcuts import get_object_or_404
 from django.views.generic import DetailView, UpdateView
 
 from .forms import EditCoverForm, AccountEditForm
-from .mixins import AddUserPosts, LikeActionAccountDetailMixin, \
+from .mixins import AddUserPosts, \
     AddFollowingUsersMixin, ProfileSelectedMixin, AjaxErrorsMixin, \
-    FollowActionDetailMixin, AddFollowingUsersPaginationMixin, \
-    AddFollowingUsersExistsMixin
+    AddFollowActionMixin, AddFollowingUsersPaginationMixin
 
 from apps.post.pages.posts.mixins import AddReplyFormMixin, AddPostForm
 
@@ -20,13 +20,11 @@ lg = logging.getLogger(__name__)
 class AccountDetailView(
     LoginRequiredMixin,
     ProfileSelectedMixin,
-    FollowActionDetailMixin,
-    AddFollowingUsersMixin,
-    AddFollowingUsersExistsMixin,
-    AddUserPosts,
     AddPostForm,
     AddReplyFormMixin,
-    LikeActionAccountDetailMixin,
+    AddFollowActionMixin,
+    AddFollowingUsersMixin,
+    AddUserPosts,
     DetailView
 ):
     model = User
@@ -34,6 +32,19 @@ class AccountDetailView(
     context_object_name = 'user'
     slug_field = 'username'
     slug_url_kwarg = 'username'
+    queryset = (
+        User.objects
+            .only(
+                'id',
+                'photo',
+                'username',
+                'is_staff',
+                'description',
+                'gender',
+                'cover',
+                'birthday',
+            )
+    )
 
 
 class AccountEditView(LoginRequiredMixin, AjaxErrorsMixin, UpdateView):
@@ -50,6 +61,21 @@ class FollowPagination(AddFollowingUsersPaginationMixin):
         'account/profile/followings/followingContent/followingContent.html'
     )
 
+    def get_queryset(self):
+        username = self.kwargs.get('username')
+        users = User.objects.filter(username=username).only('followings')
+
+        if not users.exists():
+            return User.followings.none()
+
+        queryset = users.first().get_followings()
+
+        return queryset.only(
+            'photo',
+            'is_staff',
+            'username',
+        )
+
 
 class EditCover(UpdateView):
     model = User
@@ -62,5 +88,4 @@ class EditCover(UpdateView):
         return HttpResponse('')
 
     def form_invalid(self, form: EditCoverForm) -> HttpResponse:
-        lg.warning('User edit form without data.')
-        return HttpResponse('')
+        return JsonResponse({'is_errors': True})

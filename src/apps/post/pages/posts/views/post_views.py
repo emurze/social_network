@@ -1,5 +1,6 @@
 import logging
 
+from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.handlers.wsgi import WSGIRequest
@@ -24,6 +25,7 @@ from django.conf import settings
 
 lg = logging.getLogger(__name__)
 SHOWED_REPLY_COUNT = 1
+User = get_user_model()
 
 
 class PostsQuery:
@@ -158,7 +160,7 @@ class CreatePost(LoginRequiredMixin, CreateView):
 @require_POST
 def like_post(request: WSGIRequest) -> JsonResponse:
     post_id = request.POST.get('post_id')
-    post = get_object_or_404(Post, id=post_id)
+    post = Post.objects.filter(id=post_id).only('id').first()
 
     action = dispatch_like_action(
         action=request.POST.get('action'),

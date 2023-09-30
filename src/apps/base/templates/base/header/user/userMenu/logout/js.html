@@ -3,6 +3,9 @@
         const logout_window = document.querySelector('.logout_window')
         remove_elem(logout_window)
         showScroll()
+
+        if (typeof logout_window_block !== undefined)
+            logout_window_block = false
     }
 
     window.addEventListener('click', e => {

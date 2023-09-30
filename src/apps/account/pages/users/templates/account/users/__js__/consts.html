@@ -7,8 +7,12 @@
     let stable_block_list = []
     let block_list = []
 
+    let logout_window_block = false
+
     setInterval(() => {
-        const header_width = getComputedStyle(document.querySelector('header')).width
-        onPossibleScroll(header_width)
+        if (!logout_window_block) {
+            const header_width = getComputedStyle(document.querySelector('header')).width
+            onPossibleScroll(header_width)
+        }
     }, 30)
 </script>

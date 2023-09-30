@@ -91,9 +91,20 @@
                         const error_lists = document.querySelectorAll('.edit_form .errorlist')
                         error_lists.forEach(x => x.remove())
 
+                        let error_counter = 0
+                        let is_photo = false
+
                         if (response.data.is_errors) {
                             for (const [key, value] of Object.entries(response.data)) {
                                 const input_wrapper = form_inputs.get(key)
+
+                                if (['username', 'description'].includes(key)) {
+                                    my_window.scrollBy({
+                                        top: -1000,
+                                        behavior: 'smooth'
+                                    })
+                                }
+                                if ('photo' === key) {is_photo = true}
 
                                 input_wrapper && input_wrapper.insertAdjacentHTML(
                                     'afterend',
@@ -101,11 +112,14 @@
                                          <li>${value}</li>
                                      </ul>`,
                                 )
+                                error_counter++
                             }
-                            my_window.scrollBy({
-                                top: -1000,
-                                behavior: 'smooth'
-                            });
+                            if (is_photo && error_counter === 2) {
+                                my_window.scrollBy({
+                                    top: 1000,
+                                    behavior: 'smooth'
+                                })
+                            }
                         } else {
                             const current_photo = form.get('photo')
                             if (default_photo !== current_photo &&
