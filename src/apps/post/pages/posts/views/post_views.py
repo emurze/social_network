@@ -26,46 +26,51 @@ lg = logging.getLogger(__name__)
 SHOWED_REPLY_COUNT = 1
 
 
+class PostsQuery:
+    queryset = (
+        Post.ext_objects
+        .select_related('user')
+        .prefetch_related(
+            Prefetch(
+                'replies',
+                Reply.objects
+                .select_related('user')
+                .only(
+                    'id',
+                    'post_id',
+                    'content',
+                    'created',
+                    'user__username',
+                    'user__is_staff',
+                    'user__photo'
+                )
+            ),
+        ).only(
+            'user_id',
+            'user__is_staff',
+            'user__username',
+            'user__photo',
+            'photo',
+            'updated',
+            'description',
+        )
+    )
+
+
 class PostListView(
     DefaultLimitPostsMixin,
     PostsMenuSelectedMixin,
     LikeActionListMixin,
+    PostsQuery,
     PostListViewMixin
 ):
     template_name = 'post/posts/posts.html'
-    queryset = (
-        Post.ext_objects
-            .select_related('user')
-            .prefetch_related(
-                Prefetch(
-                    'replies',
-                    Reply.objects
-                         .select_related('user')
-                         .only(
-                             'id',
-                             'post_id',
-                             'content',
-                             'created',
-                             'user__username',
-                             'user__is_staff',
-                             'user__photo'
-                         )
-                ),
-            ).only(
-                'user_id',
-                'user__is_staff',
-                'user__username',
-                'user__photo',
-                'photo',
-                'updated',
-                'description',
-            )
-    )
 
 
 class ResetPosts(
     LikeActionListMixin,
     DefaultLimitPostsMixin,
+    PostsQuery,
     PostListViewMixin
 ):
     template_name = 'post/posts/postsListGenerated/postsListGenerated.html'
@@ -74,7 +79,7 @@ class ResetPosts(
 def download_posts(request: WSGIRequest) -> HttpResponse:
     template_name = 'post/posts/postsListGenerated/postsListGenerated.html'
     paginate_by = settings.REQUEST_POST_COUNT
-    queryset = Post.ext_objects.all()
+    queryset = PostsQuery.queryset
     my_user = request.user
 
     queryset = FilterPostsMixin.filter(queryset, request.GET)
@@ -109,6 +114,7 @@ class SearchPosts(
     LikeActionListMixin,
     DefaultLimitPostsMixin,
     SearchPostsMixin,
+    PostsQuery,
     PostListViewMixin,
 ):
     template_name = 'post/posts/postsListGenerated/postsListGenerated.html'
@@ -118,14 +124,10 @@ class FilterPosts(
     LikeActionListMixin,
     DefaultLimitPostsMixin,
     FilterPostsMixin,
+    PostsQuery,
     PostListViewMixin,
 ):
     template_name = 'post/posts/postsListGenerated/postsListGenerated.html'
-    queryset = Post.ext_objects\
-                   .select_related('user')\
-                   .prefetch_related(
-                       'replies', 'replies__user', 'liked_users'
-                   )
 
 
 class CreatePost(LoginRequiredMixin, CreateView):

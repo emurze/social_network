@@ -32,19 +32,21 @@ class FollowActionListMixin:
 
 class ListUsersMixin:
     def get_queryset(self) -> QuerySet[User]:
-        users = User.ext_objects.get_users(
-            excluded_user=self.request.user
+        queryset = super().get_queryset()
+
+        queryset = User.ext_objects.get_users(
+            users=queryset,
+            excluded_user=self.request.user,
         )
-        return users
+        return queryset
 
 
 class UsersListView(
     LoginRequiredMixin,
-    ListUsersMixin,
     ListView
 ):
     context_object_name = 'users'
-    model = User
+    queryset = User.objects.all()
 
 
 class BaseLimitMixin:

@@ -46,6 +46,22 @@ class CreteReply(LoginRequiredMixin, CreateView):
         return JsonResponse({'is_errors': True})
 
 
+class DownloadRepliesQuery:
+    queryset = (
+        Reply
+        .objects
+        .select_related('user')
+        .only(
+            'created',
+            'content',
+            'user__is_staff',
+            'user__photo',
+            'user__username',
+        )
+
+    )
+
+
 @login_required
 @require_POST
 def download_replies(request: WSGIRequest) -> HttpResponse:
@@ -55,7 +71,9 @@ def download_replies(request: WSGIRequest) -> HttpResponse:
 
     page = int(request.POST.get('page'))
     post_id = request.POST.get('post_id')
-    replies = Reply.objects.filter(post_id=post_id)
+
+    replies = DownloadRepliesQuery.queryset or Reply.objects.all()
+    replies = replies.filter(post_id=post_id)
 
     showed_reply_count = 1
     start = page * settings.REQUEST_REPLY_COUNT + showed_reply_count

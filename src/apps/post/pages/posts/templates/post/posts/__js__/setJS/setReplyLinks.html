@@ -12,7 +12,8 @@
                     replies_footer_form_is_showed = true
 
                     reply_link.classList.add('reply__link--active')
-                    reply_footer_form.style.display = 'flex'
+                    reply_footer_form.style.position = 'relative'
+                    reply_footer_form.classList.remove('no_opacity')
 
                     if (post_replies.dataset.type === 'show_more') {
                         post_replies.style.padding = '14px 20px 4px 18px'
@@ -21,9 +22,10 @@
                 }
 
                 const input_position = content_input.getBoundingClientRect().top
+                const margin = 400
 
                 window.scrollBy({
-                    top: input_position - 400,
+                    top: input_position - margin,
                     behavior: 'smooth'
                 })
                 setTimeout(() => {

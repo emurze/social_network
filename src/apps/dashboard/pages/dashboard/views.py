@@ -1,26 +1,27 @@
-from django.conf import settings
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import ListView
-
 from apps.dashboard.models import Action
-from apps.post.models import Post, User
+from apps.dashboard.pages.dashboard.mixins import (
+    ActionLimitQuerysetMixin, ActionListMixin, ActionCountersMixin
+)
 
 
-class ActionList(LoginRequiredMixin, ListView):
+class ActionList(
+    ActionLimitQuerysetMixin,
+    ActionCountersMixin,
+    ActionListMixin,
+):
     template_name = 'dashboard/dashboard.html'
-    context_object_name = 'actions'
-
-    def get_queryset(self):
-        actions = Action.objects.select_related('user')\
-                                .prefetch_related('content_object')
-
-        return actions[:settings.DEFAULT_ACTION_COUNT]
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        kwargs |= {
-            'menu_selected': 'dashboard',
-            'posts_count': Post.objects.count(),
-            'users_count': User.objects.count(),
-            'actions_count': Action.objects.count(),
-        }
-        return super().get_context_data(**kwargs)
+    queryset = (
+        Action.objects
+              .select_related('user')
+              .prefetch_related('content_object')
+              .only(
+                  'created',
+                  'verb',
+                  'user__username',
+                  'user__photo',
+                  'object_id',
+                  'content_type_id',
+                  'content_type__model',
+                  'content_type__app_label',
+              )
+    )

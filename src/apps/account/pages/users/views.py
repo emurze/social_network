@@ -10,7 +10,7 @@ from django.views.decorators.http import require_POST
 
 from apps.account.pages.users.mixins import UsersListView, DefaultLimitMixin, \
     FollowActionListMixin, SearchUsersMixin, FilterUsersMixin, \
-    RequestLimitMixin, UsersMenuSelectedMixin
+    RequestLimitMixin, UsersMenuSelectedMixin, ListUsersMixin
 from apps.account.services.follow.dispatcher import dispatch_follow_action
 from services.pagination.pagination import PaginationMixin
 
@@ -18,10 +18,24 @@ User = get_user_model()
 lg = logging.getLogger(__name__)
 
 
+class UsersListQuery:
+    queryset = (
+        User.objects
+        .only(
+            'photo',
+            'is_staff',
+            'username',
+            'description',
+        )
+    )
+
+
 class AccountListView(
     DefaultLimitMixin,
     FollowActionListMixin,
     UsersMenuSelectedMixin,
+    ListUsersMixin,
+    UsersListQuery,
     UsersListView,
 ):
     template_name = 'account/users/users.html'
@@ -32,6 +46,8 @@ class DownloadUsers(
     SearchUsersMixin,
     FilterUsersMixin,
     PaginationMixin,
+    ListUsersMixin,
+    UsersListQuery,
     UsersListView
 ):
     template_name = 'account/users/userListGenerated/userListGenerated.html'
@@ -42,6 +58,8 @@ class SearchUsers(
     RequestLimitMixin,
     FollowActionListMixin,
     SearchUsersMixin,
+    ListUsersMixin,
+    UsersListQuery,
     UsersListView
 ):
     template_name = 'account/users/userListGenerated/userListGenerated.html'
@@ -51,6 +69,8 @@ class FilterUsers(
     RequestLimitMixin,
     FollowActionListMixin,
     FilterUsersMixin,
+    ListUsersMixin,
+    UsersListQuery,
     UsersListView
 ):
     template_name = 'account/users/userListGenerated/userListGenerated.html'
@@ -62,11 +82,9 @@ def follow_user(request: WSGIRequest) -> JsonResponse:
     other_user = get_object_or_404(
         User, username=request.POST.get('username')
     )
-
     action = dispatch_follow_action(
         action=request.POST.get('action'),
         my_user=request.user,
         other_user=other_user
     )
-
     return JsonResponse({'action': action})
