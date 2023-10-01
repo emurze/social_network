@@ -1,3 +1,4 @@
+from django.contrib import messages as ms
 from django.contrib.auth import login
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
@@ -24,4 +25,5 @@ class RegistrationView(CreateView):
             user,
             backend='django.contrib.auth.backends.ModelBackend'
         )
+        ms.success(self.request, 'User is successfully registered.')
         return redirect(self.success_url)

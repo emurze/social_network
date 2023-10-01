@@ -19,49 +19,46 @@
             users_container.innerHTML = `{% include 'shared/loading_icon.html' with center=True %}`
             onPossibleScroll(header_width)
 
-            setTimeout(() => {
-                async function _() {
-                    searchBlockRequest = true
+            async function _() {
+                searchBlockRequest = true
 
-                    gender_input.forEach(elem => elem.checked = false)
-                    age_input.forEach(elem => elem.checked = false)
+                gender_input.forEach(elem => elem.checked = false)
+                age_input.forEach(elem => elem.checked = false)
 
-                    const url = `{% url 'account:search_users' %}`
-                    const full_url = `${url}?query=${query}`
+                const url = `{% url 'account:search_users' %}`
+                const full_url = `${url}?query=${query}`
 
-                    const timer = new Promise(resolve => setTimeout(resolve, MIN_FILTERS_SEARCH_LOADING_DELAY))
-                    const response = (await Promise.all([timer, axios.get(full_url)]))[1]
+                const timer = new Promise(resolve => setTimeout(resolve, MIN_FILTERS_SEARCH_LOADING_DELAY))
+                const response = (await Promise.all([timer, axios.get(full_url)]))[1]
 
-                    stable_block_list = structuredClone(block_list)
+                stable_block_list = structuredClone(block_list)
 
-                    window.scrollTo(0, 0)
-                    cross.hidden = false
-                    input.style.paddingRight = '14px'
-                    users_container.innerHTML = ''
+                cross.hidden = false
+                input.style.paddingRight = '14px'
+                users_container.innerHTML = ''
 
-                    const users_batch = document.createElement('div')
-                    users_batch.innerHTML = response.data
+                const users_batch = document.createElement('div')
+                users_batch.innerHTML = response.data
 
-                    setUsersButtons({
-                        forms: users_batch.querySelectorAll('.follow_button__form'),
-                        follow_buttons: users_batch.querySelectorAll('.follow_button__button'),
-                        usernames: users_batch.querySelectorAll('.user__info-username-link-username'),
-                    })
+                setUsersButtons({
+                    forms: users_batch.querySelectorAll('.follow_button__form'),
+                    follow_buttons: users_batch.querySelectorAll('.follow_button__button'),
+                    usernames: users_batch.querySelectorAll('.user__info-username-link-username'),
+                })
 
-                    const elements = Array.from(users_batch.children)
-                    elements.forEach(
-                        elem => users_container.insertAdjacentElement('beforeend', elem)
-                    )
+                const elements = Array.from(users_batch.children)
+                elements.forEach(
+                    elem => users_container.insertAdjacentElement('beforeend', elem)
+                )
 
-                    infinityPaginationHandler(`query=${query}`, true)
-                    set_a_tags()
+                infinityPaginationHandler(`query=${query}`, true)
+                set_a_tags()
 
-                    const new_header_width = getComputedStyle(document.querySelector('header')).width
-                    onPossibleScroll(new_header_width)
+                const new_header_width = getComputedStyle(document.querySelector('header')).width
+                onPossibleScroll(new_header_width)
 
-                    searchBlockRequest = false
-                }_()
-            }, LOADING_DELAY)
+                searchBlockRequest = false
+            }_()
         } else {
             input.focus()
         }

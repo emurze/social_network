@@ -28,9 +28,18 @@
                     top: input_position - margin,
                     behavior: 'smooth'
                 })
-                setTimeout(() => {
-                    content_input.focus()
-                }, 250)
+                const range = 25
+
+                const wait_scroll_stop_interval = setInterval(() => {
+                    const top_position = content_input.getBoundingClientRect().top
+                    const first_point = top_position - range
+                    const last_point = top_position + range
+
+                    if (first_point < margin && margin < last_point) {
+                        content_input.focus()
+                        clearInterval(wait_scroll_stop_interval)
+                    }
+                }, 5)
             }
         }
     }

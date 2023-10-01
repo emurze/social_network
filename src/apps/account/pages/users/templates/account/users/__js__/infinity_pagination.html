@@ -32,18 +32,18 @@
                         users_container.innerHTML = ''
                         onPossibleScroll(header_width)
                     }
-
-                    blockRequest = true
-
-                    const url = `{% url 'account:download_users' %}`
-                    const full_url = force ? `${url}?page=1`
-                                           : `${url}?page=${page}&${query_strings}`
-
                     users_container.insertAdjacentHTML(
                         'beforeend',
                         force ? `{% include 'shared/loading_icon.html' with center=True loading_icon_margin=True %}`
                               : `{% include 'shared/loading_icon.html' with loading_icon_margin=True %}`
                     )
+
+                    elem && elem.removeAttribute('hx-trigger')
+                    blockRequest = true
+
+                    const url = `{% url 'account:download_users' %}`
+                    const full_url = force ? `${url}?page=1`
+                                           : `${url}?page=${page}&${query_strings}`
 
                     async function _() {
                         block_list.push(full_url)

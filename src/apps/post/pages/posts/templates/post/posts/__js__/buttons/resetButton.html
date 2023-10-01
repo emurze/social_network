@@ -5,16 +5,14 @@
         if (!resetBlockRequest) {
             resetBlockRequest = true
 
-            setTimeout(() => {
-                stable_block_list = []
-                const _event = new CustomEvent('scroll', {detail: {force: true}});
-                infinityPaginationHandler('', `{% url 'post:reset_posts' %}`)
-                window.dispatchEvent(_event)
-                infinityPaginationHandler('', '', true)
-                if (cross) cross.hidden = true
-                search_input.value = ''
-                search_input.style.paddingRight = '0'
-            }, LOADING_DELAY)
+            stable_block_list = []
+            const _event = new CustomEvent('scroll', {detail: {force: true}});
+            infinityPaginationHandler('', `{% url 'post:reset_posts' %}`)
+            window.dispatchEvent(_event)
+            infinityPaginationHandler('', '', true)
+            if (cross) cross.hidden = true
+            search_input.value = ''
+            search_input.style.paddingRight = '0'
 
             resetBlockRequest = false
         }

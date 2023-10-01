@@ -1,5 +1,6 @@
 <script defer>
     let likeBlockRequest = false
+    let animation_exists = false
 
     function setLikeButton({form, like_button_container, like_action, like_counter, post_id, liked_button, like_button}) {
         if (form && like_button_container && like_action && like_counter && post_id)
@@ -15,9 +16,15 @@
                     'Content-Type': `multipart/form-data;
                      boundary=${form._boundary}`,
                 }
+
                 if (!likeBlockRequest) {
                     async function executeLikeAction() {
                         likeBlockRequest = true
+
+                        if (animation_exists) {
+                            liked_button.classList.remove('show_animation')
+                            animation_exists = false
+                        }
 
                         const url = `{% url 'post:like_post' %}`
                         const response = await axios.post(url, form, {headers})
@@ -40,6 +47,13 @@
                         else if (new_like_action === 'unlike') {
                             like_button.classList.add('no_opacity', 'no_transition', 'absolute')
                             liked_button.classList.remove('no_opacity', 'no_transition', 'absolute')
+                            liked_button.classList.add('show_animation')
+
+                            animation_exists = true
+                            setTimeout(() => {
+                                liked_button.classList.remove('show_animation')
+                                animation_exists = false
+                            }, 400)
 
                             like_counter.classList.add('like__button-like_counter--liked')
                             like_counter.innerHTML++

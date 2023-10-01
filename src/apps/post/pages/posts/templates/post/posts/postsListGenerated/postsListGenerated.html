@@ -5,7 +5,7 @@
         {% include 'post/posts/post/post.html' %}
     {% endfor %}
 {% elif query %}
-    <div class="users_error_message" style="position: relative; left: 10px;">
+    <div class="users_error_message" style="font-size: 15.6px; position: relative; left: 10px;">
         Your search - <strong>{{ query }}</strong> - didn't match any posts.
         <div style="margin-top: 5px; border-radius: 50%; padding: 10px;">
             <img style="border-radius: 50%; width: 250px; height: 250px;"
@@ -13,7 +13,7 @@
         </div>
     </div>
 {% else %}
-    <div class="users_error_message" style="position: relative; left: 10px;">
+    <div class="users_error_message" style="font-size: 15.6px; position: relative; left: 10px;">
         Your filters didn't match any posts.
         <div style="margin-top: 5px; border-radius: 50%; padding: 10px;">
             <img style="border-radius: 50%; width: 250px; height: 250px;"

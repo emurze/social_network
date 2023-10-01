@@ -82,207 +82,208 @@
             save_button.innerHTML = `{% include 'shared/loading_icon.html' with loading_icon_size=18 loading_icon_weight=3 %}`
 
             if (!saveButtonBlockRequest) {
-                setTimeout(() => {
-                    async function _() {
-                        saveButtonBlockRequest = true
+                async function _() {
+                    saveButtonBlockRequest = true
 
-                        const url = `{% url 'account:edit_window' user.username %}`
-                        const response = await axios.post(url, form, {headers})
-                        const error_lists = document.querySelectorAll('.edit_form .errorlist')
-                        error_lists.forEach(x => x.remove())
+                    const url = `{% url 'account:edit_window' user.username %}`
 
-                        let error_counter = 0
-                        let is_photo = false
+                    const timer = new Promise(resolve => setTimeout(resolve, SAVE_BUTTON_DELAY))
+                    const response = (await Promise.all([timer, axios.post(url, form, {headers})]))[1]
 
-                        if (response.data.is_errors) {
-                            for (const [key, value] of Object.entries(response.data)) {
-                                const input_wrapper = form_inputs.get(key)
+                    const error_lists = document.querySelectorAll('.edit_form .errorlist')
+                    error_lists.forEach(x => x.remove())
 
-                                if (['username', 'description'].includes(key)) {
-                                    my_window.scrollBy({
-                                        top: -1000,
-                                        behavior: 'smooth'
-                                    })
-                                }
-                                if ('photo' === key) {is_photo = true}
+                    let error_counter = 0
+                    let is_photo = false
 
-                                input_wrapper && input_wrapper.insertAdjacentHTML(
-                                    'afterend',
-                                    `<ul class="errorlist">
-                                         <li>${value}</li>
-                                     </ul>`,
-                                )
-                                error_counter++
-                            }
-                            if (is_photo && error_counter === 2) {
+                    if (response.data.is_errors) {
+                        for (const [key, value] of Object.entries(response.data)) {
+                            const input_wrapper = form_inputs.get(key)
+
+                            if (['username', 'description'].includes(key)) {
                                 my_window.scrollBy({
-                                    top: 1000,
+                                    top: -1000,
                                     behavior: 'smooth'
                                 })
                             }
-                        } else {
-                            const current_photo = form.get('photo')
-                            if (default_photo !== current_photo &&
-                                current_photo !== 'undefined') {
+                            if ('photo' === key) {is_photo = true}
 
-                                const file = current_photo
-                                const name = 'file' + file
-                                const name_2 = 'file_2' + file
-                                const name_3 = 'file_3' + file
+                            input_wrapper && input_wrapper.insertAdjacentHTML(
+                                'afterend',
+                                `<ul class="errorlist">
+                                     <li>${value}</li>
+                                 </ul>`,
+                            )
+                            error_counter++
+                        }
+                        if (is_photo && error_counter === 2) {
+                            my_window.scrollBy({
+                                top: 1000,
+                                behavior: 'smooth'
+                            })
+                        }
+                    } else {
+                        const current_photo = form.get('photo')
+                        if (default_photo !== current_photo &&
+                            current_photo !== 'undefined') {
 
-                                const reader = new FileReader()
-                                reader.readAsDataURL(file)
+                            const file = current_photo
+                            const name = 'file' + file
+                            const name_2 = 'file_2' + file
+                            const name_3 = 'file_3' + file
 
-                                header_avatar.innerHTML =
-                                    '<img id="'+ name +'" src="" alt="" class="profile__header-avatar-img" />'
-                                user_icon.innerHTML =
-                                    '<img id="'+ name_2 +'" src="" alt="" class="photo_widget__image" />'
-                                posts_user_icon.innerHTML =
-                                    '<img id="'+ name_3 +'" src="" alt="" class="posts__user_icon-img" />'
+                            const reader = new FileReader()
+                            reader.readAsDataURL(file)
+
+                            header_avatar.innerHTML =
+                                '<img id="'+ name +'" src="" alt="" class="profile__header-avatar-img" />'
+                            user_icon.innerHTML =
+                                '<img id="'+ name_2 +'" src="" alt="" class="photo_widget__image" />'
+                            posts_user_icon.innerHTML =
+                                '<img id="'+ name_3 +'" src="" alt="" class="posts__user_icon-img" />'
 
 
-                                const username = info_username.innerText
-                                const reply_item_set = document.querySelectorAll('.reply_item')
+                            const username = info_username.innerText
+                            const reply_item_set = document.querySelectorAll('.reply_item')
 
-                                const the_same_user_replies = []
-                                for (let reply_item of Array.from(reply_item_set)) {
-                                    const reply_username = reply_item.querySelector('.reply_item-info-username a').innerText
+                            const the_same_user_replies = []
+                            for (let reply_item of Array.from(reply_item_set)) {
+                                const reply_username = reply_item.querySelector('.reply_item-info-username a').innerText
 
-                                    if (username === reply_username) {
-                                        const reply_icon = reply_item.querySelector('.reply_item-user_icon')
-                                        the_same_user_replies.push(reply_icon)
-                                    }
-                                }
-
-                                const base_name_count_const = 4
-                                let base_name_count = 4
-                                const posts_user_icon_set = document.querySelectorAll('.post__header-user-icon')
-                                Array.from(posts_user_icon_set).forEach(
-                                    elem => {
-                                        elem.innerHTML = `<img id="name_${base_name_count}" src="" alt="" class="posts__user_icon-img" />`
-                                        base_name_count++
-                                    }
-                                )
-
-                                const reply_name_count_const = 4
-                                let reply_name_count = 4
-                                const post_replies_user_icon_set = document.querySelectorAll('.post__replies-footer-user_icon')
-                                Array.from(post_replies_user_icon_set).forEach(
-                                    elem => {
-                                        elem.innerHTML = `<img id="reply_name_${reply_name_count}" src="" alt="" class="post__replies-footer-user_icon-img no_select" />`
-                                        reply_name_count++
-                                    }
-                                )
-
-                                const same_name_reply_count_const = 4
-                                let same_name_reply_count = 4
-                                the_same_user_replies.forEach(
-                                    elem => {
-                                        elem.innerHTML = `<img id="same_reply_${same_name_reply_count}" src="" alt="" class="reply_item-user_icon-img" />`
-                                        same_name_reply_count++
-                                    }
-                                )
-
-                                reader.onload = e => {
-                                    const result = e.target.result
-                                    document.getElementById(name).src = result
-                                    document.getElementById(name_2).src = result
-                                    document.getElementById(name_3).src = result
-
-                                    for (let i = base_name_count_const; i < base_name_count; i++) {
-                                        document.getElementById(`name_${i}`).src = result
-                                    }
-
-                                    for (let i = reply_name_count_const; i < reply_name_count; i++) {
-                                        document.getElementById(`reply_name_${i}`).src = result
-                                    }
-
-                                    for (let i = same_name_reply_count_const; i < same_name_reply_count; i++) {
-                                        document.getElementById(`same_reply_${i}`).src = result
-                                    }
-                                }
-
-                                default_photo = current_photo
-                            }
-
-                            const current_username = form.get('username')
-                            if (default_username !== current_username &&
-                                current_username !== 'undefined') {
-
-                                default_username = current_username
-
-                                profile_username.innerText = current_username
-
-                                const path = `{% url 'account:detail' user.username %}`.split('/').slice(1, -2)
-                                location.href = `/${path}/${current_username}/`
-                            }
-
-                            const current_gender = form.get('gender')
-                            if (default_gender !== current_gender &&
-                                current_gender !== 'undefined') {
-
-                                default_gender = current_gender
-
-                                profile_gender.innerText = gender_view.get(current_gender)
-
-                                if (current_gender === 'FL') {
-                                    gender_image_wrapper.innerHTML =
-                                        `<img src="{% static 'base/images/gender_female.svg' %}"
-                                              alt="" class="info__gender-img">`
-                                }
-                                else if (current_gender === 'ML' || current_gender === 'CM') {
-                                    gender_image_wrapper.innerHTML =
-                                        `<img src="{% static 'base/images/gender_male.svg' %}"
-                                              alt="" class="info__gender-img">`
+                                if (username === reply_username) {
+                                    const reply_icon = reply_item.querySelector('.reply_item-user_icon')
+                                    the_same_user_replies.push(reply_icon)
                                 }
                             }
 
-                            const current_birthday_day = form.get('birthday_day')
-                            if (default_birthday_day !== current_birthday_day &&
-                                current_birthday_day !== 'undefined' ) {
+                            const base_name_count_const = 4
+                            let base_name_count = 4
+                            const posts_user_icon_set = document.querySelectorAll('.post__header-user-icon')
+                            Array.from(posts_user_icon_set).forEach(
+                                elem => {
+                                    elem.innerHTML = `<img id="name_${base_name_count}" src="" alt="" class="posts__user_icon-img" />`
+                                    base_name_count++
+                                }
+                            )
 
-                                default_birthday_day = current_birthday_day
+                            const reply_name_count_const = 4
+                            let reply_name_count = 4
+                            const post_replies_user_icon_set = document.querySelectorAll('.post__replies-footer-user_icon')
+                            Array.from(post_replies_user_icon_set).forEach(
+                                elem => {
+                                    elem.innerHTML = `<img id="reply_name_${reply_name_count}" src="" alt="" class="post__replies-footer-user_icon-img no_select" />`
+                                    reply_name_count++
+                                }
+                            )
 
-                                profile_age_day.innerHTML = current_birthday_day
+                            const same_name_reply_count_const = 4
+                            let same_name_reply_count = 4
+                            the_same_user_replies.forEach(
+                                elem => {
+                                    elem.innerHTML = `<img id="same_reply_${same_name_reply_count}" src="" alt="" class="reply_item-user_icon-img" />`
+                                    same_name_reply_count++
+                                }
+                            )
+
+                            reader.onload = e => {
+                                const result = e.target.result
+                                document.getElementById(name).src = result
+                                document.getElementById(name_2).src = result
+                                document.getElementById(name_3).src = result
+
+                                for (let i = base_name_count_const; i < base_name_count; i++) {
+                                    document.getElementById(`name_${i}`).src = result
+                                }
+
+                                for (let i = reply_name_count_const; i < reply_name_count; i++) {
+                                    document.getElementById(`reply_name_${i}`).src = result
+                                }
+
+                                for (let i = same_name_reply_count_const; i < same_name_reply_count; i++) {
+                                    document.getElementById(`same_reply_${i}`).src = result
+                                }
                             }
 
-                            const current_birthday_month = form.get('birthday_month')
-                            if (default_birthday_month !== current_birthday_month &&
-                                current_birthday_month !== 'undefined') {
-
-                                default_birthday_month = current_birthday_month
-
-                                profile_age_month.innerHTML = HUMAN_MONTHS[current_birthday_month-1]
-                            }
-
-                            const current_birthday_year = form.get('birthday_year')
-                            if (default_birthday_year !== current_birthday_year &&
-                                current_birthday_year !== 'undefined') {
-
-                                default_birthday_year = current_birthday_year
-
-                                profile_age_year.innerHTML = current_birthday_year
-                            }
-
-                            const current_description = form.get('description')
-                            if (default_description !== current_description &&
-                                current_description !== 'undefined') {
-
-                                default_description = current_description
-
-                                profile_description.innerText = current_description
-                            }
-
-                            edit_link_button.classList.remove('edit_link_button--active')
-                            remove_elem(edit_window)
-                            showScroll(edit_window)
+                            default_photo = current_photo
                         }
 
-                        save_button.innerHTML = 'Save'
+                        const current_username = form.get('username')
+                        if (default_username !== current_username &&
+                            current_username !== 'undefined') {
 
-                        saveButtonBlockRequest = false
-                    }_()
-                }, SAVE_BUTTON_DELAY)
+                            default_username = current_username
+
+                            profile_username.innerText = current_username
+
+                            const path = `{% url 'account:detail' user.username %}`.split('/').slice(1, -2)
+                            location.href = `/${path}/${current_username}/`
+                        }
+
+                        const current_gender = form.get('gender')
+                        if (default_gender !== current_gender &&
+                            current_gender !== 'undefined') {
+
+                            default_gender = current_gender
+
+                            profile_gender.innerText = gender_view.get(current_gender)
+
+                            if (current_gender === 'FL') {
+                                gender_image_wrapper.innerHTML =
+                                    `<img src="{% static 'base/images/gender_female.svg' %}"
+                                          alt="" class="info__gender-img">`
+                            }
+                            else if (current_gender === 'ML' || current_gender === 'CM') {
+                                gender_image_wrapper.innerHTML =
+                                    `<img src="{% static 'base/images/gender_male.svg' %}"
+                                          alt="" class="info__gender-img">`
+                            }
+                        }
+
+                        const current_birthday_day = form.get('birthday_day')
+                        if (default_birthday_day !== current_birthday_day &&
+                            current_birthday_day !== 'undefined' ) {
+
+                            default_birthday_day = current_birthday_day
+
+                            profile_age_day.innerHTML = current_birthday_day
+                        }
+
+                        const current_birthday_month = form.get('birthday_month')
+                        if (default_birthday_month !== current_birthday_month &&
+                            current_birthday_month !== 'undefined') {
+
+                            default_birthday_month = current_birthday_month
+
+                            profile_age_month.innerHTML = HUMAN_MONTHS[current_birthday_month-1]
+                        }
+
+                        const current_birthday_year = form.get('birthday_year')
+                        if (default_birthday_year !== current_birthday_year &&
+                            current_birthday_year !== 'undefined') {
+
+                            default_birthday_year = current_birthday_year
+
+                            profile_age_year.innerHTML = current_birthday_year
+                        }
+
+                        const current_description = form.get('description')
+                        if (default_description !== current_description &&
+                            current_description !== 'undefined') {
+
+                            default_description = current_description
+
+                            profile_description.innerText = current_description
+                        }
+
+                        edit_link_button.classList.remove('edit_link_button--active')
+                        remove_elem(edit_window)
+                        showScroll(edit_window)
+                    }
+
+                    save_button.innerHTML = 'Save'
+
+                    saveButtonBlockRequest = false
+                }_()
             }
         }
     }
