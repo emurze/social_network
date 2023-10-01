@@ -1,12 +1,15 @@
 <script>
+    function scrollToTop() {
+        window.onscroll = null
+        window.scrollTo({
+            top: 0,
+            behavior: "instant",
+        })
+    }
+
     window.onbeforeunload = function () {
         if (!blockTopMove) {
-            setTimeout(() => {
-                window.scrollIntoView({
-                    top: 0,
-                    behavior: "smooth"
-                })
-            }, 10)
+            scrollToTop()
         }
     }
 </script>

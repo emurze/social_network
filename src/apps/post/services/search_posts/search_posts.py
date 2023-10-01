@@ -17,4 +17,4 @@ class PostsSearch(BaseSearch):
 
         return queryset.annotate(
             similarity=TrigramSimilarity("description", query),
-        ).filter(similarity__gt=0.65).order_by("similarity")
+        ).filter(similarity__gt=0.1).order_by("similarity")

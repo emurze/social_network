@@ -10,6 +10,8 @@
         e.preventDefault()
 
         if (!filtersBlockRequest) {
+            scrollToTop()
+
             const header_width = getComputedStyle(document.querySelector('header')).width
 
             function get_multi_query_strings(input_set, name) {
@@ -48,12 +50,14 @@
                 cross.hidden = true
 
                 const url = `{% url 'account:filter_users' %}`
-                const response = await axios.get(`${url}?${data}`)
+                const full_url = `${url}?${data}`
+
+                const timer = new Promise(resolve => setTimeout(resolve, MIN_FILTERS_SEARCH_LOADING_DELAY))
+                const response = (await Promise.all([timer, axios.get(full_url)]))[1]
 
                 stable_block_list = structuredClone(block_list)
                 block_list = []
 
-                window.scrollTo(0, 0)
                 users_container.innerHTML = ''
 
                 const users_batch = document.createElement('div')
@@ -70,7 +74,7 @@
                     elem => users_container.insertAdjacentElement('beforeend', elem)
                 )
 
-                infinityPaginationHandler(`${data}`)
+                infinityPaginationHandler(`${data}`, true)
                 onPossibleScroll(header_width)
                 set_a_tags()
 

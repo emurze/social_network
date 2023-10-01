@@ -1,5 +1,5 @@
 <script defer>
-    function infinityPaginationHandler(query_strings = '', url = '') {
+    function infinityPaginationHandler(query_strings = '', url = '', no_block) {
         const extraMargin = 1
 
         let emptyPage = false
@@ -48,29 +48,27 @@
                     const owner_id = `{{ user.id }}`
                     if (owner_id) full_url += `&owner_id=${owner_id}`
 
-                    setTimeout(() => {
-                        async function _() {
-                            block_list.push(full_url)
-                            const response = await axios.get(full_url)
+                    async function _() {
+                        const timer = new Promise(resolve => setTimeout(resolve, MIN_PAGINATION_LOADING_DELAY))
+                        const response = (await Promise.all([timer, axios.get(full_url)]))[1]
 
-                            if (!stable_block_list.includes(full_url)) {
-                                const html = response.data
+                        if (no_block || !stable_block_list.includes(full_url)) {
+                            const html = response.data
 
-                                if (html === '') emptyPage = true
-                                else {
-                                    if (force) posts_container.innerHTML = ''
+                            if (html === '') emptyPage = true
+                            else {
+                                if (force) posts_container.innerHTML = ''
 
-                                    addPostsToContainer(response, posts_container)
-                                    showScroll()
-                                    set_a_tags()
-                                }
+                                addPostsToContainer(response, posts_container)
+                                showScroll()
+                                set_a_tags()
                             }
+                        }
 
-                            blockRequest = false
-                            const loading_icon = document.querySelector('.loading_icon')
-                            loading_icon && loading_icon.remove()
-                        }_()
-                    }, LOADING_DELAY)
+                        const loading_icon = document.querySelector('.loading_icon')
+                        loading_icon && loading_icon.remove()
+                        blockRequest = false
+                    }_()
                 }
             }
         }

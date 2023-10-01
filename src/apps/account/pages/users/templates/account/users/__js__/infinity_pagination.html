@@ -1,5 +1,5 @@
 <script defer>
-    function infinityPaginationHandler(query_strings = '') {
+    function infinityPaginationHandler(query_strings = '', no_block) {
         const users_container = document.querySelector('.users__container')
         const extraMargin = -180
 
@@ -48,10 +48,11 @@
                     async function _() {
                         block_list.push(full_url)
 
-                        const response = await axios.get(full_url)
+                        const timer = new Promise(resolve => setTimeout(resolve, MIN_PAGINATION_LOADING_DELAY))
+                        const response = (await Promise.all([timer, axios.get(full_url)]))[1]
                         const html = response.data
 
-                        if (!stable_block_list.includes(full_url)) {
+                        if (no_block || !stable_block_list.includes(full_url)) {
                             if (!force) page++
 
                             if (html === '') emptyPage = true

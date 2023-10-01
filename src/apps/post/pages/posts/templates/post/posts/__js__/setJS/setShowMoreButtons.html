@@ -28,42 +28,41 @@
                         replies_set.insertAdjacentElement('beforeend', loading_icon)
                         show_more.hidden = true
 
-                        setTimeout(() => {
-                            async function _() {
-                                showMoreRequestBlock = true
+                        async function _() {
+                            showMoreRequestBlock = true
 
-                                const url = `{% url 'post:download_replies' %}`
-                                const response = await axios.post(url, form, {headers})
+                            const url = `{% url 'post:download_replies' %}`
+                            const timer = new Promise(resolve => setTimeout(resolve, MIN_FILTERS_SEARCH_LOADING_DELAY))
+                            const response = (await Promise.all([timer, axios.post(url, form, {headers})]))[1]
 
-                                if (!response.data.completion) {
+                            if (!response.data.completion) {
+                                replies_set.insertAdjacentHTML(
+                                    'beforeend',
+                                    response.data
+                                )
+                            } else {
+                                if (!response.data.no_data) {
                                     replies_set.insertAdjacentHTML(
                                         'beforeend',
-                                        response.data
+                                        response.data.replies,
                                     )
-                                } else {
-                                    if (!response.data.no_data) {
-                                        replies_set.insertAdjacentHTML(
-                                            'beforeend',
-                                            response.data.replies,
-                                        )
-                                    }
-                                    stop_request = true
-                                    show_more.remove()
-
-                                    const replies = replies_set.children
-                                    const last_elem = replies[replies.length-1]
-                                    last_elem.style.marginBottom = '8px'
                                 }
-                                set_a_tags()
+                                stop_request = true
+                                show_more.remove()
 
-                                reply_first.classList.remove('reply_item-info--first')
-                                loading_icon.remove()
+                                const replies = replies_set.children
+                                const last_elem = replies[replies.length-1]
+                                last_elem.style.marginBottom = '8px'
+                            }
+                            set_a_tags()
 
-                                if (show_more) show_more.hidden = false
+                            reply_first.classList.remove('reply_item-info--first')
+                            loading_icon.remove()
 
-                                showMoreRequestBlock = false
-                            }_()
-                        }, MIN_SHOW_MORE_DELAY)
+                            if (show_more) show_more.hidden = false
+
+                            showMoreRequestBlock = false
+                        }_()
                     }
                 }
             }

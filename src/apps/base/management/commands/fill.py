@@ -39,14 +39,14 @@ class Command(BaseCommand):
             ).strftime('%Y-%m-%d')
 
             User.objects.create_user(
-                username=f'user_{index}_{age}',
+                username=f'user_{index}',
                 email=f'user_{index}@gmail.com',
                 password='qwerty123',
                 birthday=birthday,
                 gender=random.choice(('ML', 'FL')),
                 description=lorem.sentence(),
             )
-            lg.debug(f'user_{index}_{age} was created.')
+            lg.debug(f'user_{index} was created.')
 
     def handle(self, *_, **__) -> None:
         User.objects.exclude(is_staff=True).delete()

@@ -10,7 +10,7 @@
                 const _event = new CustomEvent('scroll', {detail: {force: true}});
                 infinityPaginationHandler('', `{% url 'post:reset_posts' %}`)
                 window.dispatchEvent(_event)
-                infinityPaginationHandler()
+                infinityPaginationHandler('', '', true)
                 if (cross) cross.hidden = true
                 search_input.value = ''
                 search_input.style.paddingRight = '0'

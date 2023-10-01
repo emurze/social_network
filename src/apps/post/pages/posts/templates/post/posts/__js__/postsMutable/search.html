@@ -9,46 +9,48 @@
             const query = search_input.value
 
             if (query && !searchRequestBlock) {
+                scrollToTop()
+
                 posts_container.innerHTML = `{% include 'shared/loading_icon.html' with center=True loading_icon_margin=True %}`
                 onPossibleScroll(header_width)
 
-                setTimeout(() => {
-                    async function _() {
-                        searchRequestBlock = true
+                async function _() {
+                    searchRequestBlock = true
 
-                            if (filters_form) {
-                                const photo_input = filters_form.photo
-                                const verified_input = filters_form.verified
+                        if (filters_form) {
+                            const photo_input = filters_form.photo
+                            const verified_input = filters_form.verified
 
-                                photo_input.checked = false
-                                verified_input.checked = false
+                            photo_input.checked = false
+                            verified_input.checked = false
 
-                                const order_radio_set = filters_form.order
-                                order_radio_set[0].checked = true
-                                order_radio_set[1].checked = false
-                            }
+                            const order_radio_set = filters_form.order
+                            order_radio_set[0].checked = true
+                            order_radio_set[1].checked = false
+                        }
 
-                            const url = `{% url 'post:search_posts' %}`
-                            const response = await axios.get(`${url}?query=${query}`)
+                        const url = `{% url 'post:search_posts' %}`
+                        const full_url = `${url}?query=${query}`
 
-                            stable_block_list = structuredClone(block_list)
+                        const timer = new Promise(resolve => setTimeout(resolve, MIN_FILTERS_SEARCH_LOADING_DELAY))
+                        const response = (await Promise.all([timer, axios.get(full_url)]))[1]
 
-                            infinityPaginationHandler(`query=${query}`)
+                        stable_block_list = structuredClone(block_list)
 
-                            window.scrollTo(0, 0)
-                            cross.hidden = false
-                            search_input.style.paddingRight = '14px'
-                            posts_container.innerHTML = ''
+                        infinityPaginationHandler(`query=${query}`, '', true)
 
-                            addPostsToContainer(response, posts_container)
-                            set_a_tags()
+                        cross.hidden = false
+                        search_input.style.paddingRight = '14px'
+                        posts_container.innerHTML = ''
 
-                            const new_header_width = getComputedStyle(document.querySelector('header')).width
-                            onPossibleScroll(new_header_width)
+                        addPostsToContainer(response, posts_container)
+                        set_a_tags()
 
-                        searchRequestBlock = false
-                    }_()
-                }, LOADING_DELAY)
+                        const new_header_width = getComputedStyle(document.querySelector('header')).width
+                        onPossibleScroll(new_header_width)
+
+                    searchRequestBlock = false
+                }_()
             } else {search_input.focus()}
     }
 </script>
