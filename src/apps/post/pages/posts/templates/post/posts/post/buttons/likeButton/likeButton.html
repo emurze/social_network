@@ -7,15 +7,11 @@
         <span class="like__button-action no_display">{{ post.action }}</span>
 
         <span class="like__button-container">
-            {% if post.action == 'like' %}
 
-                {% include 'post/posts/post/buttons/likeButton/baseButton/baseButton.html' %}
+            {% include 'post/posts/post/buttons/likeButton/baseButton/baseButton.html' %}
 
-            {% elif post.action == 'unlike' %}
+            {% include 'post/posts/post/buttons/likeButton/likedButton/likedButton.html' %}
 
-                {% include 'post/posts/post/buttons/likeButton/likedButton/likedButton.html' %}
-
-            {% endif %}
         </span>
 
         <span class="like__button-like_counter no_select

@@ -8,8 +8,13 @@
                 <img src="{% thumbnail user.photo 450x450 crop="smart" quality=100 %}"
                      class="no_select" loading="lazy" alt="">
             {% else %}
-                <img src="{% static 'base/images/profile.png' %}"
-                     class="no_select" loading="lazy" alt="">
+                {% if user.gender == 'FL' %}
+                    <img src="{% static 'base/images/female.png' %}"
+                         class="no_select" loading="lazy" alt="">
+                {% else %}
+                    <img src="{% static 'base/images/profile.png' %}"
+                         class="no_select" loading="lazy" alt="">
+                {% endif %}
             {% endif %}
         </a>
     </div>

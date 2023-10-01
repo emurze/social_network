@@ -2,7 +2,7 @@
     let createReplyRequestBlock = false
 
     function setRepliesButton({form, reply_list, post_id, content_input, reply_link_counter}) {
-        if (form && reply_list && post_id && content_input && reply_link_counter)
+        if (form && reply_list && post_id && content_input && reply_link_counter) {
             form.onsubmit = (e) => {
                 e.preventDefault()
 
@@ -19,6 +19,8 @@
                 if (!createReplyRequestBlock) {
                     async function generate_reply_item() {
                         createReplyRequestBlock = true
+
+                        const top1 = content_input.getBoundingClientRect().top
 
                         const url = `{% url 'post:create_reply' %}`
                         const response = await axios.post(url, form, {headers})
@@ -42,11 +44,20 @@
                         content_input.value = ''
                         set_a_tags()
 
+                        const top2 = content_input.getBoundingClientRect().top
+
+                        window.scrollBy({
+                            top: top2 - top1,
+                            behavior: "instant",
+                        })
+                        content_input.focus()
+
                         createReplyRequestBlock = false
                     }
                     generate_reply_item()
                 }
             }
+        }
     }
 
     function setRepliesButtons(

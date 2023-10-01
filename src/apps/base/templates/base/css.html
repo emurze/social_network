@@ -83,9 +83,11 @@
       supported by Chrome, Edge, Opera and Firefox */
     }
 
-    .no_display {display: none;}
-    .no_opacity {opacity: 0;}
-    .no_scroll {overflow: hidden;}
+    .no_display {display: none !important;}
+    .no_opacity {opacity: 0 !important;}
+    .no_scroll {overflow: hidden !important;}
+    .no_transition {transition: none !important;}
+    .absolute {position: absolute !important;}
 
     @keyframes spin {
         to {transform: rotate(360deg)}

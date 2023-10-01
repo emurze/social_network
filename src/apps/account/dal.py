@@ -8,8 +8,7 @@ class AccountDAL(models.Manager):
     @staticmethod
     def get_users(users: QuerySet, excluded_user) -> QuerySet:
         return (
-            users.order_by('username')
-                 .exclude(id=excluded_user.id)
+            users.exclude(id=excluded_user.id)
         )
 
     @staticmethod

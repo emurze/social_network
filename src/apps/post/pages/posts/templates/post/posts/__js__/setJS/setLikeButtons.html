@@ -1,7 +1,7 @@
 <script defer>
     let likeBlockRequest = false
 
-    function setLikeButton({form, like_button_container, like_action, like_counter, post_id}) {
+    function setLikeButton({form, like_button_container, like_action, like_counter, post_id, liked_button, like_button}) {
         if (form && like_button_container && like_action && like_counter && post_id)
             form.onsubmit = (e) => {
                 e.preventDefault()
@@ -26,8 +26,8 @@
                         like_action.innerHTML = new_like_action
 
                         if (new_like_action === 'like') {
-                            like_button_container.innerHTML =
-                                `{% include 'post/posts/post/buttons/likeButton/baseButton/baseButton.html' %}`
+                            like_button.classList.remove('no_opacity', 'no_transition', 'absolute')
+                            liked_button.classList.add('no_opacity', 'no_transition', 'absolute')
 
                             like_counter.classList.remove('like__button-like_counter--liked')
 
@@ -38,8 +38,8 @@
                             }
                         }
                         else if (new_like_action === 'unlike') {
-                            like_button_container.innerHTML =
-                                `{% include 'post/posts/post/buttons/likeButton/likedButton/likedButton.html' %}`
+                            like_button.classList.add('no_opacity', 'no_transition', 'absolute')
+                            liked_button.classList.remove('no_opacity', 'no_transition', 'absolute')
 
                             like_counter.classList.add('like__button-like_counter--liked')
                             like_counter.innerHTML++
@@ -54,11 +54,11 @@
 
     function setLikeButtons({
         like_forms, like_button_container_set,
-        like_action_set, like_counter_set, post_id_set,
+        like_action_set, like_counter_set, post_id_set, liked_button_set, like_button_set
     }) {
-        zip(like_forms, like_button_container_set, like_action_set, like_counter_set, post_id_set)
-            .forEach(([form, like_button_container, like_action, like_counter, post_id]) => {
-                setLikeButton({form, like_button_container, like_action, like_counter, post_id})
+        zip(like_forms, like_button_container_set, like_action_set, like_counter_set, post_id_set, liked_button_set, like_button_set)
+            .forEach(([form, like_button_container, like_action, like_counter, post_id, liked_button, like_button]) => {
+                setLikeButton({form, like_button_container, like_action, like_counter, post_id, liked_button, like_button})
             }
         )
     }
@@ -68,5 +68,7 @@
         like_action_set,
         like_counter_set,
         post_id_set,
+        liked_button_set,
+        like_button_set,
     })
 </script>

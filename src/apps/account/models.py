@@ -31,7 +31,7 @@ class Account(AbstractUser):
     ext_objects = AccountDAL()
 
     def get_followings(self):
-        return self.followings.order_by('-username')
+        return self.followings.order_by('-date_joined')
 
     def get_absolute_url(self):
         return reverse('account:detail', args=(self.username,))

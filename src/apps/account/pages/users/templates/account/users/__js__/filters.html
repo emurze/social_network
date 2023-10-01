@@ -39,53 +39,47 @@
             find_button.style.top = '4px'
             users_filters_tags.style.paddingBottom = '8px'
 
-            setTimeout(() => {
-                async function _() {
-                    filtersBlockRequest = true
+            async function _() {
+                filtersBlockRequest = true
 
-                    search_input.value = ''
-                    search_input.style.paddingRight = '0'
-                    const cross = document.querySelector('.filters__search-cross')
-                    cross.hidden = true
+                search_input.value = ''
+                search_input.style.paddingRight = '0'
+                const cross = document.querySelector('.filters__search-cross')
+                cross.hidden = true
 
-                    const url = `{% url 'account:filter_users' %}`
-                    const response = await axios.get(`${url}?${data}`)
+                const url = `{% url 'account:filter_users' %}`
+                const response = await axios.get(`${url}?${data}`)
 
-                    const first_url = block_list[0]
-                    if (first_url) {
-                        if (!first_url.includes('gender') || !first_url.includes('age'))
-                            stable_block_list = structuredClone(block_list)
-                    }
-                    block_list = []
+                stable_block_list = structuredClone(block_list)
+                block_list = []
 
-                    window.scrollTo(0, 0)
-                    users_container.innerHTML = ''
+                window.scrollTo(0, 0)
+                users_container.innerHTML = ''
 
-                    const users_batch = document.createElement('div')
-                    users_batch.innerHTML = response.data
+                const users_batch = document.createElement('div')
+                users_batch.innerHTML = response.data
 
-                    setUsersButtons({
-                        forms: users_batch.querySelectorAll('.follow_button__form'),
-                        follow_buttons: users_batch.querySelectorAll('.follow_button__button'),
-                        usernames: users_batch.querySelectorAll('.user__info-username-link-username'),
-                    })
+                setUsersButtons({
+                    forms: users_batch.querySelectorAll('.follow_button__form'),
+                    follow_buttons: users_batch.querySelectorAll('.follow_button__button'),
+                    usernames: users_batch.querySelectorAll('.user__info-username-link-username'),
+                })
 
-                    const elements = Array.from(users_batch.children)
-                    elements.forEach(
-                        elem => users_container.insertAdjacentElement('beforeend', elem)
-                    )
+                const elements = Array.from(users_batch.children)
+                elements.forEach(
+                    elem => users_container.insertAdjacentElement('beforeend', elem)
+                )
 
-                    infinityPaginationHandler(`${data}`)
-                    onPossibleScroll(header_width)
-                    set_a_tags()
+                infinityPaginationHandler(`${data}`)
+                onPossibleScroll(header_width)
+                set_a_tags()
 
-                    find_button.innerHTML =  default_find_button_html
-                    find_button.style.top = '3px'
-                    users_filters_tags.style.paddingBottom = '10px'
+                find_button.innerHTML =  default_find_button_html
+                find_button.style.top = '3px'
+                users_filters_tags.style.paddingBottom = '10px'
 
-                    filtersBlockRequest = false
-                }_()
-            }, LOADING_DELAY)
+                filtersBlockRequest = false
+            }_()
         }
     }
 </script>
