@@ -3,7 +3,6 @@ import logging
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db import transaction
 from django.db.models import QuerySet
 from django.views.generic import ListView
 

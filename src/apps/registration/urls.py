@@ -2,7 +2,11 @@ from django.contrib.auth import views as auth_views
 from django.urls import path, reverse_lazy
 
 from apps.registration.pages.login.forms import MyAuthForm
+from apps.registration.pages.password_change.views import MyPasswordChangeView
 from apps.registration.pages.password_reset.forms import MyPasswordResetForm
+from apps.registration.pages.password_reset.views import MyPasswordResetView
+from apps.registration.pages.password_reset_confirm.views import \
+    MyPasswordResetConfirmView
 from apps.registration.pages.registration.views import RegistrationView
 
 urlpatterns = [
@@ -19,21 +23,16 @@ urlpatterns = [
          name='logout'),
 
     path('password_change/',
-         auth_views.PasswordChangeView.as_view(
-             success_url=reverse_lazy('dashboard')
-         ),
+         MyPasswordChangeView.as_view(),
          name='password_change'),
 
     path('password_reset/',
-         auth_views.PasswordResetView.as_view(
+         MyPasswordResetView.as_view(
             form_class=MyPasswordResetForm,
-            success_url=reverse_lazy('dashboard')
          ),
          name='password_reset'),
     path('password_reset/<uidb64>/<token>/',
-         auth_views.PasswordResetConfirmView.as_view(
-            success_url=reverse_lazy('dashboard')
-         ),
+         MyPasswordResetConfirmView.as_view(),
          name='password_reset_confirm'),
     path('registration/', RegistrationView.as_view(), name='registration'),
 ]

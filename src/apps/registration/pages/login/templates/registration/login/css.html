@@ -82,4 +82,42 @@
     input[id="id_password"] {
         margin-bottom: 5px;
     }
+
+    .success {
+        transition: .2s;
+        display: flex;
+        justify-content: space-between;
+        margin: 0 auto;
+        padding: 2px 18px;
+        border-radius: 6px;
+        max-width: 345px;
+        background-color: #4CAF50!important;
+        color: white;
+        font-size: 16px;
+    }
+    .success__cross {}
+    .success__cross img {
+        transition: .2s;
+        cursor: pointer;
+        padding: 5px;
+        border-radius: 50%;
+        position: relative;
+        left: 8px;
+        top: 6px;
+        height: 21px;
+    }
+    .success__cross img:hover {background-color: rgba(0, 0, 0, 0.1);}
+
+    @keyframes hide {
+        0% {opacity: 1; height: 40px;}
+        80% {opacity: 0;}
+        100% {height: 0; background-color: rgb(222, 223, 223);}
+    }
+
+    .success_animation {
+        animation: hide .15s infinite;
+    }
+
+    .messages li {margin-bottom: 7px;}
+    .messages li:last-child {margin-bottom: 0;}
 </style>

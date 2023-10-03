@@ -25,5 +25,4 @@ class RegistrationView(CreateView):
             user,
             backend='django.contrib.auth.backends.ModelBackend'
         )
-        ms.success(self.request, 'User is successfully registered.')
         return redirect(self.success_url)

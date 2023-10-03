@@ -11,6 +11,24 @@
 {% block main %}
     <div class="profile">
         <div class="profile__container">
+            {% if messages %}
+                 <ul class="messages">
+                     {% for message in messages %}
+                         <li class="{{ message.tags }}">
+                            <div>
+                                {{ message|safe }}
+                            </div>
+                            <div class="success__cross"
+                                 onclick="this.parentElement.classList.add('success_animation');
+                                          setTimeout(() => this.parentElement.remove(), 110);
+                                          this.children[0].remove();">
+                                <img src="{% static 'base/images/green_back_cross.svg' %}" alt="">
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
             {% include 'account/profile/header/header.html' %}
 
             <div class="profile__main_content">
