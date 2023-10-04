@@ -14,17 +14,16 @@
         {% if messages %}
              <ul class="messages">
                  {% for message in messages %}
-                     <li class="{{ message.tags }}">
-                        <div>
-                            {{ message|safe }}
-                        </div>
-                        <div class="success__cross"
-                             onclick="this.parentElement.classList.add('success_animation');
-                                      setTimeout(() => this.parentElement.remove(), 110);
-                                      this.children[0].remove();">
-                            <img src="{% static 'base/images/green_back_cross.svg' %}" alt="">
-                        </div>
-                    </li>
+                    <div class="alert">
+                        <img class="alert__icon" src="{% static 'base/images/check_mark.svg' %}" alt="">
+
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true"
+                                onclick="this.parentElement.classList.add('success_animation');
+                                         setTimeout(() => this.parentElement.remove(), 49);
+                                         this.children[0].remove();">×</button>
+
+                        <div class="alert__text"><strong>Success!</strong> {{ message|safe }}</div>
+                    </div>
                 {% endfor %}
             </ul>
         {% endif %}

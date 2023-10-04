@@ -1,16 +1,21 @@
 <style>
     .info {
-        margin-top: 10px;
+        flex: 1 1 300px;
+        padding-top: 10px;
+        padding-right: 20px;
+        height: 100%;
     }
 
     .info__username {
         font-size: 20px;
         font-weight: bold;
         margin-bottom: 3px;
+        -ms-word-break: break-all;
+        word-break: break-all;
+        word-break: break-word;
     }
 
     .info__description {
-        max-width: 400px;
         line-height: 20px;
         overflow: hidden;
         -ms-word-break: break-all;
@@ -20,9 +25,10 @@
     }
 
     .info__gender {
+        transition: .0s;
         position: absolute;
         left: 18px;
-        bottom: 32px;
+        top: 112px;
         color: #161818;
     }
     .info__gender-img {
@@ -38,10 +44,11 @@
     }
 
     .info__age {
+        transition: .0s;
         color: #161818;
         position: absolute;
         left: 18px;
-        bottom: 6px;
+        top: 140px;
         font-size: 14px;
     }
     .info__age-text {

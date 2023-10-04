@@ -83,31 +83,6 @@
         margin-bottom: 5px;
     }
 
-    .success {
-        transition: .2s;
-        display: flex;
-        justify-content: space-between;
-        margin: 0 auto;
-        padding: 2px 18px;
-        border-radius: 6px;
-        max-width: 345px;
-        background-color: #4CAF50!important;
-        color: white;
-        font-size: 16px;
-    }
-    .success__cross {}
-    .success__cross img {
-        transition: .2s;
-        cursor: pointer;
-        padding: 5px;
-        border-radius: 50%;
-        position: relative;
-        left: 8px;
-        top: 6px;
-        height: 21px;
-    }
-    .success__cross img:hover {background-color: rgba(0, 0, 0, 0.1);}
-
     @keyframes hide {
         0% {opacity: 1; height: 40px;}
         80% {opacity: 0;}
@@ -115,9 +90,62 @@
     }
 
     .success_animation {
-        animation: hide .15s infinite;
+        animation: hide .05s infinite;
     }
 
     .messages li {margin-bottom: 7px;}
     .messages li:last-child {margin-bottom: 0;}
+
+    .close {
+        transition: .2s;
+        top: 9px;
+        right: 9px;
+        width: 20px;
+        font-size: 21px;
+        font-weight: bold;
+        line-height: 1;
+        color: #000;
+        text-shadow: 0 1px 0 #fff;
+        opacity: .35;
+    }
+
+    .close:hover,.close:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+        opacity: .5;
+    }
+
+    button.close {
+        padding: 0;
+        cursor: pointer;
+        background: transparent;
+        border: 0;
+        -webkit-appearance: none;
+    }
+
+    .alert {
+        display: flex;
+
+        position: relative;
+        padding: 3px 15px;
+        margin: 0 auto -4px auto;
+        border-radius: 10px;
+        width: 345px;
+
+        color: #270;
+        background-color: rgba(28, 224, 50, 0.3);
+        border: 1px solid rgba(0, 157, 19, 0.7);
+    }
+    .alert__text {font-size: 15.5px !important; padding-left: 1px;}
+
+    button[type="button"] {position: absolute;}
+
+    .alert__icon {
+        position: relative;
+        top: 5px;
+        right: 5.5px;
+        height: 24px;
+    }
+
 </style>

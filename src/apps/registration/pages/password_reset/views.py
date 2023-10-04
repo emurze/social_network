@@ -1,8 +1,14 @@
+import logging
+
 from django.contrib.auth.views import PasswordResetView
 
+from apps.registration.mixins import ResetPasswordSuccessUrlMixin
 
-class MyPasswordResetView(PasswordResetView):
-    # def get_success_url(self):
-    #     self.request.user if Anonymous then settings.login_url else base
+lg = logging.getLogger(__name__)
+
+
+class MyPasswordResetView(
+    ResetPasswordSuccessUrlMixin,
+    PasswordResetView
+):
     pass
-
