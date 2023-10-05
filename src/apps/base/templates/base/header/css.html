@@ -34,28 +34,23 @@
             .header__split {opacity: 0;}
         }
 
-        @media (max-width: 374px) {
-            header {width: 360px !important;}
-        }
-
     {% else %}
 
         @media (max-width: 600px) {
             header {
                 grid-template-columns:
-                    62px auto 0 0 minmax(auto, 1fr);
+                    57px auto 0 0 minmax(auto, 1fr);
                 -ms-grid-columns:
-                        62px auto 0 0 minmax(auto, 1fr);
+                        57px auto 0 0 minmax(auto, 1fr);
             }
             .menu__item {display: none;}
             .header__split {opacity: 0;}
         }
-
-        @media (max-width: 360px) {
-            header {width: 360px !important;}
-        }
-
     {% endif %}
+
+    @media (max-width: 360px) {
+        header {width: 360px !important;}
+    }
 
 </style>
 

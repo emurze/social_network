@@ -61,6 +61,12 @@
             "December",
         ]
 
+        const window_scroll_width = my_window.offsetWidth - my_window.scrollWidth
+
+        console.log(window_scroll_width)
+
+        my_window.style.left = window_scroll_width / 2 + 'px'
+
         edit_window.onsubmit = e => {
             e.preventDefault()
 

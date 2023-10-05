@@ -1,15 +1,12 @@
 <style>
     .hidden_buttons {display: none;}
 
-    .hidden_buttons__links {
-        position: absolute;
-        top: 136px;
-        right: 10px;
-    }
     .hidden_buttons__edit_profile {
-        position: absolute;
-        left: 20px;
-        top: 15px;
+        text-align: right;
+        padding-right: 15px;
+        padding-top: 7px;
+
+        margin-bottom: 5px;
     }
     .reset_link {
         position: relative;
@@ -20,20 +17,25 @@
         display: inline-flex;
         align-items: center;
 
-        transition: .2s;
+        transition: .2s background-color;
         cursor: pointer;
 
         max-height: 31px !important;
 
         padding: 0 12px;
-        border-radius: 15px !important;
 
-        color: #ffffff !important;
-        background-color: rgba(44, 43, 43, 0.5);
+        color: #5b5b5b;
+
+        border-top-left-radius: 12px;
+        border-top-right-radius: 12px;
 
         font-weight: bold;
         font-size: 13px;
         z-index: 1;
     }
-    .hidden_buttons__link:hover {background-color: rgba(44, 43, 43, 0.4)}
+    .hidden_buttons__link:hover {
+        border-bottom-left-radius: 12px;
+        border-bottom-right-radius: 12px;
+        background-color: rgb(246, 246, 247);
+    }
 </style>

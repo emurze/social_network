@@ -71,7 +71,7 @@
    .no_exists__post_container {
        padding: 6px 20px !important;
    }
-    @media (max-width: 670px) {
+    @media (max-width: 666px) {
        .profile__followings {display: none;}
         .profile__create_post_form {max-width: 635px;}
         .profile-posts__container {max-width: 635px;}
@@ -157,16 +157,12 @@
         .profile__header-avatar {top: 148px !important;}
         .info__gender {bottom: 16px !important;}
         .info__age {bottom: -10px !important;}
-        .follow_button {
-            top: 5px !important;
-            right: 15px !important;
-        }
-        .action_buttons {flex: 0 0 0 !important;}
+        .action_buttons {flex: 1 1 0 !important; padding: 0 !important;}
         .action_buttons__owner_container {display: none !important;}
         .hidden_buttons {display: block !important;}
-        .edit_cover_button {
-            right: 35px !important;
-        }
+        .info {padding-right: 15px !important; flex: 0 0 0 !important;}
+        .profile__header-content {flex-direction: column !important;}
+        .follow_button {padding: 5px 0 0 0 !important; position: relative; top: 2px; left: 1px;}
     }
     @media (max-width: 500px) {
         .profile__header-cover {max-height: 180px !important;}
@@ -181,9 +177,9 @@
         .info__username {
             font-size: 18px !important;
         }
-        .follow_button {display: none !important;}
     }
-    @media (max-width: 386px) {
+    @media (max-width: 376px) {
+        body {width: 360px}
         .profile__header {width: 344px !important;}
     }
 </style>
