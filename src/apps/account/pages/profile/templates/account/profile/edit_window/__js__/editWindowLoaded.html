@@ -10,6 +10,8 @@
         const csrf_token_input = document.querySelector("input[name='csrfmiddlewaretoken']")
         const csrf_token = csrf_token_input ? csrf_token_input.value : null
         const edit_window = document.querySelector('.edit_window')
+        const edit_window_container = document.querySelector('.edit_window__container0')
+        const edit_window_top_line = document.querySelector('.edit_window__top_line')
         const my_window = document.querySelector('.edit_window__container0-container')
         const edit_form = document.querySelector('.edit_form')
         const save_button = document.querySelector('.edit_form__save_button')
@@ -62,10 +64,11 @@
         ]
 
         const window_scroll_width = my_window.offsetWidth - my_window.scrollWidth
+        const shift = window_scroll_width / 2
+        const left = `calc(50% - ${171 + shift}px)`
 
-        console.log(window_scroll_width)
-
-        my_window.style.left = window_scroll_width / 2 + 'px'
+        edit_window_container.style.left = left
+        edit_window_top_line.style.left = left
 
         edit_window.onsubmit = e => {
             e.preventDefault()

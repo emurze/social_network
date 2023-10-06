@@ -12,7 +12,11 @@
     {% endblock %}
 </head>
 <body>
+    <div class="base_window"></div>
+    <div class="burger_menu_background"></div>
     <div hidden class="background_helper"></div>
+
+    {% include 'base/menuBurgerContent/menuBurgerContent.html' %}
 
     <div id="app_wrapper">
         {% include 'base/header/header.html' %}

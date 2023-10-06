@@ -21,6 +21,8 @@ my_env
 
 __pycache__/
 __pypackages__/
+.mypy_cache
+*.mypy_cache
 
 # Django stuff:
 *.log

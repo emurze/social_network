@@ -1,0 +1,48 @@
+{% load static %}
+<div class="menu_burger_content no_display">
+    <div class="base_menu_links">
+
+        <div class="menu_burger_content__item">
+            <span class="menu_burger_content__item-link
+                      {% if menu_selected == 'dashboard' %}menu_burger_content__item-link--selected{% endif %}"
+
+                  onclick="
+                          if (Boolean(`{% if menu_selected == 'dashboard' %}true{% else %}{% endif %}`)) {
+                              closeMenuBurger()
+                          } else {
+                              location.href=`{% url 'dashboard' %}`
+                          }">
+                Dashboard
+            </span>
+        </div>
+
+        <div class="menu_burger_content__item">
+            <span class="menu_burger_content__item-link
+                      {% if menu_selected == 'posts' %}menu_burger_content__item-link--selected{% endif %}"
+                  onclick="
+                          if (Boolean(`{% if menu_selected == 'posts' %}true{% else %}{% endif %}`)) {
+                              closeMenuBurger()
+                          } else {
+                              location.href=`{% url 'post:list' %}`
+                          }">
+                Posts
+            </span>
+        </div>
+        <div class="menu_burger_content__item">
+            <span class="menu_burger_content__item-link
+                      {% if menu_selected == 'users' %}menu_burger_content__item-link--selected{% endif %}"
+                  onclick="
+                          if (Boolean(`{% if menu_selected == 'users' %}true{% else %}{% endif %}`)) {
+                              closeMenuBurger()
+                          } else {
+                              location.href=`{% url 'account:users' %}`
+                          }">
+
+                Users
+            </span>
+        </div>
+    </div>
+    <div class="menu_burger_content__cross">
+        <img src="{% static 'base/images/menu_burger_cross.svg' %}" alt="">
+    </div>
+</div>

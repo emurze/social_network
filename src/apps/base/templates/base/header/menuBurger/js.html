@@ -1,0 +1,45 @@
+<script defer>
+    const base_window = document.querySelector('.base_window')
+    const header_menu_burger = document.querySelector('.header__menu_burger')
+    const burger_menu_background = document.querySelector('.burger_menu_background')
+    const menu_burger_content = document.querySelector('.menu_burger_content')
+    const app_wrapper = document.getElementById('app_wrapper')
+    const close_menu_burger = document.querySelector('.menu_burger_content__cross')
+
+    const MENU_BURGER_ANIMATION_DELAY = 200
+
+    header_menu_burger.addEventListener('click', () => {
+        logout_window_block = true
+
+        hideScroll(base_window)
+        burger_menu_background.style.top = '0'
+        addContent()
+        setTimeout(() => {
+            app_wrapper.classList.add('no_display')
+            burger_menu_background.classList.add('no_transition')
+            logout_window_block = false
+        }, MENU_BURGER_ANIMATION_DELAY)
+    })
+
+    function addContent() {
+        menu_burger_content.classList.remove('no_display')
+        setTimeout(() => {
+            menu_burger_content.style.opacity = 1
+        }, 10)
+    }
+
+    close_menu_burger.addEventListener('click', () => closeMenuBurger())
+
+    function removeContent() {
+        menu_burger_content.classList.add('no_display')
+        menu_burger_content.style.opacity = 0
+    }
+
+    function closeMenuBurger() {
+        showScroll()
+        burger_menu_background.classList.remove('no_transition')
+        burger_menu_background.style.top = '-102%'
+        removeContent()
+        app_wrapper.classList.remove('no_display')
+    }
+ </script>

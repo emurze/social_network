@@ -77,9 +77,11 @@
         .posts {width: 360px}
     }
 
-    @media (max-width: 376px) {
-        header {width: 360px !important;}
-    }
+    {% if menu_selected == 'posts' %}
+        @media (max-width: 378px) {
+            header {width: 360px !important;}
+        }
+    {% endif %}
 </style>
 
 {% include 'post/posts/post/css.html' %}
