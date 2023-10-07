@@ -6,11 +6,16 @@
     <div class="post__replies-footer-user_icon">
         <a href="{{ post.user.get_absolute_url }}">
             {% if request.user.photo %}
-                <img src="{% thumbnail request.user.photo 126x126 %}" alt=""
+                <img src="{% thumbnail request.user.photo 128x128 crop="smart" quality=100 %}" alt=""
                      class="post__replies-footer-user_icon-img no_select">
             {% else %}
-                <img src="{% static 'base/images/profile.png' %}" alt=""
-                    class="post__replies-footer-user_icon-img no_select">
+                {% if request.user.gender == 'FL' %}
+                    <img src="{% static 'base/images/female.png' %}"
+                         class="post__replies-footer-user_icon-img no_select" loading="lazy" alt="">
+                {% else %}
+                    <img src="{% static 'base/images/profile.png' %}"
+                         class="post__replies-footer-user_icon-img no_select" loading="lazy" alt="">
+                {% endif %}
             {% endif %}
         </a>
     </div>

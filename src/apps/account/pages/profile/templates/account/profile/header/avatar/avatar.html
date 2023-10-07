@@ -6,7 +6,12 @@
         <img src="{% thumbnail user.photo 550x550 crop="smart" quality=100 %}" alt=""
              class="profile__header-avatar-img no_select" loading="lazy">
     {% else %}
-        <img src="{% static 'base/images/profile.png' %}" alt=""
-             class="profile__header-avatar-img no_select" loading="lazy">
+        {% if user.gender == 'FL' %}
+            <img src="{% static 'base/images/female.png' %}"
+                 class="profile__header-avatar-img no_select" loading="lazy" alt="">
+        {% else %}
+            <img src="{% static 'base/images/profile.png' %}"
+                 class="profile__header-avatar-img no_select" loading="lazy" alt="">
+        {% endif %}
     {% endif %}
 </div>

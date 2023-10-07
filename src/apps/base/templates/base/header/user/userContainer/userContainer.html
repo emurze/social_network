@@ -5,9 +5,15 @@
     <div style="max-width: 75px; cursor: pointer;" onclick="toggleMenu()">
         <a class="user__icon">
             {% if request.user.photo %}
-                <img src="{% thumbnail request.user.photo 96x96 crop="smart" quality=100 %}" class="no_select" alt="">
+                <img src="{% thumbnail request.user.photo 128x128 crop="smart" quality=100 %}" class="no_select" alt="">
             {% else %}
-                <img src="{% static 'base/images/profile.png' %}" class="no_select" alt="">
+                {% if request.user.gender == 'FL' %}
+                    <img src="{% static 'base/images/female.png' %}"
+                         class="no_select" loading="lazy" alt="">
+                {% else %}
+                    <img src="{% static 'base/images/profile.png' %}"
+                         class="no_select" loading="lazy" alt="">
+                {% endif %}
             {% endif %}
         </a>
         <span class="user__down_arrow">

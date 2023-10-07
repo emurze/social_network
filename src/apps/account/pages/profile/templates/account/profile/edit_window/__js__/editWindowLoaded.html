@@ -63,6 +63,10 @@
             "December",
         ]
 
+        const reply_item_set = document.querySelectorAll('.reply_item')
+        const posts_user_icon_set = document.querySelectorAll('.post__header-user-icon')
+        const post_replies_user_icon_set = document.querySelectorAll('.post__replies-footer-user_icon')
+
         const window_scroll_width = my_window.offsetWidth - my_window.scrollWidth
         const shift = window_scroll_width / 2
         const left = `calc(50% - ${171 + shift}px)`
@@ -153,7 +157,6 @@
 
 
                             const username = info_username.innerText
-                            const reply_item_set = document.querySelectorAll('.reply_item')
 
                             const the_same_user_replies = []
                             for (let reply_item of Array.from(reply_item_set)) {
@@ -167,7 +170,6 @@
 
                             const base_name_count_const = 4
                             let base_name_count = 4
-                            const posts_user_icon_set = document.querySelectorAll('.post__header-user-icon')
                             Array.from(posts_user_icon_set).forEach(
                                 elem => {
                                     elem.innerHTML = `<img id="name_${base_name_count}" src="" alt="" class="posts__user_icon-img" />`
@@ -177,7 +179,6 @@
 
                             const reply_name_count_const = 4
                             let reply_name_count = 4
-                            const post_replies_user_icon_set = document.querySelectorAll('.post__replies-footer-user_icon')
                             Array.from(post_replies_user_icon_set).forEach(
                                 elem => {
                                     elem.innerHTML = `<img id="reply_name_${reply_name_count}" src="" alt="" class="post__replies-footer-user_icon-img no_select" />`
@@ -237,6 +238,11 @@
                             profile_gender.innerText = gender_view.get(current_gender)
 
                             if (current_gender === 'FL') {
+
+                                const reply_icons = Array.from(reply_item_set)
+                                const posts_user_icons = Array.from(posts_user_icon_set)
+                                const post_replies_user_icons = Array.from(post_replies_user_icon_set)
+
                                 gender_image_wrapper.innerHTML =
                                     `<img src="{% static 'base/images/gender_female.svg' %}"
                                           alt="" class="info__gender-img">`

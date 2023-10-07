@@ -53,9 +53,15 @@
             {% for action in actions %}
                 <article class="item_action" onclick="location.href='{{ action.user.get_absolute_url }}'">
                     {% if action.user.photo %}
-                        <img src="{% thumbnail action.user.photo 100x100 crop="smart" %}" alt="">
+                        <img src="{% thumbnail action.user.photo 128x128 crop="smart" quality=100 %}" alt="">
                     {% else %}
-                        <img src="{% static 'base/images/profile.png' %}" alt="">
+                        {% if action.user.gender == 'FL' %}
+                            <img src="{% static 'base/images/female.png' %}"
+                                 class="no_select" loading="lazy" alt="">
+                        {% else %}
+                            <img src="{% static 'base/images/profile.png' %}"
+                                 class="no_select" loading="lazy" alt="">
+                        {% endif %}
                     {% endif %}
                     <div>
                         <p class="item_action__name">{{ action.user.username }}</p>

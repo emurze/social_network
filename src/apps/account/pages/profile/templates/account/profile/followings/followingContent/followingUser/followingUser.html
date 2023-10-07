@@ -6,11 +6,16 @@
 
     <div class="following_user__image">
         {% if following_user.photo %}
-            <img src="{% thumbnail following_user.photo 100x100 crop="smart" %}"
+            <img src="{% thumbnail following_user.photo 128x128 crop="smart" quality=100 %}"
                  class="following_user__image-img" loading="lazy" alt="">
         {% else %}
-            <img src="{% static 'base/images/profile.png' %}"
-                 class="following_user__image-img" loading="lazy" alt="">
+            {% if following_user.gender == 'FL' %}
+                <img src="{% static 'base/images/female.png' %}"
+                     class="following_user__image-img no_select" loading="lazy" alt="">
+            {% else %}
+                <img src="{% static 'base/images/profile.png' %}"
+                     class="following_user__image-img no_select" loading="lazy" alt="">
+            {% endif %}
         {% endif %}
     </div>
 

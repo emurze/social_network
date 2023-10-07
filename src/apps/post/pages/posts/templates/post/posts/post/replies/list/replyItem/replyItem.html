@@ -9,11 +9,16 @@
         <div class="reply_item-user_icon">
             <a href="{{ user_absolute_url }}">
             {% if reply.user.photo %}
-                <img src="{% thumbnail reply.user.photo 126x126 %}" alt=""
+                <img src="{% thumbnail reply.user.photo 128x128 crop="smart" quality=100 %}" alt=""
                      class="reply_item-user_icon-img no_select">
             {% else %}
-                <img src="{% static 'base/images/profile.png' %}" alt=""
-                     class="reply_item-user_icon-img no_select">
+                {% if reply.user.gender == 'FL' %}
+                    <img src="{% static 'base/images/female.png' %}"
+                         class="reply_item-user_icon-img no_select" loading="lazy" alt="">
+                {% else %}
+                    <img src="{% static 'base/images/profile.png' %}"
+                         class="reply_item-user_icon-img no_select" loading="lazy" alt="">
+                {% endif %}
             {% endif %}
             </a>
         </div>

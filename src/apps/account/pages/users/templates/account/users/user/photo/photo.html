@@ -5,7 +5,7 @@
     <div class="user__photo">
         <a href="{% url 'account:detail' user.username %}" class="user__photo-link">
             {% if user.photo %}
-                <img src="{% thumbnail user.photo 450x450 crop="smart" quality=100 %}"
+                <img src="{% thumbnail user.photo 550x550 crop="smart" quality=100 %}"
                      class="no_select" loading="lazy" alt="">
             {% else %}
                 {% if user.gender == 'FL' %}
