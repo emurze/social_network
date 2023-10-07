@@ -1,6 +1,7 @@
 <style>
     header {
         position: fixed;
+        top: 0;
         z-index: 100;
         width: 100%;
         height: 50px;
@@ -14,9 +15,9 @@
         -ms-grid-rows: 1fr;
 
         grid-template-columns:
-            57px auto 33px minmax(auto, 1fr) minmax(auto, 1fr);
+            59px auto 31px minmax(auto, 1fr) minmax(auto, 1fr);
         -ms-grid-columns:
-                57px auto 33px minmax(auto, 1fr) minmax(auto, 1fr);
+                59px auto 31px minmax(auto, 1fr) minmax(auto, 1fr);
 
         align-items: center;
     }
@@ -26,9 +27,9 @@
         @media (max-width: 500px) {
             header {
                 grid-template-columns:
-                    57px auto 0 0 minmax(auto, 1fr);
+                    59px auto 0 0 minmax(auto, 1fr);
                 -ms-grid-columns:
-                        57px auto 0 0 minmax(auto, 1fr);
+                        59px auto 0 0 minmax(auto, 1fr);
             }
             .menu__item {display: none;}
             .header__split {opacity: 0;}
@@ -39,9 +40,9 @@
         @media (max-width: 600px) {
             header {
                 grid-template-columns:
-                    57px auto 0 0 minmax(auto, 1fr);
+                    59px auto 0 0 minmax(auto, 1fr);
                 -ms-grid-columns:
-                        57px auto 0 0 minmax(auto, 1fr);
+                        59px auto 0 0 minmax(auto, 1fr);
             }
             .menu__item {display: none;}
             .header__split {opacity: 0;}

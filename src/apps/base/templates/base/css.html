@@ -57,7 +57,10 @@
                      sans-serif;
         line-height: 2.6em;
         background-color: #fcfcfc;
+        overflow-x: hidden;
     }
+
+    :active {border: 0; outline: none;}
 
     #app_wrapper {
         min-height: 100%;
@@ -66,8 +69,8 @@
         grid-template-areas:
             "header"
             "main";
-        grid-template-rows: 50px calc(100% - 110px);
-        -ms-grid-rows: 50px calc(100% - 110px);
+        grid-template-rows: 49px calc(100% - 110px);
+        -ms-grid-rows: 49px calc(100% - 110px);
     }
 
     header {grid-area: header}
@@ -107,6 +110,8 @@
         background-color: #f2f2f2;
         z-index: 100;
     }
+
+    .page_extension {width: 103vw; height: 1px; background-color: red;}
 </style>
 
 {% include 'base/header/css.html' %}

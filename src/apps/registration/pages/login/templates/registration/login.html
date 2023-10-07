@@ -17,7 +17,8 @@
                     <div class="alert">
                         <img class="alert__icon" src="{% static 'base/images/check_mark.svg' %}" alt="">
 
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true"
+                        <button type="button" class="close" data-dismiss="alert"
+                                aria-hidden="true"
                                 onclick="this.parentElement.classList.add('success_animation');
                                          setTimeout(() => this.parentElement.remove(), 49);
                                          this.children[0].remove();">×</button>
@@ -30,7 +31,7 @@
 
         <div class="login">
             <p class="login__title">
-                Sign in to Mine
+                Sign in to Melton
             </p>
             <form method="POST" class="login_form" autocomplete="off">
                 {% csrf_token %}

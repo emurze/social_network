@@ -1,13 +1,20 @@
 <style>
     .header__menu_burger {
-        margin-left: 12px;
+        margin-left: 13px;
         margin-right: 10px;
+        transform: scale(1);
+        -moz-user-select: -moz-none;
+        -o-user-select: none;
+        -khtml-user-select: none;
+        -webkit-user-select: none;
+        user-select: none;
     }
     .menu_burger {
         transition: .2s;
         cursor: pointer;
         border-radius: 50%;
         padding: 6px;
+        position: relative;
     }
     .menu_burger:hover {
         background-color: rgba(0, 0, 0, 0.08)

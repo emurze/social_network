@@ -1,5 +1,6 @@
 <script defer>
     const following_content = document.querySelector('.following__content')
+    const loading_icon_place = 100
     let FollowingPaginationBlockRequest = false
 
     function setFollowPagination(
@@ -13,10 +14,15 @@
             if (!FollowingPaginationBlockRequest) {
                 FollowingPaginationBlockRequest = true
 
+                following_content.style.height = loading_icon_place
+                following_content.innerHTML = `{% include 'shared/loading_icon.html' with center=True loading_icon_margin=True %}`
+
                 const url = `{% url 'account:follow_pagination' user.username %}`
-                const response = await axios.get(
-                    `${url}?page=${page}`
-                )
+                const full_url =  `${url}?page=${page}`
+                const timer = new Promise(resolve => setTimeout(resolve, MIN_FOLLOWING_PAGINATION_LOADING_DELAY))
+                const response = (await Promise.all([timer, axios.get(full_url)]))[1]
+
+                following_content.style.height = '100%'
 
                 const following_elem = document.createElement('div')
                 following_elem.innerHTML = response.data
@@ -31,6 +37,10 @@
 
                 following_content.innerHTML = ''
                 following_content.append(following_elem)
+
+                setTimeout(() => {
+                    following_content.style.height = getComputedStyle(following_content).height
+                }, 0)
 
                 FollowingPaginationBlockRequest = false
             }

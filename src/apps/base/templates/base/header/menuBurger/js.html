@@ -6,14 +6,21 @@
     const app_wrapper = document.getElementById('app_wrapper')
     const close_menu_burger = document.querySelector('.menu_burger_content__cross')
 
-    const MENU_BURGER_ANIMATION_DELAY = 200
+    const MENU_BURGER_ANIMATION_DELAY = 330
 
     header_menu_burger.addEventListener('click', () => {
         logout_window_block = true
 
         hideScroll(base_window)
+        document.body.style.overflow = 'hidden'
+
+        menu_burger_content.classList.remove('no_display')
+        setTimeout(() => {
+            menu_burger_content.style.opacity = 1
+        }, 10)
+
         burger_menu_background.style.top = '0'
-        addContent()
+
         setTimeout(() => {
             app_wrapper.classList.add('no_display')
             burger_menu_background.classList.add('no_transition')
@@ -21,25 +28,21 @@
         }, MENU_BURGER_ANIMATION_DELAY)
     })
 
-    function addContent() {
-        menu_burger_content.classList.remove('no_display')
-        setTimeout(() => {
-            menu_burger_content.style.opacity = 1
-        }, 10)
-    }
 
     close_menu_burger.addEventListener('click', () => closeMenuBurger())
-
-    function removeContent() {
-        menu_burger_content.classList.add('no_display')
-        menu_burger_content.style.opacity = 0
-    }
 
     function closeMenuBurger() {
         showScroll()
         burger_menu_background.classList.remove('no_transition')
-        burger_menu_background.style.top = '-102%'
-        removeContent()
+
+        burger_menu_background.style.top = '-110%'
+
+        menu_burger_content.classList.add('no_display')
+
+        setTimeout(() => {
+            menu_burger_content.style.opacity = 0
+        }, 10)
+
         app_wrapper.classList.remove('no_display')
     }
  </script>
