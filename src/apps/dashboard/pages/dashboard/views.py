@@ -20,6 +20,7 @@ class ActionList(
                   'verb',
                   'user__username',
                   'user__photo',
+                  'user__gender',
                   'object_id',
                   'content_type_id',
                   'content_type__model',

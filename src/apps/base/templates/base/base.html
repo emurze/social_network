@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 {% load static %}
-<html lang="en">
+<html lang="en" translate="no">
 <head>
     <title>{% block title %}{% endblock %}</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
+    <meta name="google" content="notranslate">
 
     {% include 'base/css.html' %}
 
     {% block links %}
     {% endblock %}
 </head>
-<body>
+<body class="notranslate">
     <div class="base_window"></div>
     <div class="burger_menu_background"></div>
     <div hidden class="background_helper"></div>

@@ -12,8 +12,12 @@
         }
 
         const edit_window = document.querySelector('.edit_window')
-        remove_elem(edit_window)
-        showScroll(edit_window)
+        edit_window.style.opacity = 0
+
+        setTimeout(() => {
+            remove_elem(edit_window)
+            showScroll(edit_window)
+        }, 95)
     }
 
     window.addEventListener('click', e => {

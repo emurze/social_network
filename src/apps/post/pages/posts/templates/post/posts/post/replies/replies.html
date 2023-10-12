@@ -1,21 +1,25 @@
-{% with post.replies.count as replies_count %}
+{% with post.replies as replies %}
 
-    <div class="post__replies"
-         {% if not post.replies.exists %}
-            style="padding: 0; border-top: 0;"
-         {% elif replies_count >= 2 %}
-            style="padding: 14px 20px 0 18px; margin-bottom: -9px;" data-type="show_more"
-         {% elif replies_count == 1 %}
-            style="margin-bottom: -13px;"
-         {% endif %}>
+    {% with replies.count as replies_count %}
 
-        {% include 'post/posts/post/replies/list/list.html' %}
+        <div class="post__replies"
+             {% if not replies_count %}
+                style="padding: 0; border-top: 0;"
+             {% elif replies_count >= 2 %}
+                style="padding: 14px 20px 0 18px; margin-bottom: -9px;" data-type="show_more"
+             {% elif replies_count == 1 %}
+                style="margin-bottom: -13px;"
+             {% endif %}>
 
-        <span class="post__replies-show_more {% if replies_count <= 1 %}no_display{% endif %}">
-            Show more
-        </span>
+            {% include 'post/posts/post/replies/list/list.html' %}
 
-        {% include 'post/posts/post/replies/footer/footer.html' %}
-    </div>
+            <span class="post__replies-show_more {% if replies_count <= 1 %}no_display{% endif %}">
+                Show more
+            </span>
+
+            {% include 'post/posts/post/replies/footer/footer.html' %}
+        </div>
+
+    {% endwith %}
 
 {% endwith %}

@@ -11,7 +11,6 @@ from django.shortcuts import render
 from django.template.loader import render_to_string
 from django.views.decorators.http import require_POST
 from django.views.generic import CreateView
-from rest_framework.generics import get_object_or_404
 
 from apps.dashboard.services.create_action import create_action
 from ..mixins import PostListViewMixin, LikeActionListMixin, \
@@ -44,7 +43,8 @@ class PostsQuery:
                     'created',
                     'user__username',
                     'user__is_staff',
-                    'user__photo'
+                    'user__photo',
+                    'user__gender'
                 )
             ),
         ).only(
@@ -52,6 +52,7 @@ class PostsQuery:
             'user__is_staff',
             'user__username',
             'user__photo',
+            'user__gender',
             'photo',
             'updated',
             'description',

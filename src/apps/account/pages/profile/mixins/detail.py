@@ -42,6 +42,7 @@ class AddFollowingUsersMixin:
         followings = user.get_followings()\
                          .only(
                             'photo',
+                            'gender',
                             'is_staff',
                             'username',
                         )

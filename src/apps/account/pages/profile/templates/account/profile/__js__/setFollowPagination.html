@@ -5,6 +5,10 @@
 
     let FollowingPaginationBlockRequest = false
 
+    let last_items_length =
+        Array.from(following_content.children)
+             .filter(elem => elem.classList.contains('following_user')).length
+
     function setFollowPagination(
         pagination_items,
         ellipsis_left,
@@ -33,6 +37,26 @@
                     following_elem.querySelector('.next_arrow'),
                     following_elem.querySelector('.previous_arrow'),
                 )
+
+                const items = Array.from(following_elem.children[0].children)
+                                   .filter(elem => elem.classList.contains('following_user'))
+
+                if (last_items_length > items.length) {
+                    const user_count = last_items_length - items.length
+                    const link = `{% url 'account:users' %}`
+
+                    for (let i = 0; i < user_count; i++) {
+                        following_elem.insertAdjacentHTML(
+                            'beforeend',
+                            `<div class="following_user blocker" style="position: relative; bottom: 25px; right: 10px; opacity: .7"
+                                  onclick="setBlockTopMove(); location.href = ${link}">
+                                <div style="height: 50px; width: 50px; background-color: rgb(205, 217, 222); border-radius: 50%; margin-right: 10px; "></div>
+                                <div style="font-weight: bold;">slot</div>
+                            </div>`
+                        )
+                    }
+                }
+                last_items_length = items.length
 
                 following_content.innerHTML = ''
                 following_content.append(following_elem)

@@ -4,11 +4,16 @@
 <div class="photo_widget">
     {% if not image_loaded %}
         {% if widget.value %}
-            <img src="{% thumbnail widget.value 450x450 crop="smart" quality=100 %}" alt=""
+            <img src="{% thumbnail widget.value 550x550 crop="smart" quality=100 %}" alt=""
                  class="photo_widget__image">
         {% else %}
-            <img src="{% static 'base/images/profile.png' %}" alt=""
-                 class="photo_widget__image">
+            {% if current_user.gender == 'FL' %}
+                <img src="{% static 'base/images/female.png' %}" alt=""
+                     class="photo_widget__image">
+            {% else %}
+                <img src="{% static 'base/images/profile.png' %}" alt=""
+                     class="photo_widget__image">
+            {% endif %}
         {% endif %}
     {% endif %}
 

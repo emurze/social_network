@@ -63,10 +63,6 @@
             "December",
         ]
 
-        const reply_item_set = document.querySelectorAll('.reply_item')
-        const posts_user_icon_set = document.querySelectorAll('.post__header-user-icon')
-        const post_replies_user_icon_set = document.querySelectorAll('.post__replies-footer-user_icon')
-
         const window_scroll_width = my_window.offsetWidth - my_window.scrollWidth
         const shift = window_scroll_width / 2
         const left = `calc(50% - ${171 + shift}px)`
@@ -76,6 +72,10 @@
 
         edit_window.onsubmit = e => {
             e.preventDefault()
+
+            const reply_item_set = document.querySelectorAll('.reply_item')
+            const posts_user_icon_set = document.querySelectorAll('.post__header-user-icon')
+            const post_replies_user_icon_set = document.querySelectorAll('.post__replies-footer-user_icon')
 
             const form = new FormData()
             form.append('username', edit_form.elements.username.value)
@@ -239,10 +239,6 @@
 
                             if (current_gender === 'FL') {
 
-                                const reply_icons = Array.from(reply_item_set)
-                                const posts_user_icons = Array.from(posts_user_icon_set)
-                                const post_replies_user_icons = Array.from(post_replies_user_icon_set)
-
                                 gender_image_wrapper.innerHTML =
                                     `<img src="{% static 'base/images/gender_female.svg' %}"
                                           alt="" class="info__gender-img">`
@@ -251,6 +247,16 @@
                                 gender_image_wrapper.innerHTML =
                                     `<img src="{% static 'base/images/gender_male.svg' %}"
                                           alt="" class="info__gender-img">`
+                            }
+
+                            const avatar_image = document.querySelector('.profile__header-avatar-img')
+
+                            const image_array = avatar_image.src.split('/')
+                            const image = image_array[image_array.length-1]
+
+                            if (DEFAULT_IMAGES.includes(image)) {
+                                const path1 = `{% url 'account:detail' user.username %}`.split('/').slice(1, -2)
+                                location.href = `/${path1}/${current_username}/`
                             }
                         }
 

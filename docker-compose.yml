@@ -1,5 +1,15 @@
 version: "3.5"
 services:
+  db:
+    image: 'postgres:13'
+    container_name: 'db'
+    networks:
+      - backend
+    env_file: /env/.db.env
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    restart: unless-stopped
+
   my_social_network:
     build: .
     container_name: 'my_social_network'
@@ -8,30 +18,37 @@ services:
       sh -c 'cd src &&
              poetry run python3 manage.py migrate --no-input &&
              poetry run python3 manage.py createadmin &&
-             poetry run python3 manage.py runserver 0.0.0.0:8080'
-    stdin_open: true
-    tty: true
+             poetry run gunicorn config.wsgi:application --bind 0.0.0.0:8080 '
     networks:
       - backend
-    ports:
-      - '8080:8080'
     volumes:
       - ./src:/service/src
-    env_file: ./.env.example
+      - app_static:/service/src/static
+      - app_media:/service/src/media
+    env_file: /env/.app.env
     restart: unless-stopped
     depends_on:
-      - db_postgres
+      - db
 
-  db_postgres:
-    image: 'postgres:13'
-    container_name: 'db_postgres'
+  web_server:
+    image: 'nginx:alpine3.18'
+    container_name: 'web_server'
     networks:
       - backend
-    env_file: ./.env.example
     volumes:
-      - postgres:/var/lib/postgresql/data
+      - ./nginx/app.conf:/etc/nginx/nginx.conf
+      - app_static:/srv/static
+      - app_media:/srv/media
+    ports:
+      - '80:80'
     restart: unless-stopped
+    depends_on:
+      - my_social_network
+
 networks:
   backend:
+
 volumes:
   postgres:
+  app_static:
+  app_media:

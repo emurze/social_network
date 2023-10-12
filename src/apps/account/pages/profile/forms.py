@@ -1,3 +1,5 @@
+import logging
+
 from django import forms
 from django.contrib.auth import get_user_model
 
@@ -6,6 +8,7 @@ from .widgets import MyPhoto
 from utils.widgets.birthday_date import BirthdayDateWidget
 
 User = get_user_model()
+lg = logging.getLogger(__name__)
 
 
 class EditCoverForm(forms.ModelForm):
@@ -36,6 +39,18 @@ class AccountEditForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ('username', 'description', 'birthday', 'gender', 'photo')
+
+    def __init__(self, *args, **kwargs):
+
+        MyPhoto.current_user = kwargs.get('instance')
+
+        self.photo = forms.ImageField(
+            label='Avatar',
+            widget=MyPhoto,
+            required=False
+        )
+
+        super().__init__(*args, **kwargs)
 
     def clean_username(self) -> str:
         cd = self.cleaned_data

@@ -3,7 +3,6 @@ import logging
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import get_object_or_404
 from django.views.generic import DetailView, UpdateView
 
 from .forms import EditCoverForm, AccountEditForm
@@ -72,6 +71,7 @@ class FollowPagination(AddFollowingUsersPaginationMixin):
 
         return queryset.only(
             'photo',
+            'gender',
             'is_staff',
             'username',
         )

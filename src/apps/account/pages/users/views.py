@@ -23,6 +23,7 @@ class UsersListQuery:
         User.objects
         .only(
             'photo',
+            'gender',
             'is_staff',
             'username',
             'description',

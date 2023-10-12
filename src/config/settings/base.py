@@ -6,7 +6,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 
-DEBUG = bool(os.environ.get("DEBUG", default=0))
+DEBUG = bool(int(os.environ.get("DEBUG", default=0)))
 
 ALLOWED_HOSTS = ['mysite.com', '0.0.0.0', '127.0.0.1', '192.168.100.7']
 
@@ -40,6 +40,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -103,17 +104,16 @@ DEFAULT_USER_COUNT = 21
 REQUEST_USER_COUNT = 30
 
 DEFAULT_SHOWED_FOLLOWINGS_PAGE = 1
-DEFAULT_FOLLOWINGS_COUNT = 8
-REQUEST_FOLLOWINGS_COUNT = 8
+DEFAULT_FOLLOWINGS_COUNT = 6
+REQUEST_FOLLOWINGS_COUNT = 6
 
 DEFAULT_ACTION_COUNT = 10
 
 OLDEST_HUMAN = 122
 CURRENT_YEAR = datetime.date.today().year
-#
-# if DEBUG:
-#     import socket  # only if you haven't already imported this
-#     hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
-#     INTERNAL_IPS = [ip[: ip.rfind(".")] + ".1" for ip in ips] + \
-#                    ["0.0.0.0", "127.0.0.1", "10.0.2.2"]
-#     MIDDLEWARE.append('debug_toolbar.middleware.DebugToolbarMiddleware')
+
+if DEBUG:
+    import socket  # only if you haven't already imported this
+    hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
+    INTERNAL_IPS = [ip[: ip.rfind(".")] + ".1" for ip in ips] + \
+                   ["0.0.0.0", "127.0.0.1", "10.0.2.2"]

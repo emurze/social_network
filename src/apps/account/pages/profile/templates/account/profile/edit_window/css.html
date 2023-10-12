@@ -1,5 +1,6 @@
 <style>
     .edit_window {
+        transition: .1s;
         position: fixed;
         left: 0;
         top: 0;
@@ -7,6 +8,8 @@
         height: 100%;
         background-color: rgba(0, 0, 0, 0.3);
         z-index: 301;
+        opacity: 0;
+        animation: show;
     }
     .edit_window__container0 {
         position: fixed;

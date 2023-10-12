@@ -9,6 +9,11 @@
         if (edit_window) {
             if (edit_window.classList.contains('no_display')) {
                 show_elem(edit_window)
+
+                setTimeout(() => {
+                    edit_window.style.opacity = 1
+                }, 0)
+
                 hideScroll(edit_window)
             }
         } else {
@@ -23,6 +28,10 @@
                     const edit_window = document.querySelector('.edit_window')
                     hideScroll(edit_window)
                     editWindowLoaded()
+
+                    setTimeout(() => {
+                        edit_window.style.opacity = 1
+                    }, 0)
 
                     editWindowBlockRequest = false
                 }
