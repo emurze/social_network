@@ -28,6 +28,7 @@ __pypackages__/
 *.log
 local_settings.py
 *media
+src/static
 *.media
 */media
 
