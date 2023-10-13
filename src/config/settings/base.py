@@ -77,6 +77,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'apps.base.context_processors.site_settings',
             ],
         },
     },
@@ -94,6 +95,10 @@ LOGIN_URL = 'login'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+)
 
 DEFAULT_POST_COUNT = 8
 REQUEST_POST_COUNT = 14
