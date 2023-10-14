@@ -9,6 +9,7 @@ from apps.registration.pages.password_reset_confirm.views import \
     MyPasswordResetConfirmView
 from apps.registration.pages.registration.views import RegistrationView
 
+
 urlpatterns = [
     path('login/',
          auth_views.LoginView.as_view(

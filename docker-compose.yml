@@ -28,7 +28,6 @@ services:
       - app_media:/service/src/media
     env_file:
       - ./env/.app.env
-      - ./env/.server_1.env
     restart: unless-stopped
     depends_on:
       - db
@@ -55,7 +54,3 @@ volumes:
   postgres_data:
   app_static:
   app_media:
-  grafana_data:
-  grafana_configs:
-  prometheus_data:
-  prometheus_configs:
